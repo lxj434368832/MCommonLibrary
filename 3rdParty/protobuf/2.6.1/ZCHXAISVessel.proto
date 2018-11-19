@@ -1,0 +1,147 @@
+///**************************************************************************
+//* @Project : cdzchx_ais
+//* @IDL Module: ZCHXAISVessel
+//* @File: ZCHXAISVessel.proto
+//* @Description:
+//*    船舶明细和船舶标准格式;
+//*
+//* @Copyright: Copyright (c) 2014
+//* @Company: 深圳置辰海信科技有限公司
+//* @WebSite: http://www.szcenterstar.com/
+//* @author 
+//*
+//* @Revision History
+//*
+//* <pre>
+//* ----------------------------------------------------------------------
+//*   Ver     Date       Who             Comments
+//*  ----- ----------  --------  ---------------------------------------
+//*   1.0  2015/09/30     李鹭         形成初稿
+//* ----------------------------------------------------------------------
+//* </pre>
+//**************************************************************************/
+
+
+package com.zhichenhaixin.proto;
+
+    //----------------------------------------------------------------------------------------------------------
+    // EPFD  电子定位装置类型
+    //----------------------------------------------------------------------------------------------------------
+    //-|num|-------------Status Discription---------|------------中文-------------------
+    // | 0 | Undefined                              |  未定义(默认)
+    // | 1 | GPS                                    |  GPS
+    // | 2 | GLONASS                                |  GLONASS
+    // | 3 | Combined GPS/GLONASS                   |  组合 GPS/GLONASS
+    // | 4 | Loran-C                                |  Loran-C
+    // | 5 | Chayka                                 |  Chayka
+    // | 6 | Integrated navigation system           |  综合导航系统
+    // | 7 | Surveyed                               |  观测
+    // | 8 - 15 | Galileo                           |  不用
+    //----------------------------------------------------------------------------------------------------------
+
+    enum EPFD{
+        UNDEFINED  = 0;
+        GPS = 1;
+        GLONASS = 2;
+        COMBINED_GPS_AND_GLONASS = 3;
+        LORAN_C = 4;
+        CHAYKA = 5;
+        INTEGRATED_NAVIGATION_SYSTEM = 6;
+        SURVEYED = 7;
+        GALILEO = 8;
+    }
+
+    //----------------------------------------------------------------------------------------------------------
+    // 船舶静态报告
+    //----------------------------------------------------------------------------------------------------------
+
+    message VesselInfo {
+    	required  string id  = 1;		// 唯一识别码("AIS"+消息识别码+"__"+用户识别码)
+    	required  int32 mmsi  = 2;		// 用户识别码 长度 9
+    	required  string shipType  = 3;	// 船舶种类(A类，BCS类,BSO类)	长度 3
+    	required  int32 imo  = 4; 		// IMO 号码	长度 20
+    	required  string callSign  = 5; 	// Call Sign 呼号	长度 20
+    	required  string shipName  = 6; 	// 船名	长度 30
+    	required  int32   cargoType  = 7; 	// 船舶类型	长度 15
+    	required  string country  = 8; 	// 国籍	长度 3
+    	required  string vendorID  = 9;     // Vendor ID 制造商	长度 30
+    	required  int32 shipLength  = 10; 	// 船长
+    	required  int32 shipWidth  = 11; 	// 船高
+    	required  int32 toBow   = 12; 	// dim to a
+    	required  int32 toStern  = 13;	// dim to b
+    	required  int32 toPort  = 14;		// dim to c
+    	required  int32 toStarboard  = 15; 	// dim to d
+    	required  EPFD fixType  = 16;	// EPFD 电子定位装置类型
+    	required  string eta  = 17;       	// 预计到达时间
+    	required  float draught  = 18; 	// 最大吃水      numeric(6,2)
+    	required  string dest  = 19;	// 目的地
+    	required  uint64 UTC  = 20;		// 时间标记  
+   }
+
+    //----------------------------------------------------------------------------------------------------------
+    // Navigation Status  航行状态
+    //----------------------------------------------------------------------------------------------------------
+    //-|num|-------------Status Discription---------------------------------|------------中文-------------------
+    // | 0 | Under way using engine                                         |  在航(主机推动)
+    // | 1 | At anchor                                                      |  锚泊
+    // | 2 | Not under command                                              |  失控
+    // | 3 | Restricted manoeuverability                                    |  操纵受限
+    // | 4 | Constrained by her draught                                     |  吃水受限
+    // | 5 | Moored                                                         |  靠泊
+    // | 6 | Aground                                                        |  搁浅
+    // | 7 | Engaged in Fishing                                             |  从事捕鱼
+    // | 8 | Under way sailing                                              |  靠船帆提供动力
+    // | 9 | Reserved for future amendment of Navigational Status for HSC   |  为将来船舶运输 DG,HS,MP或IMO规定的有毒或污染C(HSC)类货物的航行状态修正 所保留
+    // | 10 | Reserved for future amendment of Navigational Status for WIG  |  为将来船舶运输 DG,HS,MP或IMO规定的有毒或污染A(WIG)类货物的航行状态修正 所保留
+    // | 11 ~ 14 | Reserved for future use                                  |  为将来使用所保留
+    // | 15 | Not defined (default)                                         |  未定义(默认)
+    //----------------------------------------------------------------------------------------------------------
+
+    enum NAVI_STATUS{
+        UNDER_WAY_USING_ENGINE = 0;
+        AT_ANCHOR = 1;
+        NOT_UNDER_COMMAND = 2;
+        RESTRICTED_MANOEUVER = 3;
+        CONSTRAINED_BY_DRAUGHT = 4;
+        MOORED = 5;
+        AGROUND = 6;
+        ENGAGED_IN_FISHING = 7;
+        UNDER_WAY_SAILING = 8;
+        RESERVED_FOR_FUTURE_AMENDMENT_FOR_HSC = 9;
+        RESERVED_FOR_FUTURE_AMENDMENT_FOR_WIG = 10;
+        RESERVED_FOR_FUTURE_USE_1 = 11;
+        RESERVED_FOR_FUTURE_USE_2 = 12;
+        RESERVED_FOR_FUTURE_USE_3 = 13;
+        RESERVED_FOR_FUTURE_USE_4 = 14;
+        NOT_DEFINED = 15;
+    }
+
+   //----------------------------------------------------------------------------------------------------------
+    // 船舶动态报告
+    //----------------------------------------------------------------------------------------------------------
+
+    message VesselTrack {
+    	required string id = 1;			// 唯一识别码("AIS"+消息识别码+"__"+用户识别码)
+    	required int32 mmsi = 2;			// 用户识别码 长度 9
+    	required string shiptype = 3;		// 船舶种类(A类，BCS类,BSO类)	长度 3
+    	required NAVI_STATUS navStatus = 4;	// 船舶航行状态
+    	required float rot = 5;			// 船舶转向率 degree/min
+    	required float sog = 6;			//对地航速
+    	required float lon = 7;			//经度
+    	required float lat = 8;			//纬度
+    	required float cog = 9;			//对地航向
+    	required float heading = 10;		//航首向
+    	required uint64 UTC = 11;			// 时间标记  
+    }
+
+    message AIS {
+        required int32 flag = 1 ;   // 消息类型
+        required string sourceId = 2; //数据来源唯一识别符
+        optional VesselInfo   vesselInfo = 3;
+        optional VesselTrack  vesselTrack = 4;
+        
+    }
+	message AISList{
+		required uint64 UTC = 1;
+		repeated AIS ais = 2;
+	}

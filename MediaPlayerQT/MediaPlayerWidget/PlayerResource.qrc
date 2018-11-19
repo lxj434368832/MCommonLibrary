@@ -1,0 +1,13 @@
+<RCC>
+    <qresource prefix="/PlayIcon">
+        <file>Resource/Circle.png</file>
+        <file>Resource/CircleDisabled.png</file>
+        <file>Resource/CutPicture.png</file>
+        <file>Resource/FullScreen.png</file>
+        <file>Resource/Next.png</file>
+        <file>Resource/Play.png</file>
+        <file>Resource/Stop.png</file>
+        <file>Resource/Volumn.png</file>
+        <file>Resource/Pause.png</file>
+    </qresource>
+</RCC>

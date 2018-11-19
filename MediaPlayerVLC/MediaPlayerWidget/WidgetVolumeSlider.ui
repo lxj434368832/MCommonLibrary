@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>WidgetVolumeSlider</class>
+ <widget class="QWidget" name="WidgetVolumeSlider">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>24</width>
+    <height>100</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <property name="layoutDirection">
+   <enum>Qt::RightToLeft</enum>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">#WidgetVolumeSlider
+{
+	background-color: rgb(23, 22, 22);
+	border:none;
+}
+QLabel#lbVolumeValue
+{
+	font: 9pt &quot;宋体&quot;;
+	color: rgb(255, 255, 255);
+}
+
+/*滑动块的样式表*/
+QSlider::groove:vertical {
+	background: #C0C0C0;
+	border: 1px solid #4A708B;
+	width: 2px;
+} 
+
+QSlider::handle:vertical {  
+    background: white;
+	height:3px;
+	margin: 1px -3px;
+    border-radius: 2px;
+}  
+
+QSlider::handle:vertical:hover {  
+    background: qradialgradient(spread:pad, cx:0.5, cy:0.5, radius:0.8, fx:0.5, fy:0.5,
+ stop:0.6 #2A8BDA, stop:0.778409 rgba(255, 255, 255, 255));  
+    height: 5px;  
+	margin: 0 -3px;
+    border-radius: 2px;  
+}  
+
+QSlider::handle:vertical:disabled {  
+	background: #eee;  
+	border: 1px solid #aaa;  
+	border-radius: 2px;  
+}
+
+/*
+QSlider::sub-page:vertical {  
+background: rgb(17, 154, 219);
+border: 1px solid #4A708B;  
+width: 2px;
+} */
+
+QSlider::add-page:vertical {  
+	background: rgb(17, 154, 219);
+	border: 1px solid #4A708B;  
+	width: 2px;
+}
+</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <property name="spacing">
+    <number>0</number>
+   </property>
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>3</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
+    <number>0</number>
+   </property>
+   <item>
+    <widget class="QLabel" name="lbVolumeValue">
+     <property name="text">
+      <string>100%</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QSlider" name="sliderVolumeValue">
+     <property name="maximum">
+      <number>100</number>
+     </property>
+     <property name="value">
+      <number>100</number>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MFramelessWindow</class>
+ <widget class="QWidget" name="MFramelessWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1024</width>
+    <height>768</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MFramelessWindow</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">#centerWidget
+{
+	border:1px solid gray;
+}
+
+#frameStatusBar{
+	border-image: url(:/Resource/StatusBarBgIcon.png);
+}
+
+#videotapemanagerBtn{
+	border:none;
+	font-size:11pt;
+	font-weight:bold;
+	color:#FFFFFF;
+}
+/*
+#videotapemanagerBtn:pressed{
+	border:none;
+	background-image: url(:/core/qml/image/icon_lanse.png);
+	font-size:11pt;
+	font-weight:bold;
+	color:#FFFFFF;
+}*/
+
+</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <property name="spacing">
+    <number>0</number>
+   </property>
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
+    <number>0</number>
+   </property>
+   <item>
+    <widget class="QWidget" name="centerWidget" native="true">
+     <layout class="QVBoxLayout" name="verticalLayout_2">
+      <property name="spacing">
+       <number>0</number>
+      </property>
+      <property name="leftMargin">
+       <number>2</number>
+      </property>
+      <property name="topMargin">
+       <number>2</number>
+      </property>
+      <property name="rightMargin">
+       <number>2</number>
+      </property>
+      <property name="bottomMargin">
+       <number>2</number>
+      </property>
+      <item>
+       <widget class="QFrame" name="frameTitleBar">
+        <property name="styleSheet">
+         <string notr="true">#frameTitleBar{
+	background-image: url(:/Resource/TitleBarBgIcon.png);
+}
+
+#lbTitleIcon
+{
+	width:20;
+	border:none;
+	background:none;
+	border-image: url(:/Resource/TitleIcon.png);
+}
+#lbTitleText
+{
+	color:#FFFFFF;
+	font-size:15pt;
+	font-family:Microsoft YaHei;
+}
+
+QPushButton
+{
+	color: rgb(255, 255, 255);
+    background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+    	stop: 0 #5B5F5F, stop: 0.5 #0C2436,stop: 1.0 #27405A);   
+    border-style: outset;
+    border-width: 1px;
+    border-color: #11223F;
+    padding: 1px;
+}
+
+QPushButton::hover{
+    background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+    	stop: 0 #758385, stop: 0.5 #122C39,stop: 1.0 #0E7788);
+    border-color: #11505C;
+}
+
+QPushButton::pressed{
+    background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+    	stop: 0 #969B9C, stop: 0.5 #16354B,stop: 1.0 #244F76);
+    border-color: #11505C;
+}
+
+#btnMinimum
+{
+	image: url(:/Resource/MinimumIcon.png);
+}
+
+#btnMaximum
+{
+	image: url(:/Resource/NormalIcon.png);
+}
+
+#btnClose{
+	image: url(:/Resource/CloseIcon.png);
+}</string>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::NoFrame</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+        <property name="lineWidth">
+         <number>0</number>
+        </property>
+        <layout class="QHBoxLayout" name="horizontalLayout">
+         <property name="spacing">
+          <number>5</number>
+         </property>
+         <property name="leftMargin">
+          <number>0</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
+          <number>0</number>
+         </property>
+         <item>
+          <widget class="QLabel" name="lbTitleIcon">
+           <property name="minimumSize">
+            <size>
+             <width>230</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="lbTitleText">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="text">
+            <string>远程超声会诊平台</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="btnMinimum">
+           <property name="minimumSize">
+            <size>
+             <width>30</width>
+             <height>30</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>30</width>
+             <height>30</height>
+            </size>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="btnMaximum">
+           <property name="minimumSize">
+            <size>
+             <width>30</width>
+             <height>30</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>30</width>
+             <height>30</height>
+            </size>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="btnClose">
+           <property name="minimumSize">
+            <size>
+             <width>30</width>
+             <height>30</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>30</width>
+             <height>30</height>
+            </size>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item>
+       <widget class="QWidget" name="widgetCentral" native="true">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QFrame" name="frameStatusBar">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>40</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>40</height>
+         </size>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::NoFrame</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+        <property name="lineWidth">
+         <number>0</number>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources/>
+ <connections/>
+</ui>

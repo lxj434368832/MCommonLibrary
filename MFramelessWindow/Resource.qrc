@@ -1,0 +1,11 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Resource/CloseIcon.png</file>
+        <file>Resource/MaximumIcon.png</file>
+        <file>Resource/MinimumIcon.png</file>
+        <file>Resource/NormalIcon.png</file>
+        <file>Resource/StatusBarBgIcon.png</file>
+        <file>Resource/TitleBarBgIcon.png</file>
+        <file>Resource/TitleIcon.png</file>
+    </qresource>
+</RCC>

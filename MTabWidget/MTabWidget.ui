@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MTabWidget</class>
+ <widget class="QWidget" name="MTabWidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>489</width>
+    <height>418</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">*{
+	font: 14pt &quot;Microsoft YaHei&quot;;
+}
+
+/*最左边的竖杠为tear-index*/
+QTabBar::tear {
+    background: rgb(255,0,0);
+}
+
+/* the width of the scroll buttons */
+QTabBar::scroller {
+    width: 20px;
+}
+
+ /* the scroll buttons are tool buttons */
+QTabBar QToolButton {
+    background: rgb(255,0,0);
+
+}
+
+/* the arrow mark in the tool buttons */
+/*
+QTabBar QToolButton::right-arrow { 
+    background: rgb(0,255,0);
+}
+
+QTabBar QToolButton::left-arrow {
+    background: rgb(0,0,255);
+}
+QTabBar::close-button {
+    background: rgb(0,0,0);
+    subcontrol-position: left;
+}
+QTabBar::close-button:hover {
+    background: rgb(255,255,255);
+}
+*/</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QTabWidget" name="tabWidget">
+     <property name="tabPosition">
+      <enum>QTabWidget::South</enum>
+     </property>
+     <property name="currentIndex">
+      <number>0</number>
+     </property>
+     <property name="elideMode">
+      <enum>Qt::ElideNone</enum>
+     </property>
+     <widget class="QWidget" name="tab_7">
+      <attribute name="title">
+       <string> 附近的快乐撒据了解</string>
+      </attribute>
+     </widget>
+     <widget class="QWidget" name="tab_6">
+      <attribute name="title">
+       <string> 法朵拉睡觉 发大水</string>
+      </attribute>
+     </widget>
+     <widget class="QWidget" name="tab">
+      <attribute name="title">
+       <string>  方法就对啦发大水啦</string>
+      </attribute>
+     </widget>
+     <widget class="QWidget" name="tab_2">
+      <attribute name="title">
+       <string> 发大水啦尽量发大水</string>
+      </attribute>
+     </widget>
+     <widget class="QWidget" name="tab_5">
+      <attribute name="title">
+       <string>放大法</string>
+      </attribute>
+     </widget>
+     <widget class="QWidget" name="tab_3">
+      <attribute name="title">
+       <string>附近的拉斯经理范德萨</string>
+      </attribute>
+     </widget>
+     <widget class="QWidget" name="tab_4">
+      <attribute name="title">
+       <string>对伐啦四级联考</string>
+      </attribute>
+     </widget>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

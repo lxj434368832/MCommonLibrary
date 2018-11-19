@@ -1,0 +1,6 @@
+#ifndef TESTGLOBAL_H
+#define TESTGLOBAL_H
+#include <QLoggingCategory>
+
+Q_DECLARE_LOGGING_CATEGORY(TESTLOG)
+#endif // TESTGLOBAL_H

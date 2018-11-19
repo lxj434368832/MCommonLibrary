@@ -1,0 +1,456 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MediaPlayerWidget</class>
+ <widget class="QFrame" name="MediaPlayerWidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>831</width>
+    <height>489</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>视频播放</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">*{
+    background-color:#333333;
+    /*border:1px solid rgb(128, 128, 128);*/
+}
+
+QSplitter::handle:horizontal {
+    width: 2px;
+	border:1px solid gray;
+}</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <property name="leftMargin">
+    <number>6</number>
+   </property>
+   <property name="topMargin">
+    <number>6</number>
+   </property>
+   <property name="rightMargin">
+    <number>6</number>
+   </property>
+   <property name="bottomMargin">
+    <number>6</number>
+   </property>
+   <item>
+    <widget class="QSplitter" name="splitter">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="handleWidth">
+      <number>2</number>
+     </property>
+     <widget class="QWidget" name="widgetVideoWidget" native="true">
+      <property name="styleSheet">
+       <string notr="true">QWidget#widgetVideoWidget{
+   background-color:#333333;
+    /* border:1px solid rgb(128, 128, 128);*/
+}</string>
+      </property>
+      <layout class="QVBoxLayout" name="layoutVideoWidget">
+       <property name="spacing">
+        <number>0</number>
+       </property>
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
+       <item>
+        <widget class="VideoWidget" name="mediaWidget" native="true"/>
+       </item>
+       <item>
+        <widget class="QFrame" name="PlayControlBar">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">/*滑动块的样式表*/
+QSlider::groove:horizontal {
+	background: #C0C0C0;
+	border: 1px solid #4A708B;
+	height: 2px;
+} 
+
+QSlider::handle:horizontal {  
+    background: white;
+	width:3px;
+	margin: -3px 0;
+    border-radius: 2px;
+}  
+
+QSlider::handle:horizontal:hover {  
+    background: qradialgradient(spread:pad, cx:0.5, cy:0.5, radius:0.8, fx:0.5, fy:0.5,
+ stop:0.6 #2A8BDA, stop:0.778409 rgba(255, 255, 255, 255));  
+    width: 5px;  
+	margin: -3px 0;
+    border-radius: 2px;  
+}  
+ 
+QSlider::handle:horizontal:disabled {  
+background: #eee;  
+border: 1px solid #aaa;  
+border-radius: 4px;  
+}
+
+QSlider::sub-page:horizontal {  
+background: rgb(17, 154, 219);
+border: 1px solid #4A708B;  
+height: 2px;
+}  
+/*
+QSlider::add-page:horizontal {  
+background: #575757;  
+border: 0px solid #777;  
+height: 10px;  
+border-radius: 2px;  
+}*/
+
+
+#lbCurrentTime{
+	color: rgb(255, 255, 255);
+	font: 75 10pt &quot;Microsoft YaHei&quot;;
+}
+#lbTotalTime{
+	color: rgb(0, 122, 217);
+	font: 75 10pt &quot;Microsoft YaHei&quot;;
+}
+
+QToolButton
+{
+         background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                            stop: 0 #5B5F5F, stop: 0.5 #0C2436,   
+                            stop: 1.0 #27405A);   
+         border-style: outset;   
+         border-width: 1px;   
+         border-color: #11223F;   
+         padding: 1px;
+}  
+
+QToolButton::hover{   
+         background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,  
+         	stop: 0 #758385, stop: 0.5 #122C39,  
+         	stop: 1.0 #0E7788);   
+         border-color: #11505C;
+}
+
+QToolButton::pressed{   
+         background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,  
+        			 stop: 0 #969B9C, stop: 0.5 #16354B,  
+         			 stop: 1.0 #244F76);   
+         border-color: #11505C; 
+}
+
+#btnStop{
+	image: url(:/PlayIcon/Resource/Stop.png);
+}
+
+#btnNext{
+	image: url(:/PlayIcon/Resource/Next.png);
+}
+
+#btnCutPicture{
+	color: rgb(255, 255, 255);
+}
+
+#btnCircle{
+	image: url(:/PlayIcon/Resource/Circle.png);
+}
+
+#btnVolume{
+	image: url(:/PlayIcon/Resource/Volumn.png);
+}
+
+#btnFullScreen{
+	image: url(:/PlayIcon/Resource/FullScreen.png);
+}
+
+QToolTip{
+	background-color:#333333;
+	color:white;
+	font-size:11pt;
+	/*border:1px solid white;*/
+	border:none;
+}</string>
+         </property>
+         <property name="frameShape">
+          <enum>QFrame::StyledPanel</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+         <layout class="QGridLayout" name="gridLayout">
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
+           <number>0</number>
+          </property>
+          <property name="horizontalSpacing">
+           <number>13</number>
+          </property>
+          <property name="verticalSpacing">
+           <number>0</number>
+          </property>
+          <item row="1" column="1">
+           <widget class="QToolButton" name="btnPlayOrPause">
+            <property name="toolTip">
+             <string>播放</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="icon">
+             <iconset resource="../../MediaPlayerVLC/MediaPlayerWidget/PlayerResource.qrc">
+              <normaloff>:/PlayIcon/Resource/Play.png</normaloff>:/PlayIcon/Resource/Play.png</iconset>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>20</width>
+              <height>20</height>
+             </size>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="3">
+           <widget class="QToolButton" name="btnNext">
+            <property name="toolTip">
+             <string>下一个</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>20</width>
+              <height>20</height>
+             </size>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="5">
+           <spacer name="horizontalSpacer">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>180</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="1" column="2">
+           <widget class="QToolButton" name="btnStop">
+            <property name="toolTip">
+             <string>停止</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>20</width>
+              <height>20</height>
+             </size>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="4">
+           <layout class="QHBoxLayout" name="horizontalLayout">
+            <property name="spacing">
+             <number>0</number>
+            </property>
+            <item>
+             <widget class="QLabel" name="lbCurrentTime">
+              <property name="toolTip">
+               <string>当前时间</string>
+              </property>
+              <property name="text">
+               <string>00:00/</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="lbTotalTime">
+              <property name="toolTip">
+               <string>总的时间</string>
+              </property>
+              <property name="text">
+               <string>00:00</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item row="1" column="7">
+           <widget class="QToolButton" name="btnCutPicture">
+            <property name="maximumSize">
+             <size>
+              <width>39</width>
+              <height>27</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>12</pointsize>
+             </font>
+            </property>
+            <property name="toolTip">
+             <string>截图</string>
+            </property>
+            <property name="text">
+             <string>截图</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="8">
+           <widget class="QToolButton" name="btnCircle">
+            <property name="toolTip">
+             <string>循环</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>20</width>
+              <height>20</height>
+             </size>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="10">
+           <widget class="QToolButton" name="btnFullScreen">
+            <property name="toolTip">
+             <string>全屏</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="icon">
+             <iconset>
+              <normaloff>:/videotapeimage/image/forward1.png</normaloff>:/videotapeimage/image/forward1.png</iconset>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>20</width>
+              <height>20</height>
+             </size>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0" colspan="12">
+           <widget class="MSlider" name="sliderPlayProcess">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="toolTip">
+             <string>4234</string>
+            </property>
+            <property name="pageStep">
+             <number>0</number>
+            </property>
+            <property name="value">
+             <number>0</number>
+            </property>
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="tickPosition">
+             <enum>QSlider::NoTicks</enum>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="9">
+           <widget class="QToolButton" name="btnVolume">
+            <property name="toolTip">
+             <string>音量</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>20</width>
+              <height>20</height>
+             </size>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QListWidget" name="lwVideoList">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>240</width>
+        <height>0</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>300</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <property name="viewMode">
+       <enum>QListView::IconMode</enum>
+      </property>
+     </widget>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>MSlider</class>
+   <extends>QSlider</extends>
+   <header>MSlider.h</header>
+  </customwidget>
+  <customwidget>
+   <class>VideoWidget</class>
+   <extends>QWidget</extends>
+   <header>../MMediaPlayer/VideoWidget.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources>
+  <include location="../../MediaPlayerVLC/MediaPlayerWidget/PlayerResource.qrc"/>
+ </resources>
+ <connections/>
+</ui>
