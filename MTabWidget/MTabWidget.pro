@@ -16,7 +16,8 @@ SOURCES += main.cpp \
     MTabWidget.cpp
 
 HEADERS  += \
-    MTabWidget.h
+    MTabWidget.h \
+    CustomTabStyle.h
 
 FORMS += \
     MTabWidget.ui

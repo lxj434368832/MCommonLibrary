@@ -5,7 +5,8 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    QWidget widget;
+    MTabWidget widget;
+    /*
     widget.resize(800,600);
     QBoxLayout *layout =new QVBoxLayout(&widget);
 
@@ -19,7 +20,7 @@ int main(int argc, char *argv[])
     tabWidget->addTab(new QWidget(tabWidget), QIcon("D:\\ProgramSrc\\MCommonLibrary\\MFramelessWindow\\Resource\\NormalIcon.png"),
                       QString::fromLocal8Bit("tab2大家说法理解对方考虑"));
     tabWidget->addTab(new QWidget(tabWidget), QString::fromLocal8Bit("tab3范德萨发大水快啦"));
-    layout->addWidget(tabWidget);
+    layout->addWidget(tabWidget);*/
 
     widget.show();
 
