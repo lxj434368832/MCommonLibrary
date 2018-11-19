@@ -13,10 +13,12 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp \
-    MTabWidget.cpp
+    MTabWidget.cpp \
+    CustomTabStyle.cpp
 
 HEADERS  += \
-    MTabWidget.h
+    MTabWidget.h \
+    CustomTabStyle.h
 
 FORMS += \
     MTabWidget.ui
