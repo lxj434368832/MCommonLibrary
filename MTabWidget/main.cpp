@@ -1,11 +1,12 @@
 #include "MTabWidget.h"
+#include "MTabWidgetV.h"
 #include <QApplication>
 #include <QVBoxLayout>
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    MTabWidget widget;
+    MTabWidgetV widget;
     /*
     widget.resize(800,600);
     QBoxLayout *layout =new QVBoxLayout(&widget);

@@ -1,65 +1,62 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>MTabWidget</class>
- <widget class="QWidget" name="MTabWidget">
+ <class>MTabWidgetV</class>
+ <widget class="QWidget" name="MTabWidgetV">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>523</width>
-    <height>418</height>
+    <width>535</width>
+    <height>403</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">#widget{
-	font: 14pt &quot;Microsoft YaHei&quot;;
-}
-</string>
+   <string notr="true">#MTabWidgetV
+{
+	background-color: rgb(46, 47, 49);
+}</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="styleSheet">
-      <string notr="true">QTabWidget::pane{
-	margin-left:2px;
-    border:0px;
+      <string notr="true">
+QTabWidget::pane{
     border-radius:2px;
-	background-color:#C2C7CB;
-	background-color: rgb(46, 47, 49);
-	border-top: 4px solid #C2C7CB;
+	background-color:#0e0e0f;
+	background-color:  rgb(46, 47, 49);
+	border-left: 4px solid #C2C7CB;
 }
-
-QTabWidget::tab-bar{
-	left:2px;
+/*只能控制tab位置*/
+QTabWidget::tab-bar {
+	top:2px;
 }
-
-QTabWidget QTabBar
-{
-	font:26px &quot;Microsoft YaHei&quot;;
+/*只能控制tab的字体*/
+QTabWidget QTabBar{
+	font:24px &quot;Microsoft YaHei&quot;;
 	color:white;
 }
 
 QTabBar::tab{
+	border:none;
+	padding:2px;
 	background:rgb(100, 100, 100);
 	border-top-left-radius: 4px;
   	border-top-right-radius: 4px;
-	border:none;
-	/*width:140px; 固定宽高可以使用此选项
-	height:45px;*/
-	padding:2px;
+	width:150px;
+	height:50px;
 }
 
 QTabBar::tab:hover{
 	background:rgb(50, 50, 50);
 }
-
 QTabBar::tab:selected{
 	background:rgb(0, 0, 0);
 	border-color: #9B9B9B;
-  border-bottom-color: #C2C7CB;
+  	border-bottom-color: #C2C7CB;
 }
 
 QTabBar::tab:!selected{
@@ -68,10 +65,10 @@ QTabBar::tab:!selected{
 	margin-top: 2px;
 }
 
-/*最左边的竖杠为tear-index
+/*最左边的竖杠为tear-index*/
 QTabBar::tear {
     background: rgb(255,0,0);
-}*/
+}
 
 /* the width of the scroll buttons */
 QTabBar::scroller {
@@ -81,8 +78,6 @@ QTabBar::scroller {
  /* the scroll buttons are tool buttons */
 QTabBar QToolButton {
     background: rgb(255,0,0);
-	background-color: rgb(240, 240, 240);
-
 }
 
 /* the arrow mark in the tool buttons */
@@ -102,14 +97,13 @@ QTabBar::close-button:hover {
     background: rgb(255,255,255);
 }
 */
-
 </string>
      </property>
      <property name="tabPosition">
-      <enum>QTabWidget::North</enum>
+      <enum>QTabWidget::West</enum>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="tab_7">
       <attribute name="title">

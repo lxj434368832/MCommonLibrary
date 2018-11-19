@@ -45,10 +45,10 @@ void CustomTabStyle::drawControl(QStyle::ControlElement element, const QStyleOpt
             {
                 //save用以保护坐标，restore用来退出状态
                 painter->save();
-                painter->setBrush(QBrush(m_selected));
-                painter->setPen(0xffffff);
+                painter->setBrush(m_selected);
+                painter->setPen(m_selected);
                 //矩形
-                //painter->drawRect(allRect.adjusted(0, 0, 0, 0));
+                //painter->drawRect(tab->rect);
                 //带有弧线矩形
                 painter->drawRoundedRect(tab->rect, 4, 4);
                 painter->restore();
@@ -57,16 +57,16 @@ void CustomTabStyle::drawControl(QStyle::ControlElement element, const QStyleOpt
             else if(tab->state & QStyle::State_MouseOver)
             {
                 painter->save();
-                painter->setBrush(QBrush(m_hover));
-                painter->setPen(0xffffff);
+                painter->setBrush(m_hover);
+                painter->setPen(m_hover);
                 painter->drawRoundedRect(allRect, 4, 4);
                 painter->restore();
             }
             else
             {
                 painter->save();
-                painter->setBrush(QBrush(m_normal));
-                painter->setPen(0xffffff);
+                painter->setBrush(m_normal);
+                painter->setPen(m_normal);
                 painter->drawRoundedRect(allRect, 4, 4);
                 painter->restore();
             }
