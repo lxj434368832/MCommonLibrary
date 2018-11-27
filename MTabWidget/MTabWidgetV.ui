@@ -39,7 +39,7 @@ QTabWidget QTabBar{
 	font:24px &quot;Microsoft YaHei&quot;;
 	color:white;
 }
-
+/*
 QTabBar::tab{
 	border:none;
 	padding:2px;
@@ -63,7 +63,7 @@ QTabBar::tab:!selected{
 	border-left: 1px solid black;
 	border-right: 1px solid black;
 	margin-top: 2px;
-}
+}*/
 
 /*最左边的竖杠为tear-index*/
 QTabBar::tear {
@@ -103,21 +103,21 @@ QTabBar::close-button:hover {
       <enum>QTabWidget::West</enum>
      </property>
      <property name="currentIndex">
-      <number>2</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="tab_7">
       <attribute name="title">
-       <string>附近的快乐</string>
+       <string>附近的快</string>
       </attribute>
      </widget>
      <widget class="QWidget" name="tab_6">
       <attribute name="title">
-       <string>法朵拉睡觉</string>
+       <string>法朵拉睡</string>
       </attribute>
      </widget>
      <widget class="QWidget" name="tab">
       <attribute name="title">
-       <string>方法就对啦发大水啦</string>
+       <string>方法就对</string>
       </attribute>
      </widget>
     </widget>
