@@ -10,20 +10,26 @@ QT       += core gui
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 DESTDIR  = $$IDE_APP_PATH
-TARGET = $$qtLibraryTarget(MTabWidget)
-TEMPLATE = lib
-CONFIG += staticlib
+
+TARGET = MTabWidget
+#TARGET = $$qtLibraryTarget(MTabWidget)
+TEMPLATE = app
+#CONFIG += staticlib
 
 SOURCES += main.cpp \
     MTabWidget.cpp \
     MTabWidgetV.cpp \
-    MCustomTabStyle.cpp
+    MCustomTabStyle.cpp \
+    MTabWidgetLR.cpp
 
 HEADERS  += \
     MTabWidget.h \
     MTabWidgetV.h \
-    MCustomTabStyle.h
+    MCustomTabStyle.h \
+    MTabWidgetLR.h
 
 FORMS += \
     MTabWidget.ui \
-    MTabWidgetV.ui
+    MTabWidgetV.ui \
+    MTabWidgetLR.ui
+

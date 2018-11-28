@@ -1,28 +1,25 @@
 #include "MTabWidget.h"
 #include "MTabWidgetV.h"
+#include "MTabWidgetLR.h"
 #include <QApplication>
 #include <QVBoxLayout>
+#include <QDebug>
+#include <QLabel>
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    MTabWidgetV widget;
-    /*
-    widget.resize(800,600);
-    QBoxLayout *layout =new QVBoxLayout(&widget);
-
-    MTabWidget *tabWidget =new MTabWidget(&widget);
-    tabWidget->setTabBarParam(26, 12);          //此为关键，设置tabBar字体的大小，和边框的大小
-    tabWidget->setMinimumSize(403,300);
-//    tabWidget->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Expanding);
-    tabWidget->setIconSize(QSize(20,20));
-//    tabWidget->setTabPosition(QTabWidget::South);
-    tabWidget->addTab(new QWidget(tabWidget), QIcon("D:\\ProgramSrc\\MCommonLibrary\\MFramelessWindow\\Resource\\NormalIcon.png"), "tab1");
-    tabWidget->addTab(new QWidget(tabWidget), QIcon("D:\\ProgramSrc\\MCommonLibrary\\MFramelessWindow\\Resource\\NormalIcon.png"),
-                      QString::fromLocal8Bit("tab2大家说法理解对方考虑"));
-    tabWidget->addTab(new QWidget(tabWidget), QString::fromLocal8Bit("tab3范德萨发大水快啦"));
-    layout->addWidget(tabWidget);*/
-
+    MTabWidgetLR widget;
+    QObject::connect(&widget, &MTabWidgetLR::currentChanged, [=](int idx){
+        qDebug()<<"current index changed:"<<idx;
+    });
+    int idx = widget.addTab(new QWidget(), QString::fromLocal8Bit("放肌肤抵抗力"));
+    qDebug()<<"widget index:"<<idx;
+    idx = widget.addTab(new QWidget(), QString::fromLocal8Bit("发送记录了"));
+    qDebug()<<"widget index:"<<idx;
+    idx = widget.addTab(new QLabel(QString::fromLocal8Bit("收到了尽大方大方快")), QString::fromLocal8Bit("收代收代付到了尽快"));
+    qDebug()<<"widget index:"<<idx;
+    widget.setCurrentIndex(2);
     widget.show();
 
     return a.exec();
