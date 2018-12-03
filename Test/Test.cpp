@@ -1,7 +1,7 @@
 #include "TestGlobal.h"
 #include "Test.h"
 #include "ui_Test.h"
-#include "MCSVParser.h"
+//#include "MCSVParser.h"
 #include "QDebug"
 
 Q_LOGGING_CATEGORY(TESTLOG, "Test")
@@ -33,14 +33,14 @@ void Test::on_btnExport_clicked()
         }
         listRows.push_back(listCols);
     }
-    writeToSheet(TEST_FILE_NAME, listRows);
+//    writeToSheet(TEST_FILE_NAME, listRows);
     qCDebug(TESTLOG)<< "export finished!\n";
 }
 
 void Test::on_btnImport_clicked()
 {
     QList<QStringList> listRows;
-    readFromSheet(TEST_FILE_NAME, listRows);
+//    readFromSheet(TEST_FILE_NAME, listRows);
 
     int iRowCount = listRows.size();
     for(int i = 0; i < iRowCount; i++)

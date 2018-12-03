@@ -5,7 +5,8 @@
 #-------------------------------------------------
 
 include(../configuration.pri)
-include(../MCSVParser/MCSVParser.pri)
+#include(../MCSVParser/MCSVParser.pri)
+include(../MFramelessWidget/MFramelessWidget.pri)
 #include(../Mqwt/Mqwt.pri)
 
 QT       += core gui network

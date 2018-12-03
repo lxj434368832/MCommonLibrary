@@ -17,7 +17,8 @@ TestForm::~TestForm()
 
 void TestForm::on_pushButton_clicked()
 {
+    QSize size = m_playerWidget->size();
     m_playerWidget->resize(640,320);
     m_playerWidget->show();
-    m_playerWidget->resize(873,489);
+    m_playerWidget->resize(size);
 }

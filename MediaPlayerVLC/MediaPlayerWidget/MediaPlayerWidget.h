@@ -3,7 +3,7 @@
 
 //#include "../../Framework/include/MFramelessWidget/MFramelessWidget.h"
 #include "../MMediaPlayer/IMediaPlayer.h"
-#include <QFrame>
+#include <QDialog>
 
 namespace Ui {
 class MediaPlayerWidget;
@@ -13,7 +13,7 @@ class QStandardItemModel;
 class QListWidgetItem;
 class WidgetVolumeSlider;
 
-class MediaPlayerWidget : public QFrame
+class MediaPlayerWidget : public QDialog
 {
     Q_OBJECT
 
