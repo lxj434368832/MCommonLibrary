@@ -15,8 +15,14 @@ TEMPLATE = lib
 CONFIG += staticlib
 
 SOURCES += MMoveWidget.cpp \
-    MFramelessWidget.cpp
+    MFramelessWidget.cpp \
+    MFramelessDialog.cpp \
+    MFramelessPrivate.cpp
 
 HEADERS  += \
     MMoveWidget.h \
-    MFramelessWidget.h
+    MFramelessWidget.h \
+    MFramelessDialog.h \
+    MFramelessPrivate.h
+
+FORMS +=

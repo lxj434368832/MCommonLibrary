@@ -10,7 +10,7 @@
 extern const QString  g_strTimeFormat;
 
 MediaPlayerWidget::MediaPlayerWidget(QWidget *parent) : 
-    QFrame(parent),
+    QDialog(parent),
     ui(new Ui::MediaPlayerWidget)
 {
     ui->setupUi(this);
@@ -83,9 +83,8 @@ void MediaPlayerWidget::on_btnPlayOrPause_clicked()
     if(m_strPlayFilePath.empty())
 	{
 //		return;
-        m_strPlayFilePath = "D:\\ProgramSrc\\MCommonLibrary\\TestMediaFile\\h265-2M.mp4";
+        m_strPlayFilePath = "D:\\ProgramSrc\\TestMediaFile\\TestVideo.mkv";
         m_player->setMedia(m_strPlayFilePath.c_str());
-		//m_player->setMedia(m_strPlayFilePath.c_str());
     }
 
 	IMediaPlayer::EPlayState state = m_player->getPlayState();
