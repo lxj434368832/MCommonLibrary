@@ -63,12 +63,12 @@ void MFramelessPrivate::mousePressEvent(QMouseEvent *event)
 {
     if (event->button() == Qt::LeftButton)
     {
-           m_bDrag = true;
-           m_posDrag = event->pos();
+        m_bDrag = true;
+        m_posDrag = event->pos();
 
-           m_posResizeDown = event->globalPos();
-           m_rectResizeDown = widget->rect();
-       }
+        m_posResizeDown = event->globalPos();
+        m_rectResizeDown = widget->rect();
+    }
 }
 
 void MFramelessPrivate::mouseMoveEvent(QMouseEvent *event)
@@ -128,8 +128,17 @@ void MFramelessPrivate::mouseReleaseEvent(QMouseEvent *event)
 
 void MFramelessPrivate::setMouseStatus(QPoint mouseCursorPos)
 {
-    static int i = 0;
     if(m_bDrag) return;
+    if(widget->isMaximized())
+    {
+        if(Default != m_eResizeRegion)
+        {
+            m_eResizeRegion= Default;
+            setResizeCursor(m_eResizeRegion);
+        }
+        return;   //最大化时不进行缩放操作
+    }
+
     QRect rect = widget->rect();
     QRect resizeInnerRect(m_iBorderWidth, m_iBorderWidth,
                           rect.width() - 2 * m_iBorderWidth, rect.height() - 2 * m_iBorderWidth);
@@ -155,12 +164,16 @@ void MFramelessPrivate::setMouseStatus(QPoint mouseCursorPos)
         setResizeCursor(m_eResizeRegion);
 //        qDebug()<<i++<<"current m_eResizeRegion: "<<m_eResizeRegion;
     }
+
 }
 
 void MFramelessPrivate::setResizeCursor(ResizeRegion region)
 {
     switch (region)
     {
+    case Move:
+        widget->setCursor(Qt::PointingHandCursor);
+        break;
     case North:
     case South:
         widget->setCursor(Qt::SizeVerCursor);
@@ -240,60 +253,65 @@ void MFramelessPrivate::handleResize(QPoint pt)
     int xdiff =pt.x() - m_posResizeDown.x();
     int ydiff = pt.y() - m_posResizeDown.y();
 
+    int iMinWidth = widget->minimumWidth();
+    int iMinHeight = widget->minimumHeight();
+    iMinWidth =qMax(iMinWidth, m_iMinWidth);
+    iMinHeight = qMax(iMinHeight, m_iMinHeight);
+
     switch (m_eResizeRegion)
     {
     case East:
-        add_diff(m_rectResizeDown.width() , xdiff, m_iMinWidth);
+        add_diff(m_rectResizeDown.width() , xdiff, iMinWidth);
 
         widget->resize(m_rectResizeDown.width()+xdiff, m_rectResizeDown.height());
         break;
 
     case West:
-        decrease_diff(m_rectResizeDown.width() , xdiff, m_iMinWidth);
+        decrease_diff(m_rectResizeDown.width() , xdiff, iMinWidth);
 
        widget->resize(m_rectResizeDown.width()-xdiff, m_rectResizeDown.height());
         widget->move(m_posResizeDown.x()+xdiff, widget->y());
         break;
 
     case South:
-        add_diff(m_rectResizeDown.height() , ydiff, m_iMinHeight);
+        add_diff(m_rectResizeDown.height() , ydiff, iMinHeight);
 
         widget->resize(widget->width(),m_rectResizeDown.height()+ydiff);
         break;
 
     case North:
-        decrease_diff(m_rectResizeDown.height() , ydiff, m_iMinHeight);
+        decrease_diff(m_rectResizeDown.height() , ydiff, iMinHeight);
 
         widget->resize(widget->width(), m_rectResizeDown.height() - ydiff);
         widget->move(widget->x(), m_posResizeDown.y() + ydiff);
         break;
 
     case SouthEast:
-        add_diff(m_rectResizeDown.width() , xdiff, m_iMinWidth);
-        add_diff(m_rectResizeDown.height() , ydiff, m_iMinHeight);
+        add_diff(m_rectResizeDown.width() , xdiff, iMinWidth);
+        add_diff(m_rectResizeDown.height() , ydiff, iMinHeight);
 
         widget->resize(m_rectResizeDown.width() + xdiff, m_rectResizeDown.height() + ydiff);
         break;
 
     case NorthEast:
-        add_diff(m_rectResizeDown.width() , xdiff, m_iMinWidth);
-        decrease_diff(m_rectResizeDown.height() , ydiff, m_iMinHeight);
+        add_diff(m_rectResizeDown.width() , xdiff, iMinWidth);
+        decrease_diff(m_rectResizeDown.height() , ydiff, iMinHeight);
 
         widget->resize(m_rectResizeDown.width()+xdiff, m_rectResizeDown.height()-ydiff);
         widget->move(widget->x(), m_posResizeDown.y()+ydiff);
         break;
 
     case NorthWest:
-        decrease_diff(m_rectResizeDown.width() , xdiff, m_iMinWidth);
-        decrease_diff(m_rectResizeDown.height() , ydiff, m_iMinHeight);
+        decrease_diff(m_rectResizeDown.width() , xdiff, iMinWidth);
+        decrease_diff(m_rectResizeDown.height() , ydiff, iMinHeight);
 
         widget->resize(m_rectResizeDown.width()-xdiff, m_rectResizeDown.height()-ydiff);
         widget->move(m_posResizeDown.x()+xdiff, m_posResizeDown.y()+ydiff);
         break;
 
     case SouthWest:
-        decrease_diff(m_rectResizeDown.width() , xdiff, m_iMinWidth);
-        add_diff(m_rectResizeDown.height() , ydiff, m_iMinHeight);
+        decrease_diff(m_rectResizeDown.width() , xdiff, iMinWidth);
+        add_diff(m_rectResizeDown.height() , ydiff, iMinHeight);
 
        widget->resize(m_rectResizeDown.width()-xdiff, m_rectResizeDown.height()+ydiff);
         widget->move(m_posResizeDown.x()+xdiff, widget->y());
