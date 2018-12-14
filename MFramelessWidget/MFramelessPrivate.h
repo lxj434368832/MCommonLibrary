@@ -3,7 +3,7 @@
 
 #include <QWidget>
 
-enum ResizeRegion
+enum MouseStatus
 {
     Default,
     Move,
@@ -42,8 +42,8 @@ signals:
 
 private:
     void setMouseStatus(QPoint mouseCursorPos);
-    void setResizeCursor(ResizeRegion region);
-    ResizeRegion getResizeRegion(QPoint clientPos);
+    void setMouseCursor(MouseStatus region);
+    MouseStatus getResizeRegion(QPoint clientPos);
     void handleMove(QPoint pt);
     void handleResize(QPoint pt);
 
@@ -64,7 +64,7 @@ private:
 
     bool                   m_bDrag = false;           //基类维护的用户标识是否拖动
     QPoint               m_posDrag ;
-    ResizeRegion   m_eResizeRegion = Default;
+    MouseStatus   m_eMouseStatus = Default;
     QPoint               m_posResizeDown;
     QRect                m_rectResizeDown;
 };

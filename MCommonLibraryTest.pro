@@ -13,7 +13,10 @@ SUBDIRS += \
     MediaPlayerVLC \
     UtilityWidget \
     MComboBox \
-    MUtility
+    MUtility \
+    MGridLayout \
+    TestMFramelessWidget \
+    TestMediaPlayer
 
 #CONFIG(debug, debug|release) {
 #    TARGET = Mqwtd

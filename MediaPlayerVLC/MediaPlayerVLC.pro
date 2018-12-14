@@ -10,35 +10,19 @@ QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TEMPLATE = app
-DESTDIR     = $$IDE_APP_PATH
-TARGET = MediaPlayerVLC
+TEMPLATE = lib
+CONFIG += staticlib
+DESTDIR  = $$IDE_APP_PATH
+TARGET = $$qtLibraryTarget(MediaPlayerVLC)
 
-
-SOURCES += main.cpp\
-    MediaPlayerWidget/MediaPlayerWidget.cpp \
-    MediaPlayerWidget/MSlider.cpp \
-    MediaPlayerWidget/WidgetVolumeSlider.cpp \
-    MMediaPlayer/MVLCPlayer.cpp \
-    MMediaPlayer/MVLCPlayerThread.cpp \
-    MMediaPlayer/MVLCPlayerSelfRender.cpp \
-    TestForm.cpp
+SOURCES += \
+    MVLCPlayer.cpp \
+    MVLCPlayerThread.cpp \
+    MVLCPlayerSelfRender.cpp
 
 HEADERS  += \
-    MediaPlayerWidget/MediaPlayerWidget.h \
-    MediaPlayerWidget/MSlider.h \
-    MediaPlayerWidget/WidgetVolumeSlider.h \
-    MMediaPlayer/IMediaPlayer.h \
-    MMediaPlayer/MediaPlayEvent.h \
-    MMediaPlayer/MVLCPlayer.h \
-    MMediaPlayer/MVLCPlayerThread.h \
-    MMediaPlayer/MVLCPlayerSelfRender.h \
-    TestForm.h
-
-RESOURCES += \
-    MediaPlayerWidget/PlayerResource.qrc
-
-FORMS += \
-    MediaPlayerWidget/MediaPlayerWidget.ui \
-    MediaPlayerWidget/WidgetVolumeSlider.ui \
-    TestForm.ui
+    IMediaPlayer.h \
+    MediaPlayEvent.h \
+    MVLCPlayer.h \
+    MVLCPlayerThread.h \
+    MVLCPlayerSelfRender.h

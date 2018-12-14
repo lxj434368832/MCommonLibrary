@@ -61,7 +61,7 @@ bool MFramelessPrivate::event(QEvent *event)
 
 void MFramelessPrivate::mousePressEvent(QMouseEvent *event)
 {
-    if (event->button() == Qt::LeftButton)
+    if (event->button() == Qt::LeftButton && Default != m_eMouseStatus)
     {
         m_bDrag = true;
         m_posDrag = event->pos();
@@ -76,7 +76,7 @@ void MFramelessPrivate::mouseMoveEvent(QMouseEvent *event)
     if(m_bDrag)
     {
         QPoint pos = event->globalPos();
-        switch(m_eResizeRegion)
+        switch(m_eMouseStatus)
         {
         case Move:
             widget->move(pos - m_posDrag);
@@ -94,7 +94,7 @@ void MFramelessPrivate::mouseReleaseEvent(QMouseEvent *event)
 {
     if(m_bDrag)
     {
-        switch (m_eResizeRegion)
+        switch (m_eMouseStatus)
         {
         case Move:
             handleMove(event->globalPos()); //鼠标放开后若超出屏幕区域自动吸附于屏幕顶部/左侧/右侧
@@ -122,8 +122,8 @@ void MFramelessPrivate::mouseReleaseEvent(QMouseEvent *event)
         m_bDrag = false;
     }
 
-    m_eResizeRegion = Default;
-    setResizeCursor(m_eResizeRegion);
+    m_eMouseStatus = Default;
+    setMouseCursor(m_eMouseStatus);
 }
 
 void MFramelessPrivate::setMouseStatus(QPoint mouseCursorPos)
@@ -131,10 +131,10 @@ void MFramelessPrivate::setMouseStatus(QPoint mouseCursorPos)
     if(m_bDrag) return;
     if(widget->isMaximized())
     {
-        if(Default != m_eResizeRegion)
+        if(Default != m_eMouseStatus)
         {
-            m_eResizeRegion= Default;
-            setResizeCursor(m_eResizeRegion);
+            m_eMouseStatus= Default;
+            setMouseCursor(m_eMouseStatus);
         }
         return;   //最大化时不进行缩放操作
     }
@@ -150,30 +150,30 @@ void MFramelessPrivate::setMouseStatus(QPoint mouseCursorPos)
     {
         if(!resizeInnerRect.contains(mouseCursorPos))   //risize region
         {
-            if(m_bResize) m_eResizeRegion = getResizeRegion(mouseCursorPos);
+            if(m_bResize) m_eMouseStatus = getResizeRegion(mouseCursorPos);
         }
         else if(moveRect.contains(mouseCursorPos))       //move region
         {
-            if(m_bMove) m_eResizeRegion = Move;
+            if(m_bMove) m_eMouseStatus = Move;
         }
         else
         {
-            m_eResizeRegion = Default;
+            m_eMouseStatus = Default;
         }
 
-        setResizeCursor(m_eResizeRegion);
+        setMouseCursor(m_eMouseStatus);
 //        qDebug()<<i++<<"current m_eResizeRegion: "<<m_eResizeRegion;
     }
 
 }
 
-void MFramelessPrivate::setResizeCursor(ResizeRegion region)
+void MFramelessPrivate::setMouseCursor(MouseStatus region)
 {
     switch (region)
     {
-    case Move:
-        widget->setCursor(Qt::PointingHandCursor);
-        break;
+//    case Move:
+//        widget->setCursor(Qt::PointingHandCursor);
+//        break;
     case North:
     case South:
         widget->setCursor(Qt::SizeVerCursor);
@@ -196,7 +196,7 @@ void MFramelessPrivate::setResizeCursor(ResizeRegion region)
     }
 }
 
-ResizeRegion MFramelessPrivate::getResizeRegion(QPoint clientPos)
+MouseStatus MFramelessPrivate::getResizeRegion(QPoint clientPos)
 {
     if (clientPos.y() <= m_iBorderWidth)
     {
@@ -258,7 +258,7 @@ void MFramelessPrivate::handleResize(QPoint pt)
     iMinWidth =qMax(iMinWidth, m_iMinWidth);
     iMinHeight = qMax(iMinHeight, m_iMinHeight);
 
-    switch (m_eResizeRegion)
+    switch (m_eMouseStatus)
     {
     case East:
         add_diff(m_rectResizeDown.width() , xdiff, iMinWidth);

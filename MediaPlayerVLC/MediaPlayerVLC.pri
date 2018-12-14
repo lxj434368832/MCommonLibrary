@@ -1,0 +1,6 @@
+INCLUDEPATH += $$IDE_SOURCE_TREE/MediaPlayerVLC
+DEPENDPATH += $$IDE_SOURCE_TREE/MediaPlayerVLC
+LIBS *= -L$$IDE_PLUGINS_DEPEND_PATH
+LIBS *= -l$$qtLibraryTarget(MediaPlayerVLC)
+
+message($$LIBS)
