@@ -16,7 +16,8 @@ SUBDIRS += \
     MUtility \
     MGridLayout \
     TestMFramelessWidget \
-    TestMediaPlayer
+    TestMediaPlayer \
+    LogQt
 
 #CONFIG(debug, debug|release) {
 #    TARGET = Mqwtd

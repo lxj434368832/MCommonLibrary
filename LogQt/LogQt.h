@@ -14,15 +14,15 @@
 typedef enum _tagENUM_LOG_TYPE
 {
 	LOG_NONE,				//不开启日志
-	LOG_ERROR,				//错误日志
+        LOG_ERROR,			//错误日志
 	LOG_RTM,				//运行日志
-	LOG_DEBUG 				//调试日志
+        LOG_DEBUG 			//调试日志
 }LOG_TYPE;
 
 
 #define LOG_FILE_PATH		250
-#define MAX_LOG_ROW_SIZE	500				//一行日志的大小
-#define MAX_LOG_FILE_SIZE (10*1024*1024)	//日志文件大小	
+#define MAX_LOG_ROW_SIZE	1024                    //一行日志的大小
+#define MAX_LOG_FILE_SIZE (10*1024*1024)     //日志文件大小
 
 
 //初始化日志
