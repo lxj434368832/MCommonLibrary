@@ -10,6 +10,7 @@ TakeVideoCover::TakeVideoCover()
 {
     m_playerCover = new MVLCPlayerSelfRender();
     m_playerCover->init();
+    m_playerCover->setVolume(0);
     connect(m_playerCover, SIGNAL(signalLengthChanged(qint64)), this, SLOT(slotLengthChanged(qint64)));
     connect(m_playerCover, SIGNAL(signalPositionChanged(qint64)),this, SLOT(slotPositionChanged(qint64)));
 
@@ -51,7 +52,7 @@ bool TakeVideoCover::GetFileCover(std::string strFilePath, std::string strCoverP
     QTime t;
     t.start();
 
-    while(false == m_bFinish )
+    while(false == m_bFinish &&  t.elapsed() < 10000)
         QCoreApplication::processEvents();
     qDebug()<<"get cover elapse :"<<t.elapsed();
 
@@ -67,23 +68,25 @@ void TakeVideoCover::slotLengthChanged(qint64 length)
         return;
     }
 
-    if(length < TAKE_COVER_POSITION)
+    if (length < TAKE_COVER_POSITION * 2)
     {
-        m_nTakePosition = length / 3;
+        m_nTakePosition = length / 4;
     }
     else
         m_nTakePosition = TAKE_COVER_POSITION;
 
-    if(m_nTakePosition > 1000)
-         m_playerCover->jump(m_nTakePosition);
+    if (m_nTakePosition > 2000)
+        m_playerCover->jump(m_nTakePosition);
 }
 
 void TakeVideoCover::slotPositionChanged(qint64 position)
 {
-    if(position >= m_nTakePosition && false == m_bFinish)
+    if (position >= m_nTakePosition && false == m_bFinish )
     {
-        m_bSuccess = m_playerCover->cutPictureEx(m_strCoverPath.c_str());
-         m_bFinish = true;
-         m_playerCover->stop();
+        if (m_playerCover->cutPicture(m_strCoverPath.c_str()))
+        {
+            m_bSuccess = true;
+            m_bFinish = true;
+        }
     }
 }

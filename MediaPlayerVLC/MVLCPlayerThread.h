@@ -45,21 +45,21 @@ protected:
     virtual bool SetSize(int width, int height);
 
 signals:
-    void signal_set_media(const char* url);
+    void signal_set_media(std::string url);
 	void signal_play();
 	void signal_pause();
 	void signal_stop();
     void signal_jump(qint64 position);
-    void signal_cutPicture(const char * strFilePath);
+    void signal_cutPicture(std::string strPath);
     void signal_setVolume(int value);
 
 private slots:
-	void slot_set_media(const char* url);
+    void slot_set_media(std::string url);
 	void slot_play();
 	void slot_pause();
 	void slot_stop();
     void slot_jump(qint64 position);
-    void slot_cutPicture(const char * strFilePath);
+    void slot_cutPicture(std::string strPath);
     void slot_setVolume(int value);
 
 private:

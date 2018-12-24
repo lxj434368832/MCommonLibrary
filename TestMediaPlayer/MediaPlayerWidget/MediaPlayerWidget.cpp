@@ -1,7 +1,7 @@
 #include "MediaPlayerWidget.h"
 #include "WidgetVolumeSlider.h"
 #include "ui_MediaPlayerWidget.h"
-#include "../../MediaPlayerVLC/MVLCPlayerSelfRender.h"
+#include "../../MediaPlayerVLC/MVLCPlayerThread.h"
 //#include "../VideoListWidget.h"
 #include <QDebug>
 #include <QDateTime>
@@ -24,7 +24,7 @@ MediaPlayerWidget::MediaPlayerWidget(QWidget *parent) :
 	m_widgetVoiceSlider = new WidgetVolumeSlider(ui->widgetVideoWidget);
 	m_widgetVoiceSlider->setVisible(false);
 
-    m_player = new MVLCPlayerSelfRender();
+    m_player = new MVLCPlayerThread();
 	m_player->init();
     m_player->setPlayWnd(ui->mediaWidget);
 	m_player->setVolume(100);

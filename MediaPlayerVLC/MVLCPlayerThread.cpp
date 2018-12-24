@@ -8,13 +8,14 @@ MVLCPlayerThread::MVLCPlayerThread(QObject *parent)
 {
     m_mediaPlayer = NULL;
     qRegisterMetaType<IMediaPlayer::EPlayState>("IMediaPlayer::EPlayState");
+    qRegisterMetaType<std::string>("std::string");
 	
-    connect(this,SIGNAL(signal_set_media(const char*)),this, SLOT(slot_set_media(const char*)));
+    connect(this,SIGNAL(signal_set_media(std::string)),this, SLOT(slot_set_media(std::string)));
 	connect(this, SIGNAL(signal_play()), this, SLOT(slot_play()));
 	connect(this, SIGNAL(signal_pause()), this, SLOT(slot_pause()));
 	connect(this, SIGNAL(signal_stop()), this, SLOT(slot_stop()));
     connect(this, SIGNAL(signal_jump(qint64)), this, SLOT(slot_jump(qint64)));
-    connect(this, SIGNAL(signal_cutPicture(const char*)), this, SLOT(slot_cutPicture(const char*)));
+    connect(this, SIGNAL(signal_cutPicture(std::string)), this, SLOT(slot_cutPicture(std::string)));
     connect(this, SIGNAL(signal_setVolume(int)), this, SLOT(slot_setVolume(int)));
 
 	moveToThread(&m_threadWork);
@@ -62,7 +63,7 @@ void MVLCPlayerThread::setPlayWnd(void *wnd)
 
 bool MVLCPlayerThread::setMedia(const char *url)
 {
-	emit signal_set_media(url);
+    emit signal_set_media(std::string(url));
 	return true;
 }
 
@@ -136,12 +137,12 @@ bool MVLCPlayerThread::SetSize(int width ,int height)
     return true;
 }
 
-void MVLCPlayerThread::slot_set_media(const char* url)
+void MVLCPlayerThread::slot_set_media(std::string url)
 {
 	slot_stop();
 
-	qDebug() << "vlc url:" << url;
-	libvlc_media_t *m_vlcMedia = libvlc_media_new_path(m_vlcInst, url);
+    qDebug() << "vlc url:" << url.c_str();
+    libvlc_media_t *m_vlcMedia = libvlc_media_new_path(m_vlcInst, url.c_str());
 	if (NULL == m_vlcMedia)
 	{
 		qDebug() << "create VLC Media failed!";
@@ -179,9 +180,9 @@ void MVLCPlayerThread::slot_jump(qint64 position)
     qDebug()<<"Jump time is:"<<position;
 }
 
-void MVLCPlayerThread::slot_cutPicture(const char *strFilePath)
+void MVLCPlayerThread::slot_cutPicture(std::string strPath)
 {
-    if(-1 == libvlc_video_take_snapshot(m_mediaPlayer, 0, strFilePath,0,0))
+    if(-1 == libvlc_video_take_snapshot(m_mediaPlayer, 0, strPath.c_str(),0,0))
     {
         qDebug()<<"截图失败！";
     }
