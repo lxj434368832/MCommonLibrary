@@ -88,6 +88,8 @@ void MediaPlayerWidget::on_btnPlayOrPause_clicked()
         QString filePath = QFileDialog::getOpenFileName(this, QString::fromLocal8Bit("请选择要播放的视频文件"));
         filePath.replace('/','\\');
         m_strPlayFilePath = filePath.toLocal8Bit().data() ;
+        filePath = filePath.split('.').first();
+        m_strPlayFileName = filePath.toLocal8Bit().data()  ;
         if(false == m_player->setMedia(m_strPlayFilePath.c_str()))
         {
             m_strPlayFilePath.clear();
@@ -104,7 +106,6 @@ void MediaPlayerWidget::on_btnPlayOrPause_clicked()
 	{
         if(false == m_player->play())
             m_strPlayFilePath.clear();
-
     }
 }
 

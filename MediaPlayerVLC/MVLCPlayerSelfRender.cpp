@@ -2,6 +2,7 @@
 #include "vlc.h"
 #include <QLabel>
 #include <QDebug>
+#include <QFile>
 
 MVLCPlayerSelfRender::MVLCPlayerSelfRender(QObject *parent):
     MVLCPlayer(parent)
@@ -27,15 +28,17 @@ MVLCPlayerSelfRender::~MVLCPlayerSelfRender()
     }
 }
 
-void MVLCPlayerSelfRender::init()
+bool MVLCPlayerSelfRender::init()
 {
-    MVLCPlayer::init();
+    if(false == MVLCPlayer::init())
+        return false;
+
     //设置回调函数
     libvlc_video_set_callbacks(m_mediaPlayer, libvlc_video_lock_cb, libvlc_video_unlock_cb
                                ,libvlc_video_display_cb, this);
 
     //        libvlc_video_set_format_callbacks(m_mediaPlayer, libvlc_video_format_cb, NULL);
-
+    return true;
 }
 
 void MVLCPlayerSelfRender::setPlayWnd(void *wnd)
@@ -81,17 +84,26 @@ bool MVLCPlayerSelfRender::SetSize(int width, int height)
     {
         stop();
         //设置vlc格式参数
-        libvlc_video_set_format(m_mediaPlayer,"RV32", m_uImageWidth, m_uImageHeigh, m_uImageWidth * 4);
+        libvlc_video_set_format(m_mediaPlayer,"RGBA", m_uImageWidth, m_uImageHeigh, m_uImageWidth * 4);
         play();
     }
     else
     {
         //设置vlc格式参数
-          libvlc_video_set_format(m_mediaPlayer,"RV32", m_uImageWidth, m_uImageHeigh, m_uImageWidth * 4);
-//        libvlc_video_set_format(m_mediaPlayer,"RGBA", m_uImageWidth, m_uImageHeigh, m_uImageWidth * 4);
+//          libvlc_video_set_format(m_mediaPlayer,"RV32", m_uImageWidth, m_uImageHeigh, m_uImageWidth * 4);
+        libvlc_video_set_format(m_mediaPlayer,"RGBA", m_uImageWidth, m_uImageHeigh, m_uImageWidth * 4);
     }
 
     return true;
+}
+
+bool MVLCPlayerSelfRender::cutPictureEx(const char *strFilePath)
+{
+    m_mutexBuffer.lock();
+    m_currentImage.save(strFilePath, 0, 100);
+    m_mutexBuffer.unlock();
+
+    return QFile::exists(strFilePath);
 }
 
 unsigned MVLCPlayerSelfRender::libvlc_video_format_cb(void **opaque, char *chroma, unsigned *width, unsigned *height, unsigned *pitches, unsigned *lines)
@@ -124,10 +136,8 @@ void MVLCPlayerSelfRender::libvlc_video_unlock_cb(void *opaque, void *picture, v
 void MVLCPlayerSelfRender::libvlc_video_display_cb(void *opaque, void *picture)
 {
     MVLCPlayerSelfRender *pthis = static_cast<MVLCPlayerSelfRender *>(opaque);
-
     pthis-> m_currentImage = QImage((uchar*)picture, pthis->m_uImageWidth,
-                                    pthis->m_uImageHeigh,QImage::Format_RGB32);
-
+                                    pthis->m_uImageHeigh,QImage::Format_ARGB32);
     emit pthis->signalShowImage(picture);
 }
 

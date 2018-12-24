@@ -26,6 +26,19 @@
     <string>PushButton</string>
    </property>
   </widget>
+  <widget class="QPushButton" name="btnGetVideoCover">
+   <property name="geometry">
+    <rect>
+     <x>190</x>
+     <y>30</y>
+     <width>121</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>获取视频封面</string>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>

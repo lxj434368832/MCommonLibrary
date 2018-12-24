@@ -7,35 +7,36 @@
  * datetime: 2016-07-18
  ***************************************************************/
 #include <QObject>
-#include "IMediaPlayer.h"
+#include "IVLCPlayer.h"
 #include <QMutex>
 
-struct libvlc_instance_t;
 struct libvlc_media_t;
 struct libvlc_media_player_t;
 struct libvlc_event_t;
 class QLabel;
 
-class  MVLCPlayer : public IMediaPlayer
+class  MVLCPlayer : public IVLCPlayer
 {
     Q_OBJECT
 
 public:
     MVLCPlayer(QObject *parent = 0);
     virtual ~MVLCPlayer();
-    virtual void init() override;
+    bool init() override;
 
-    virtual void setPlayWnd(void* wnd) override;
+    void setPlayWnd(void* wnd) override;
     //要播放的文件地址，目录只能用斜杠分隔，不能用反斜杠，否则会出错
-    virtual bool setMedia(const char* url)override;
+    bool setMedia(const char* url)override;
     bool play() override;
     void pause() override;
     void stop() override;
     void jump(qint64 position) override;
-    void cutPicture(const char * strFilePath) override;
+    bool cutPicture(const char * strFilePath) override;
     void setVolume(int value) override;
     EPlayState getPlayState() override;
 
+    //获取视频的长度，单位为ms,媒体不存在则为-1
+    qint64 getVideoLength() override;
 
     void setPlayRate(float rate);
     void nextFrame();
@@ -44,7 +45,7 @@ public:
     virtual bool SetSize(int width, int height);
 
 private:
-    void installVLCEvent();
+    bool installVLCEvent();
 
     /*********************************************************************************
      * function: vlc的事件处理回调函数
@@ -59,9 +60,6 @@ protected:
         en_jump_step = 20   //快进快退的时间，单位为秒
     };
 
-    static unsigned int        s_unReferenceCount;         //引用计数，用于保证GlobalInit和GlobalRelease只调用一次
-    static QMutex               s_mutexReferenceCount;    //引用计数互斥量
-    static libvlc_instance_t *m_vlcInst;                        //It represents a libvlc instance
 
     libvlc_media_t                *m_vlcMedia;               //代表一个抽象的可播放的媒体
     libvlc_media_player_t   *m_mediaPlayer;                //A LibVLC media player plays one media

@@ -3,13 +3,8 @@
 #include <QDebug>
 #include <QLabel>
 
-libvlc_instance_t* MVLCPlayer::m_vlcInst = NULL;  //It represents a libvlc instance
-unsigned int MVLCPlayer::s_unReferenceCount = 0; //引用计数，用于保证GlobalInit和GlobalRelease只调用一次
-QMutex         MVLCPlayer::s_mutexReferenceCount;//引用计数互斥量
-
-
 MVLCPlayer::MVLCPlayer(QObject *parent)
-    :IMediaPlayer(parent)
+    :IVLCPlayer(parent)
 {
     m_renderWidget = nullptr;
     m_mediaPlayer = nullptr;
@@ -18,51 +13,30 @@ MVLCPlayer::MVLCPlayer(QObject *parent)
 
 MVLCPlayer::~MVLCPlayer()
 {
-    // 释放VLC资源
+    qDebug() << "begin delete MVLCPlayer!";
     if (m_mediaPlayer != NULL)
     {
         libvlc_media_player_release(m_mediaPlayer);
         m_mediaPlayer = NULL;
     }
-
-    s_mutexReferenceCount.lock();
-    if(--s_unReferenceCount <= 0)
-    {
-        qDebug()<<"call Global release!";
-        if (m_vlcInst != NULL)
-        {
-            libvlc_release(m_vlcInst);
-            m_vlcInst = NULL;
-        }
-    }
-    s_mutexReferenceCount.unlock();
 }
 
-void MVLCPlayer::init()
+bool MVLCPlayer::init()
 {
-    s_mutexReferenceCount.lock();
-    if(0 == s_unReferenceCount++)   //第一次的时候调用，以后每次都给引用计数加1
-    {
-        if(NULL == m_vlcInst)
-        {
-            m_vlcInst = libvlc_new(0, NULL);
-        }
-        qDebug()<<"libvlc_new Funtion has called!";
-    }
-    s_mutexReferenceCount.unlock();
-
     if (m_mediaPlayer == NULL)
     {
         m_mediaPlayer = libvlc_media_player_new(m_vlcInst);
         if(NULL == m_mediaPlayer)
         {
             qDebug()<<"create VLC Media player failed!";
-            return;
+            return false;
         }
 
         // 事件管理
-        installVLCEvent();
+        if(false == installVLCEvent())
+            return false;
     }
+    return true;
 }
 
 void MVLCPlayer::setPlayWnd(void *wnd)
@@ -122,12 +96,16 @@ void MVLCPlayer::jump(qint64 position)
     qDebug()<<"Jump time is:"<<position;
 }
 
-void MVLCPlayer::cutPicture(const char *strFilePath)
+bool MVLCPlayer::cutPicture(const char *strFilePath)
 {
     if(-1 == libvlc_video_take_snapshot(m_mediaPlayer, 0, strFilePath,0,0))
+//    if(-1 == libvlc_video_take_snapshot(m_mediaPlayer, 0, strFilePath,1920,1080))
     {
-        qDebug()<<"截图失败！";
+        qDebug()<<QString::fromLocal8Bit("截图失败！");
+        return false;
     }
+    qDebug()<<"cut path:"<< strFilePath;
+    return true;
 }
 
 void MVLCPlayer::setVolume(int value)
@@ -142,6 +120,11 @@ void MVLCPlayer::setVolume(int value)
 MVLCPlayer::EPlayState MVLCPlayer::getPlayState()
 {
     return  (EPlayState)libvlc_media_player_get_state(m_mediaPlayer);
+}
+
+qint64 MVLCPlayer::getVideoLength()
+{
+    return libvlc_media_player_get_length(m_mediaPlayer);
 }
 
 void MVLCPlayer::setPlayRate(float rate)
@@ -179,14 +162,24 @@ bool MVLCPlayer::SetSize(int width ,int height)
     return true;
 }
 
-void MVLCPlayer::installVLCEvent()
+bool MVLCPlayer::installVLCEvent()
 {
     // 事件管理
     libvlc_event_manager_t *vlcEventManage = libvlc_media_player_event_manager(m_mediaPlayer);
+    if(nullptr ==  vlcEventManage)
+    {
+        qDebug()<<"new vlc event manage object failed!";
+        return false;
+    }
     for (int i = libvlc_MediaPlayerMediaChanged ; i<= libvlc_MediaPlayerAudioVolume; i++ )
     {
-        libvlc_event_attach(vlcEventManage, i, libvlc_event_hander, this);
+        if(ENOMEM == libvlc_event_attach(vlcEventManage, i, libvlc_event_hander, this))
+        {
+            qDebug()<<"attach vlc event failed!";
+            return false;
+        }
     }
+    return true;
 }
 
 void MVLCPlayer::libvlc_event_hander(const libvlc_event_t *event, void *opaque)
@@ -248,9 +241,10 @@ void MVLCPlayer::libvlc_event_hander(const libvlc_event_t *event, void *opaque)
         strEventType = "libvlc_MediaPlayerSnapshotTaken";
         break;
     default:
+        strEventType = "unknown";
         break;
     }
-    if(!strEventType.isEmpty())
-        qDebug()<<"libvlc event type is:"<<strEventType<<"value is:"<< event->type;
+//    if(!strEventType.isEmpty())
+//        qDebug()<<"libvlc event type is:"<<strEventType<<"value is:"<< event->type;
 
 }

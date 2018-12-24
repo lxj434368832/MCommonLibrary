@@ -8,36 +8,36 @@
  * datetime: 2016-07-18
  ***************************************************************/
 #include <QObject>
-#include "IMediaPlayer.h"
 #include <QMutex>
 #include <QThread>
+#include "IVLCPlayer.h"
 
-struct libvlc_instance_t;
 struct libvlc_media_t;
 struct libvlc_media_player_t;
 struct libvlc_event_t;
 class QLabel;
 
-class  MVLCPlayerThread : public IMediaPlayer
+class  MVLCPlayerThread : public IVLCPlayer
 {
     Q_OBJECT
 
 public:
     MVLCPlayerThread(QObject *parent = 0);
     virtual ~MVLCPlayerThread();
-	virtual void init() override;
+    bool init() override;
 
-    virtual void setPlayWnd(void* wnd) override;
+    void setPlayWnd(void* wnd) override;
 	//设置播放地址，要保证当前是stop状态
-    virtual bool setMedia(const char* url)override;
+    bool setMedia(const char* url)override;
     bool play() override;
     void pause() override;
     void stop() override;
     void jump(qint64 position) override;
-    void cutPicture(const char * strFilePath) override;
+    bool cutPicture(const char * strFilePath) override;
     void setVolume(int value) override;
     EPlayState getPlayState() override;
 
+protected:
     void setPlayRate(float rate);
     void nextFrame();
     void forward();
@@ -49,15 +49,21 @@ signals:
 	void signal_play();
 	void signal_pause();
 	void signal_stop();
+    void signal_jump(qint64 position);
+    void signal_cutPicture(const char * strFilePath);
+    void signal_setVolume(int value);
 
 private slots:
 	void slot_set_media(const char* url);
 	void slot_play();
 	void slot_pause();
 	void slot_stop();
+    void slot_jump(qint64 position);
+    void slot_cutPicture(const char * strFilePath);
+    void slot_setVolume(int value);
 
 private:
-    void installVLCEvent();
+    bool installVLCEvent();
 
     /*********************************************************************************
      * function: vlc的事件处理回调函数
@@ -66,17 +72,13 @@ private:
      *********************************************************************************/
     static void libvlc_event_hander(const libvlc_event_t *event, void *opaque);
 
-protected:
+private:
     enum
     {
         en_jump_step = 20   //快进快退的时间，单位为秒
     };
 
-    static unsigned int      s_unReferenceCount;			//引用计数，用于保证GlobalInit和GlobalRelease只调用一次
-    static QMutex            s_mutexReferenceCount;			//引用计数互斥量
-    static libvlc_instance_t *m_vlcInst;                    //It represents a libvlc instance
-
-    libvlc_media_t          *m_vlcMedia;					//代表一个抽象的可播放的媒体
+    libvlc_media_t               *m_vlcMedia;					//代表一个抽象的可播放的媒体
     libvlc_media_player_t   *m_mediaPlayer;					//A LibVLC media player plays one media
 
 	QThread					m_threadWork;

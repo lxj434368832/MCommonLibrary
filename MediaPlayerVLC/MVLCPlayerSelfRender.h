@@ -11,12 +11,13 @@ class MVLCPlayerSelfRender : public MVLCPlayer
 public:
     MVLCPlayerSelfRender(QObject *parent = 0);
     virtual ~MVLCPlayerSelfRender();
-    virtual void init() override;
-    virtual void setPlayWnd(void* wnd) override;
-    virtual bool setMedia(const char* url) override;
-    virtual bool play() override;
-    virtual bool SetSize(int width, int height) override;
-
+    bool init() override;
+    void setPlayWnd(void* wnd) override;
+    bool setMedia(const char* url) override;
+    bool play() override;
+    bool SetSize(int width, int height) override;
+    //此函数直接保存当前点的图片，保证能成功，但是质量不好
+    bool cutPictureEx(const char * strFilePath);
 
 signals:
     void signalShowImage(void* pImageData);

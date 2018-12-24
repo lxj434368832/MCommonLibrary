@@ -24,17 +24,19 @@ public:
 	IMediaPlayer(QObject *parent = 0):QObject(parent){}
     virtual ~IMediaPlayer(){}
 
-    virtual void init(){}
+    virtual bool init(){return false;}
     virtual void setPlayWnd(void*) = 0;
     virtual bool setMedia(const char*) =0;
     virtual bool play() = 0;
     virtual void pause() = 0;
     virtual void stop() = 0;
-    virtual void jump(qint64) {}
-    virtual void cutPicture(const char *){}
-    virtual void setVolume(int){}
+    virtual void jump(qint64) = 0;
+    virtual bool cutPicture(const char *) = 0;
+    virtual void setVolume(int) = 0;
 
     virtual EPlayState getPlayState() = 0;
+    //获取视频的长度，单位为ms
+    virtual qint64 getVideoLength(){return 0;}
 
 signals:
     void signalLengthChanged(qint64);

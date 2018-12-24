@@ -20,13 +20,15 @@ SOURCES += main.cpp \
     MediaPlayerWidget/MediaPlayerWidget.cpp \
     MediaPlayerWidget/MSlider.cpp \
     MediaPlayerWidget/WidgetVolumeSlider.cpp \
-    TestForm.cpp
+    TestForm.cpp \
+    TakeVideoCover.cpp
 
 HEADERS  += \
     MediaPlayerWidget/MediaPlayerWidget.h \
     MediaPlayerWidget/MSlider.h \
     MediaPlayerWidget/WidgetVolumeSlider.h \
-    TestForm.h
+    TestForm.h \
+    TakeVideoCover.h
 
 RESOURCES += \
     MediaPlayerWidget/PlayerResource.qrc

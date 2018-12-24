@@ -3,13 +3,8 @@
 #include <QDebug>
 #include <QLabel>
 
-libvlc_instance_t* MVLCPlayerThread::m_vlcInst = NULL;  //It represents a libvlc instance
-unsigned int MVLCPlayerThread::s_unReferenceCount = 0; //引用计数，用于保证GlobalInit和GlobalRelease只调用一次
-QMutex         MVLCPlayerThread::s_mutexReferenceCount;//引用计数互斥量
-
-
 MVLCPlayerThread::MVLCPlayerThread(QObject *parent)
-    :IMediaPlayer(parent)
+    :IVLCPlayer(parent)
 {
     m_mediaPlayer = NULL;
     qRegisterMetaType<IMediaPlayer::EPlayState>("IMediaPlayer::EPlayState");
@@ -18,12 +13,17 @@ MVLCPlayerThread::MVLCPlayerThread(QObject *parent)
 	connect(this, SIGNAL(signal_play()), this, SLOT(slot_play()));
 	connect(this, SIGNAL(signal_pause()), this, SLOT(slot_pause()));
 	connect(this, SIGNAL(signal_stop()), this, SLOT(slot_stop()));
+    connect(this, SIGNAL(signal_jump(qint64)), this, SLOT(slot_jump(qint64)));
+    connect(this, SIGNAL(signal_cutPicture(const char*)), this, SLOT(slot_cutPicture(const char*)));
+    connect(this, SIGNAL(signal_setVolume(int)), this, SLOT(slot_setVolume(int)));
+
 	moveToThread(&m_threadWork);
 	m_threadWork.start();
 }
 
 MVLCPlayerThread::~MVLCPlayerThread()
 {
+    qDebug() << "begin delete MVLCPlayerThread!";
 	m_threadWork.quit();
 	m_threadWork.wait(500);
 	m_threadWork.terminate();
@@ -34,45 +34,24 @@ MVLCPlayerThread::~MVLCPlayerThread()
 		libvlc_media_player_release(m_mediaPlayer);
 		m_mediaPlayer = NULL;
 	}
-
-	s_mutexReferenceCount.lock();
-	if (--s_unReferenceCount == 0)
-	{
-		qDebug() << "call Global release!";
-		if (m_vlcInst != NULL)
-		{
-			libvlc_release(m_vlcInst);
-			m_vlcInst = NULL;
-		}
-	}
-	s_mutexReferenceCount.unlock();
 }
 
-void MVLCPlayerThread::init()
+bool MVLCPlayerThread::init()
 {
-    s_mutexReferenceCount.lock();
-    if(0 == s_unReferenceCount++)   //第一次的时候调用，以后每次都给引用计数加1
-    {
-        if(NULL == m_vlcInst)
-        {
-            m_vlcInst = libvlc_new(0, NULL);
-        }
-        qDebug()<<"libvlc_new Funtion has called!";
-    }
-    s_mutexReferenceCount.unlock();
-
     if (m_mediaPlayer == NULL)
     {
         m_mediaPlayer = libvlc_media_player_new(m_vlcInst);
         if(NULL == m_mediaPlayer)
         {
             qDebug()<<"create VLC Media player failed!";
-            return;
+            return false;
         }
 
         // 事件管理
-        installVLCEvent();
+        if(false == installVLCEvent())
+            return false;
     }
+    return true;
 }
 
 void MVLCPlayerThread::setPlayWnd(void *wnd)
@@ -105,25 +84,18 @@ void MVLCPlayerThread::stop()
 
 void MVLCPlayerThread::jump(qint64 position)
 {
-    libvlc_media_player_set_time(m_mediaPlayer, position);
-    //qDebug()<<"Jump time is:"<<position;
+    emit signal_jump(position);
 }
 
-void MVLCPlayerThread::cutPicture(const char *strFilePath)
+bool MVLCPlayerThread::cutPicture(const char *strFilePath)
 {
-    if(-1 == libvlc_video_take_snapshot(m_mediaPlayer, 0, strFilePath,0,0))
-    {
-        qDebug()<<"截图失败！";
-    }
+    emit signal_cutPicture(strFilePath);
+    return true;
 }
 
 void MVLCPlayerThread::setVolume(int value)
 {
-    if(value > 99) value = 99;
-    if(-1 == libvlc_audio_set_volume(m_mediaPlayer, value))
-    {
-        qDebug()<<"声音设置失败！";
-    }
+    emit signal_setVolume(value);
 }
 
 MVLCPlayerThread::EPlayState MVLCPlayerThread::getPlayState()
@@ -198,17 +170,50 @@ void MVLCPlayerThread::slot_stop()
 	if (m_mediaPlayer != NULL)
 	{
 		libvlc_media_player_stop(m_mediaPlayer);
-	}
+    }
 }
 
-void MVLCPlayerThread::installVLCEvent()
+void MVLCPlayerThread::slot_jump(qint64 position)
+{
+    libvlc_media_player_set_time(m_mediaPlayer, position);
+    qDebug()<<"Jump time is:"<<position;
+}
+
+void MVLCPlayerThread::slot_cutPicture(const char *strFilePath)
+{
+    if(-1 == libvlc_video_take_snapshot(m_mediaPlayer, 0, strFilePath,0,0))
+    {
+        qDebug()<<"截图失败！";
+    }
+}
+
+void MVLCPlayerThread::slot_setVolume(int value)
+{
+    if(value > 99) value = 99;
+    if(-1 == libvlc_audio_set_volume(m_mediaPlayer, value))
+    {
+        qDebug()<<"声音设置失败！";
+    }
+}
+
+bool MVLCPlayerThread::installVLCEvent()
 {
     // 事件管理
     libvlc_event_manager_t *vlcEventManage = libvlc_media_player_event_manager(m_mediaPlayer);
+    if(nullptr ==  vlcEventManage)
+    {
+        qDebug()<<"new vlc event manage object failed!";
+        return false;
+    }
     for (int i = libvlc_MediaPlayerMediaChanged ; i<= libvlc_MediaPlayerAudioVolume; i++ )
     {
-        libvlc_event_attach(vlcEventManage, i, libvlc_event_hander, this);
+        if(ENOMEM == libvlc_event_attach(vlcEventManage, i, libvlc_event_hander, this))
+        {
+            qDebug()<<"attach vlc event failed!";
+            return false;
+        }
     }
+    return true;
 }
 
 void MVLCPlayerThread::libvlc_event_hander(const libvlc_event_t *event, void *opaque)
@@ -278,6 +283,6 @@ void MVLCPlayerThread::libvlc_event_hander(const libvlc_event_t *event, void *op
         break;
     }
 	//if (!strEventType.isEmpty())
-        qDebug() << "libvlc event type is:" << strEventType << "value is:" << event->type;
+//        qDebug() << "libvlc event type is:" << strEventType << "value is:" << event->type;
 
 }

@@ -8,6 +8,7 @@ class TestForm;
 }
 
 class MediaPlayerWidget;
+class IMediaPlayer;
 
 class TestForm : public QWidget
 {
@@ -19,6 +20,8 @@ public:
 
 private slots:
     void on_pushButton_clicked();
+
+    void on_btnGetVideoCover_clicked();
 
 private:
     Ui::TestForm *ui;

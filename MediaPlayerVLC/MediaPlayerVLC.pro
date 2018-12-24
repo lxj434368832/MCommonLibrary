@@ -18,11 +18,12 @@ TARGET = $$qtLibraryTarget(MediaPlayerVLC)
 SOURCES += \
     MVLCPlayer.cpp \
     MVLCPlayerThread.cpp \
-    MVLCPlayerSelfRender.cpp
+    MVLCPlayerSelfRender.cpp \
+    IVLCPlayer.cpp
 
 HEADERS  += \
     IMediaPlayer.h \
-    MediaPlayEvent.h \
     MVLCPlayer.h \
     MVLCPlayerThread.h \
-    MVLCPlayerSelfRender.h
+    MVLCPlayerSelfRender.h \
+    IVLCPlayer.h
