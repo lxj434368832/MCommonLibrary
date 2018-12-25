@@ -10,6 +10,7 @@
 
 #include <QMutex>
 #include <QString>
+#include <QtDebug>
 
 class MLog
 {

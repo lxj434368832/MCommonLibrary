@@ -63,7 +63,7 @@ void MLog::MessageOutput(QtMsgType type, const QMessageLogContext & context, con
     }*/
 
     //输出到标准输出
-    fprintf(stderr, "%s\n", txtMessage.toLocal8Bit().data() );
+    fprintf(stderr, "%s\n", txtMessage.toLocal8Bit().data());
 
     txtMessage += QString("\r\n");
 

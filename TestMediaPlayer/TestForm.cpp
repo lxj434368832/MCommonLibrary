@@ -13,6 +13,7 @@ TestForm::TestForm(QWidget *parent) :
 {
     ui->setupUi(this);
     m_playerWidget = new MediaPlayerWidget;
+    TakeVideoCover::instance();
 }
 
 TestForm::~TestForm()

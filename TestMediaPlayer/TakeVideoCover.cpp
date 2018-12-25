@@ -10,7 +10,6 @@ TakeVideoCover::TakeVideoCover()
 {
     m_playerCover = new MVLCPlayerSelfRender();
     m_playerCover->init();
-    m_playerCover->setVolume(0);
     connect(m_playerCover, SIGNAL(signalLengthChanged(qint64)), this, SLOT(slotLengthChanged(qint64)));
     connect(m_playerCover, SIGNAL(signalPositionChanged(qint64)),this, SLOT(slotPositionChanged(qint64)));
 
@@ -42,10 +41,12 @@ bool TakeVideoCover::GetFileCover(std::string strFilePath, std::string strCoverP
     m_bFinish = false;
     m_bSuccess = false;
 
+
     if(false == m_playerCover->setMedia(strFilePath.c_str()))
     {
         return m_bSuccess;
     }
+
     if(false == m_playerCover->play())
         return m_bSuccess;
 

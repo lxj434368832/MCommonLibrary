@@ -37,6 +37,8 @@ bool MVLCPlayerSelfRender::init()
     libvlc_video_set_callbacks(m_mediaPlayer, libvlc_video_lock_cb, libvlc_video_unlock_cb
                                ,libvlc_video_display_cb, this);
 
+    libvlc_audio_set_callbacks(m_mediaPlayer, libvlc_audio_play_cb, NULL, NULL, NULL, NULL, this);
+
     //        libvlc_video_set_format_callbacks(m_mediaPlayer, libvlc_video_format_cb, NULL);
     return true;
 }
@@ -139,6 +141,14 @@ void MVLCPlayerSelfRender::libvlc_video_display_cb(void *opaque, void *picture)
     pthis-> m_currentImage = QImage((uchar*)picture, pthis->m_uImageWidth,
                                     pthis->m_uImageHeigh,QImage::Format_ARGB32);
     emit pthis->signalShowImage(picture);
+}
+
+void MVLCPlayerSelfRender::libvlc_audio_play_cb(void *data, const void *samples, unsigned count, qint64 pts)
+{
+    data;
+    samples;
+    count;
+    pts;
 }
 
 void MVLCPlayerSelfRender::slotShowImage(void *pImageData)

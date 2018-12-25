@@ -69,6 +69,8 @@ private:
      *********************************************************************************/
     static void libvlc_video_display_cb(void *opaque, void *picture);
 
+    static void libvlc_audio_play_cb(void *data, const void *samples, unsigned count, qint64 pts);
+
 private:
     QMutex                            m_mutexBuffer;                   //Í¼Ïñ»º³åÇøµÄ»¥³âÁ¿
     unsigned                         m_ibufferSize;
