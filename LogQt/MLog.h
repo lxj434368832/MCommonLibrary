@@ -12,6 +12,8 @@
 #include <QString>
 #include <QtDebug>
 
+//#pragma execution_character_set("utf-8")
+
 class MLog
 {
 public:
