@@ -27,7 +27,6 @@ MediaPlayerWidget::MediaPlayerWidget(QWidget *parent) :
     m_player = new MVLCPlayerThread();
 	m_player->init();
     m_player->setPlayWnd(ui->mediaWidget);
-	m_player->setVolume(100);
 
 	connect(m_widgetVoiceSlider, SIGNAL(signalVolumeChanged(int)), this, SLOT(slotVolumeChanged(int)));
 
@@ -89,12 +88,7 @@ void MediaPlayerWidget::on_btnPlayOrPause_clicked()
         filePath.replace('/','\\');
         m_strPlayFilePath = filePath.toLocal8Bit().data() ;
         filePath = filePath.split('.').first();
-        m_strPlayFileName = filePath.toLocal8Bit().data()  ;
-        if(false == m_player->setMedia(m_strPlayFilePath.c_str()))
-        {
-            m_strPlayFilePath.clear();
-            return;
-        }
+        m_strPlayFileName = filePath.toLocal8Bit().data() ;
     }
 
 	IMediaPlayer::EPlayState state = m_player->getPlayState();
@@ -103,7 +97,15 @@ void MediaPlayerWidget::on_btnPlayOrPause_clicked()
         m_player->pause();
     }
 	else
-	{
+    {
+        m_player->setVolume(99);
+        m_player->setVolume(99);   //也许是异步调用太快，需要连续发送两次调节音量的指令
+        if(false == m_player->setMedia(m_strPlayFilePath.c_str()))
+        {
+            m_strPlayFilePath.clear();
+            return;
+        }
+
         if(false == m_player->play())
             m_strPlayFilePath.clear();
     }

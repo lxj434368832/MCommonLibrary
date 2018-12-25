@@ -12,7 +12,6 @@ TakeVideoCover::TakeVideoCover()
     m_playerCover->init();
     connect(m_playerCover, SIGNAL(signalLengthChanged(qint64)), this, SLOT(slotLengthChanged(qint64)));
     connect(m_playerCover, SIGNAL(signalPositionChanged(qint64)),this, SLOT(slotPositionChanged(qint64)));
-
 }
 
 TakeVideoCover::~TakeVideoCover()
@@ -47,6 +46,7 @@ bool TakeVideoCover::GetFileCover(std::string strFilePath, std::string strCoverP
         return m_bSuccess;
     }
 
+    m_playerCover->setVolume(0);
     if(false == m_playerCover->play())
         return m_bSuccess;
 

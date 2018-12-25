@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 4.0.3, 2018-12-25T10:56:01. -->
+<!-- Written by QtCreator 4.0.3, 2018-12-25T16:33:22. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -669,7 +669,7 @@
    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">qt.56.win32_msvc2013_kit</value>
    <value type="int" key="ProjectExplorer.Target.ActiveBuildConfiguration">0</value>
    <value type="int" key="ProjectExplorer.Target.ActiveDeployConfiguration">0</value>
-   <value type="int" key="ProjectExplorer.Target.ActiveRunConfiguration">9</value>
+   <value type="int" key="ProjectExplorer.Target.ActiveRunConfiguration">7</value>
    <valuemap type="QVariantMap" key="ProjectExplorer.Target.BuildConfiguration.0">
     <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">D:/ProgramSrc/build-MCommonLibraryTest-Qt_5_6_2_msvc2013-Debug</value>
     <valuemap type="QVariantMap" key="ProjectExplorer.BuildConfiguration.BuildStepList.0">
