@@ -54,4 +54,7 @@ extern "C" {
 }
 # endif
 
+typedef __int32    uint32_t;
+typedef __int64     int64_t;
+
 #endif /* _VLC_VLC_H */

@@ -29,5 +29,4 @@ private:
     QtMessageHandler m_oldHander;
 };
 
-
 #endif // MLOG_H

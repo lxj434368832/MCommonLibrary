@@ -15,7 +15,7 @@ MVLCPlayerThread::MVLCPlayerThread(QObject *parent)
 	connect(this, SIGNAL(signal_pause()), this, SLOT(slot_pause()));
 	connect(this, SIGNAL(signal_stop()), this, SLOT(slot_stop()));
     connect(this, SIGNAL(signal_jump(qint64)), this, SLOT(slot_jump(qint64)));
-    connect(this, SIGNAL(signal_cutPicture(std::string)), this, SLOT(slot_cutPicture(std::string)));
+//    connect(this, SIGNAL(signal_cutPicture(std::string)), this, SLOT(slot_cutPicture(std::string)));
     connect(this, SIGNAL(signal_setVolume(int)), this, SLOT(slot_setVolume(int)));
 
 	moveToThread(&m_threadWork);
@@ -90,7 +90,11 @@ void MVLCPlayerThread::jump(qint64 position)
 
 bool MVLCPlayerThread::cutPicture(const char *strFilePath)
 {
-    emit signal_cutPicture(strFilePath);
+    if(-1 == libvlc_video_take_snapshot(m_mediaPlayer, 0, strFilePath,0,0))
+    {
+        qDebug()<<"截图失败！";
+        return false;
+    }
     return true;
 }
 
@@ -142,8 +146,8 @@ void MVLCPlayerThread::slot_set_media(std::string url)
 	slot_stop();
 
     qDebug() << "vlc url:" << url.c_str();
-    libvlc_media_t *m_vlcMedia = libvlc_media_new_path(m_vlcInst, url.c_str());
-	if (NULL == m_vlcMedia)
+    libvlc_media_t *m_vlcMedia = libvlc_media_new_location(m_vlcInst, url.c_str());
+    if (NULL == m_vlcMedia)
 	{
 		qDebug() << "create VLC Media failed!";
 		return;

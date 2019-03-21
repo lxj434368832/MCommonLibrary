@@ -1,7 +1,7 @@
 #include "MediaPlayerWidget.h"
 #include "WidgetVolumeSlider.h"
 #include "ui_MediaPlayerWidget.h"
-#include "../../MediaPlayerVLC/MVLCPlayerThread.h"
+#include "../../MediaPlayerVLC/MVLCStreamPlayer.h"
 //#include "../VideoListWidget.h"
 #include <QDebug>
 #include <QDateTime>
@@ -11,7 +11,7 @@
 extern const QString  g_strTimeFormat;
 
 MediaPlayerWidget::MediaPlayerWidget(QWidget *parent) : 
-    QDialog(parent),
+    MFramelessDialog(parent),
     ui(new Ui::MediaPlayerWidget)
 {
     ui->setupUi(this);
@@ -24,7 +24,7 @@ MediaPlayerWidget::MediaPlayerWidget(QWidget *parent) :
 	m_widgetVoiceSlider = new WidgetVolumeSlider(ui->widgetVideoWidget);
 	m_widgetVoiceSlider->setVisible(false);
 
-    m_player = new MVLCPlayerThread();
+    m_player = new MVLCStreamPlayer();
 	m_player->init();
     m_player->setPlayWnd(ui->mediaWidget);
 
@@ -65,7 +65,7 @@ void MediaPlayerWidget::slot_open_video(unsigned report_id, QList<QListWidgetIte
 {
 	show();
 	raise();
-	activateWindow();
+    activateWindow();
 
 	m_report_id = report_id;
     ui->lwVideoList->clear();
@@ -83,12 +83,20 @@ void MediaPlayerWidget::on_btnPlayOrPause_clicked()
     if(m_strPlayFilePath.empty())
     {
 //		return;
-//        m_strPlayFilePath = "D:\\ProgramSrc\\TestMediaFile\\TestVideo.mkv";
-        QString filePath = QFileDialog::getOpenFileName(this, QString::fromLocal8Bit("请选择要播放的视频文件"));
-        filePath.replace('/','\\');
-        m_strPlayFilePath = filePath.toLocal8Bit().data() ;
-        filePath = filePath.split('.').first();
-        m_strPlayFileName = filePath.toLocal8Bit().data() ;
+        m_strPlayFilePath = "http://192.168.4.248/live/_definst_/stream02.flv?start=0";
+//        QString filePath = QFileDialog::getOpenFileName(this, QString::fromLocal8Bit("请选择要播放的视频文件"));
+//        filePath.replace('/','\\');
+//        m_strPlayFilePath = filePath.toLocal8Bit().data() ;
+//        m_strPlayFilePath.insert(0, "file:///");
+//        filePath = filePath.split('.').first();
+//        m_strPlayFileName = "D:\\ProgramSrc\\TestMediaFile\\sample3" ;
+        if(false == m_player->setMedia(m_strPlayFilePath.c_str()))
+        {
+            m_strPlayFilePath.clear();
+            return;
+        }
+        slotLengthChanged(30*60*1000);
+//        m_player->setPlayWnd(ui->mediaWidget);
     }
 
 	IMediaPlayer::EPlayState state = m_player->getPlayState();
@@ -98,14 +106,6 @@ void MediaPlayerWidget::on_btnPlayOrPause_clicked()
     }
 	else
     {
-        m_player->setVolume(99);
-        m_player->setVolume(99);   //也许是异步调用太快，需要连续发送两次调节音量的指令
-        if(false == m_player->setMedia(m_strPlayFilePath.c_str()))
-        {
-            m_strPlayFilePath.clear();
-            return;
-        }
-
         if(false == m_player->play())
             m_strPlayFilePath.clear();
     }
@@ -208,7 +208,6 @@ void MediaPlayerWidget::slotLengthChanged(qint64 length)
 
 void MediaPlayerWidget::slotPositionChanged(qint64 position)
 {
-	bool bupdate = ui->sliderPlayProcess->updatesEnabled();
 	QTime dtTime(0, 0);
 	dtTime = dtTime.addMSecs(position);
 	QString strTime = dtTime.toString(g_strTimeFormat) + '/';

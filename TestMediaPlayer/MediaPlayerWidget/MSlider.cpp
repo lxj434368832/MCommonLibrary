@@ -6,7 +6,7 @@
 #include<QDebug>
 #include <QTime>
 
-extern const QString  g_strTimeFormat = "mm:ss";
+extern const QString  g_strTimeFormat = "hh:mm:ss";
 
 MSlider::MSlider(QWidget *parent) :
     QSlider(parent)

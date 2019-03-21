@@ -1,11 +1,11 @@
 TEMPLATE = subdirs
 
 SUBDIRS += \
-    Test \
+#    Test \
 #    MExcel \
     QFtp \
-    MCSVParser \
-    Mqwt \
+#    MCSVParser \
+#    Mqwt \
     MFramelessWidget \
     MTabWidget \
     MFramelessWindow\
@@ -17,7 +17,8 @@ SUBDIRS += \
     MGridLayout \
     TestMFramelessWidget \
     TestMediaPlayer \
-    LogQt
+    LogQt \
+    ReadWriteExcel
 
 #CONFIG(debug, debug|release) {
 #    TARGET = Mqwtd

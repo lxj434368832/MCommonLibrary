@@ -12,9 +12,10 @@ class MCustomTabStyle : public QProxyStyle
 public:
     MCustomTabStyle(int TabWidth = 0, int TabHeight = 0, QStyle *style=0);
     void setColor(QColor normal, QColor horver, QColor selected);
+
     QSize sizeFromContents(ContentsType type, const QStyleOption *option,
-        const QSize &size, const QWidget *widget) const;
-    void drawControl(ControlElement element, const QStyleOption *option, QPainter *painter, const QWidget *widget) const;
+        const QSize &size, const QWidget *widget) const override;
+    void drawControl(ControlElement element, const QStyleOption *option, QPainter *painter, const QWidget *widget) const override;
 
 private:
     int m_iTabWidth = 120;

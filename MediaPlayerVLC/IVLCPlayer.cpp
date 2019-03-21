@@ -15,7 +15,7 @@ IVLCPlayer::IVLCPlayer(QObject *parent)
     {
         if(NULL == m_vlcInst)
         {
-            m_vlcInst = libvlc_new(0, NULL);
+            m_vlcInst = libvlc_new(0, nullptr);
         }
         qDebug()<<"libvlc_new Funtion has called!";
     }

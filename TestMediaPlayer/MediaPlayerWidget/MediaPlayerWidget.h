@@ -1,7 +1,7 @@
 #ifndef MEDIAPLAYERQT_H
 #define MEDIAPLAYERQT_H
 
-//#include "../../Framework/include/MFramelessWidget/MFramelessWidget.h"
+#include "../../MFramelessWidget/MFramelessDialog.h"
 #include "../../MediaPlayerVLC/IMediaPlayer.h"
 #include <QDialog>
 
@@ -13,7 +13,7 @@ class QStandardItemModel;
 class QListWidgetItem;
 class WidgetVolumeSlider;
 
-class MediaPlayerWidget : public QDialog
+class MediaPlayerWidget : public MFramelessDialog
 {
     Q_OBJECT
 

@@ -6,6 +6,7 @@
 include(../configuration.pri)
 include($${QT_3RDPARTYPATH}/vlc/vlc.pri)
 include(../MediaPlayerVlC/MediaPlayerVlC.pri)
+include(../MFramelessWidget/MFramelessWidget.pri)
 
 QT       += core gui
 

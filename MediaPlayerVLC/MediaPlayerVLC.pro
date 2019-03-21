@@ -19,11 +19,13 @@ SOURCES += \
     MVLCPlayer.cpp \
     MVLCPlayerThread.cpp \
     MVLCPlayerSelfRender.cpp \
-    IVLCPlayer.cpp
+    IVLCPlayer.cpp \
+    MVLCStreamPlayer.cpp
 
 HEADERS  += \
     IMediaPlayer.h \
     MVLCPlayer.h \
     MVLCPlayerThread.h \
     MVLCPlayerSelfRender.h \
-    IVLCPlayer.h
+    IVLCPlayer.h \
+    MVLCStreamPlayer.h
