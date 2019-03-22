@@ -11,11 +11,11 @@ QT       += core gui
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 DESTDIR  = $$IDE_APP_PATH
-TARGET = MComboBox
-TEMPLATE = app
-#TARGET = $$qtLibraryTarget(MTabWidget)
-#TEMPLATE = lib
-#CONFIG += staticlib
+#TARGET = MComboBox
+#TEMPLATE = app
+TARGET = $$qtLibraryTarget(MTabWidget)
+TEMPLATE = lib
+CONFIG += staticlib
 
 SOURCES += main.cpp\
         MComboBox.cpp

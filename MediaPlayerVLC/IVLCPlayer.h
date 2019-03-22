@@ -6,6 +6,7 @@
  * datetime: 2016-07-18
  ***************************************************************/
 #include "IMediaPlayer.h"
+#include <QMutex>
 
 struct libvlc_instance_t;
 

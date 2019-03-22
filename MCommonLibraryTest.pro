@@ -15,9 +15,10 @@ SUBDIRS += \
     MComboBox \
     MUtility \
     MGridLayout \
-    TestMFramelessWidget \
-    TestMediaPlayer \
-    LogQt \
+	TestMFramelessWidget \
+	TestMediaPlayer \
+    MLog \
+    MConfigManage \
     ReadWriteExcel
 
 #CONFIG(debug, debug|release) {

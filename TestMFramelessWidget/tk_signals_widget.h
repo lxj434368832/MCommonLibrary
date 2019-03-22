@@ -1,5 +1,5 @@
 #pragma once
-#include "MFramelessWidget/MFramelessWidget.h"
+#include "../MFramelessWidget/MFramelessWidget.h"
 #include <QtWidgets>
 
 class tk_signals_title_widget;

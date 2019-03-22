@@ -10,7 +10,8 @@ QT       += core gui
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = MGridLayout
-TEMPLATE = app
+TEMPLATE = lib
+CONFIG+=staticlib
 
 
 SOURCES += main.cpp\

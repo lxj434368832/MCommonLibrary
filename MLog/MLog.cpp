@@ -63,7 +63,7 @@ void MLog::MessageOutput(QtMsgType type, const QMessageLogContext & context, con
     }*/
 
     //输出到标准输出
-    fprintf(stderr, "%s\n", txtMessage.toLocal8Bit().data());
+//    fprintf(stderr, "%s\n", txtMessage.toLocal8Bit().data());
 
     txtMessage += QString("\r\n");
 
@@ -78,7 +78,7 @@ void MLog::MessageOutput(QtMsgType type, const QMessageLogContext & context, con
     }
     else
     {
-        fprintf(stderr, "open file:%s 失败！", s_instance->m_qstrLogPath.toLocal8Bit().data());
+//        fprintf(stderr, "open file:%s 失败！", s_instance->m_qstrLogPath.toLocal8Bit().data());
     }
     file.flush();
     file.close();

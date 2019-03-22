@@ -1,10 +1,9 @@
 #-------------------------------------------------
 # 设置软件版本号(暂时不可用)
 #-------------------------------------------------
-QTCREATOR_VERSION = 4.0.3
+#QTCREATOR_VERSION = 4.7.1
 
 isEqual(QT_MAJOR_VERSION, 5) {
-
     defineReplace(cleanPath) {
         return($$clean_path($$1))
     }

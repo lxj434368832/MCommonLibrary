@@ -11,7 +11,8 @@ QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TEMPLATE = app
+TEMPLATE = lib
+CONFIG += staticlib
 DESTDIR     = $$IDE_APP_PATH
 TARGET = MFramelessWindow
 

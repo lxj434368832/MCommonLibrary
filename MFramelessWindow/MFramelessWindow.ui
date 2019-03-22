@@ -22,14 +22,14 @@
 #frameStatusBar{
 	border-image: url(:/Resource/StatusBarBgIcon.png);
 }
-
+/*
 #videotapemanagerBtn{
 	border:none;
 	font-size:11pt;
 	font-weight:bold;
 	color:#FFFFFF;
 }
-/*
+
 #videotapemanagerBtn:pressed{
 	border:none;
 	background-image: url(:/core/qml/image/icon_lanse.png);
