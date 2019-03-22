@@ -10,17 +10,19 @@ QT       += core gui axcontainer
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 DESTDIR     = $$IDE_APP_PATH
-TARGET = $$qtLibraryTarget(ReadWriteExcel)
+TARGET = ReadWriteExcel
 TEMPLATE = app
 #TEMPLATE = lib
 #CONFIG += staticlib
 
 SOURCES += main.cpp\
     ReadExcel.cpp \
-    TestReadWriteExcel.cpp
+    TestReadWriteExcel.cpp \
+    ReadWriteExcel.cpp
 
 HEADERS  += \
     ReadExcel.h \
-    TestReadWriteExcel.h
+    TestReadWriteExcel.h \
+    ReadWriteExcel.h
 
 FORMS    += ReadWriteExcel.ui

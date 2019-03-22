@@ -1,5 +1,5 @@
-#ifndef READWRITEEXCEL_H
-#define READWRITEEXCEL_H
+#ifndef TESTREADWRITEEXCEL_H
+#define TESTREADWRITEEXCEL_H
 
 #include <QMainWindow>
 
@@ -23,4 +23,4 @@ private:
     Ui::ReadWriteExcel *ui;
 };
 
-#endif // READWRITEEXCEL_H
+#endif // TESTREADWRITEEXCEL_H

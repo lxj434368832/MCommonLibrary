@@ -1,8 +1,9 @@
 #include "TestReadWriteExcel.h"
 #include "ui_ReadWriteExcel.h"
-//#include "ReadExcel.h"
+#include "ReadWriteExcel.h"
 #include <QAxObject>
 #include <QDir>
+#include <QFileDialog>
 
 TestReadWriteExcel::TestReadWriteExcel(QWidget *parent) :
     QMainWindow(parent),
@@ -18,6 +19,13 @@ TestReadWriteExcel::~TestReadWriteExcel()
 
 void TestReadWriteExcel::on_btnReadExcel_clicked()
 {
+    QString qstrFilePath = QFileDialog::getOpenFileName(nullptr, QString::fromLocal8Bit("请选择要打开文件"));
+    qstrFilePath = QDir::toNativeSeparators(qstrFilePath);
+    ReadWriteExcel excel;
+    excel.OpenExcel(qstrFilePath);
+    excel.ReadRowData(2);
+
+    /*
     QAxObject* excel = new QAxObject("Excel.Application");
     excel->setProperty("Visible", false);
     QAxObject* workbooks = excel->querySubObject("WorkBooks");
@@ -48,7 +56,7 @@ void TestReadWriteExcel::on_btnReadExcel_clicked()
     workbook->dynamicCall("Close (Boolean)", false);
     excel->setProperty("DisplayAlerts",1);
 
-    delete excel;
+    delete excel;*/
 }
 
 void TestReadWriteExcel::TutorialExcel()
@@ -75,12 +83,12 @@ void TestReadWriteExcel::TutorialExcel()
 
     //新建一个工作簿
     workbooks->dynamicCall("Add");//新建一个工作簿
-    workbook = excel->querySubObject("ActiveWorkBook");//获取当前工作簿
+    QAxObject *workbook = excel->querySubObject("ActiveWorkBook");//获取当前工作簿
 
     //打开一个已有的工作簿
     QString excel_file_path = "XXXX.xlsx";
     workbooks->dynamicCall("Open(const QString&)", excel_file_path);
-    QAxObject *workbook = excel->querySubObject("ActiveWorkBook");
+    workbook = excel->querySubObject("ActiveWorkBook");
     //或？
    workbook = workbooks->querySubObject("Open(const QString&)", excel_file_path);   //需要当前文件被打开过才行
 
@@ -131,20 +139,20 @@ void TestReadWriteExcel::TutorialExcel()
     //4.1. 大数据量读取
     //读取所有单元格内容-数据量大请使用此方式，只需要进行一次操作即可读取所有内容到内容，避免重复每个单元格进行QAxObject操作
     QVariant var;
-    usedRange = worksheet->querySubObject("UsedRange");//获取用户区域范围
-    if(NULL == usedRange || usedRange->isNull()) {
-     return var;
+    QAxObject*axusedRange = worksheet->querySubObject("UsedRange");//获取用户区域范围
+    if(NULL == axusedRange || axusedRange->isNull()) {
+//     return var;
     }
-    var = usedRange->dynamicCall("Value");//读取区域内所有值
-    delete usedRange;
+    var = axusedRange->dynamicCall("Value");//读取区域内所有值
+    delete axusedRange;
     //此时结果以QVariant保存，需要自行转换成QList<QList<QVariant>>
 
     QList<QList<QVariant>> excel_list;  //每个QList<QVariant>就是一行数据
-    auto rows = var.toList();
-    for(auto row : rows)
-    {
-        excel_list.append(row.toList());
-    }
+//    QList<QVariant> rows = var.toList();
+//    for(auto row : rows)
+//    {
+//        excel_list.append(row.toList());
+//    }
 
    // 4.2. 大数据量写入
 
@@ -154,7 +162,7 @@ void TestReadWriteExcel::TutorialExcel()
     user_range->setProperty("Value", var);//需要将QList<QList<QVarient>>转换为QVarient
 
     //4.3. 范例：一个完整的打开-读取-关闭的操作
-    QString excel_file_path = QDir::currentPath()+"/a.xlsx";
+    /*QString excel_file_path = QDir::currentPath()+"/a.xlsx";
     excel_file_path = QDir::toNativeSeparators(excel_file_path);
     QAxObject *excel = new QAxObject(this);//建立excel操作对象
     excel->setControl("Excel.Application");//连接Excel控件
@@ -168,7 +176,7 @@ void TestReadWriteExcel::TutorialExcel()
     QVariant var = usedRange->dynamicCall("Value");//这里是所有的内容
     workbook->dynamicCall( "Close(Boolean)", false );
     excel->dynamicCall( "Quit(void)" );
-    delete excel;
+    delete excel;*/
    /* 注意：
     1、此范例为了看到效果吧窗口和警告设置为了显示，请自行改为false
     2、excel所有操作均是通过QAxObject 进行COM组件的操作，包括打开文件也是，所以路径必须传递完整路径，不能传递相对路径
@@ -177,7 +185,7 @@ void TestReadWriteExcel::TutorialExcel()
     5、上述操作均为判断返回值，若文件不存在后续内容会报错*/
 
     //5线程中的解决
-    #include <windows.h>
+    /*#include <windows.h>
    // 在线程开始的时候初始化COM库：
     HRESULT r = OleInitialize(0);
     if (r != S_OK && r != S_FALSE)
@@ -185,6 +193,6 @@ void TestReadWriteExcel::TutorialExcel()
         qWarning("Qt:初始化Ole失败（error %x）",(unsigned int)r);
     }
     //使用结束后需要释放掉：
-    OleUninitialize();
+    OleUninitialize();*/
 }
 
