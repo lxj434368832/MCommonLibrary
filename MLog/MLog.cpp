@@ -4,6 +4,7 @@
 #include <QDateTime>
 #include <QTextStream>
 #include <QMutex>
+#include <Windows.h>
 
  MLog* MLog::s_instance = nullptr;
 
@@ -62,13 +63,15 @@ void MLog::MessageOutput(QtMsgType type, const QMessageLogContext & context, con
         break;
     }*/
 
+
     //输出到标准输出
-//    fprintf(stderr, "%s\n", txtMessage.toLocal8Bit().data());
+    fprintf(stderr, "%s\n", txtMessage.toLocal8Bit().data());
+//    OutputDebugStringA(txtMessage.toLocal8Bit().data());
 
     txtMessage += QString("\r\n");
-
     //加锁
     s_instance->m_mutex.lock();
+
     //输出到文件(写，追加模式)
     QFile file(s_instance->m_qstrLogPath);
     if(file.open(QIODevice::WriteOnly | QIODevice::Append))

@@ -10,9 +10,9 @@ int main(int argc, char *argv[])
 
 //    QTextCodec::codecForName("GBK")->toUnicode("中文");
     // 打印信息
-    LOGM("%s", "test macro define");
+//    LOGM("%s", "test macro define");
 
-    logm()<<"测试宏定义！";
+//    logm()<<"测试宏定义！";
     qDebug("%s", "中文");
     qDebug()<<QString::fromLocal8Bit("中文不行呢！");
     qWarning("This is a warning message.");
