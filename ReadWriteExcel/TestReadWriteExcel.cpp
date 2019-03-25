@@ -23,7 +23,20 @@ void TestReadWriteExcel::on_btnReadExcel_clicked()
     qstrFilePath = QDir::toNativeSeparators(qstrFilePath);
     ReadWriteExcel excel;
     excel.OpenExcel(qstrFilePath);
-    excel.ReadRowData(2);
+
+	QList<QList<QVariant>> cells;
+
+	for (int irow = 0; irow < 10000; irow++)
+	{
+		QList<QVariant> row;
+		for (int icol = 0; icol < 100; icol++)
+		{
+			row.append(QVariant(irow * icol));
+		}
+		cells.append(row);
+	}
+	excel.WriteCurrentSheet(cells);
+    //excel.ReadRowData(2);
 
     /*
     QAxObject* excel = new QAxObject("Excel.Application");

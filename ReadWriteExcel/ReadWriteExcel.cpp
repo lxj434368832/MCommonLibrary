@@ -1,19 +1,18 @@
 #include "ReadWriteExcel.h"
-//#include <exception>
 #include <QFile>
 #include <QDebug>
 #include <QAxObject>
+#include <QElapsedTimer>
 
 ReadWriteExcel::ReadWriteExcel()
 {
 	m_bOpenSuccess = false;
 	m_AxExcel = new QAxObject("Excel.Application"); //连接excel控件
-	//m_AxExcel->setProperty("Visible", true);       //设置为不显示窗体	
+	//m_AxExcel->setProperty("Visible", true);       //设置为不显示窗体,如果没有激活office调用则会出现错误	
 	//m_AxExcel->dynamicCall("SetVisible(bool Visible)", "true");//设置为不显示窗体
 	m_AxExcel->setProperty("DisplayAlerts", false);//不显示任何警告信息，如关闭时的是否保存提示
 	m_AxWorkbooks = m_AxExcel->querySubObject("WorkBooks");
 
-	m_AxWorkbooks = nullptr;
 	m_AxWorkbook = nullptr;
 	m_AxWorksheets = nullptr;
 	m_AxWorksheet = nullptr;
@@ -117,32 +116,20 @@ QList<QList<QVariant> > ReadWriteExcel::ReadAllData()
 	}
 }
 
-#include <QElapsedTimer>
 QList<QVariant> ReadWriteExcel::ReadRowData(int row)
 {
-	QList<QVariant> listRow;
-	QAxObject* axCell;
+    QList<QVariant> listRow;
 	if (false == m_bOpenSuccess || row >= m_iRowCount) return listRow;
 
 	try {
-		int iRow = row + m_iStartRow;
-		QElapsedTimer elap;
-		elap.start();
-        QAxObject *axRange = m_AxWorksheet->querySubObject("Range(QVariant, QVariant)","A3", "H3");
+		int iRow = m_iStartRow + row;
+        QString qstrRange = GetRangeString(iRow, m_iStartCol, iRow, m_iColCount);
+        QAxObject *axRange = m_AxWorksheet->querySubObject("Range(const QString&)", qstrRange);
+//        QAxObject *axRange = m_AxWorksheet->querySubObject("Range(QVariant, QVariant)","A3", "H3");
         QVariant var = axRange->dynamicCall("Value2()");
 		auto rows = var.toList();
-		listRow = rows.at(0).toList();
+        listRow = rows.at(0).toList();
 
-		qint64 ielapse1 = elap.elapsed();
-
-		elap.restart();
-		for (int col = 1; col <= m_iColCount; col++)
-		{
-			axCell = m_AxWorksheet->querySubObject("Cells(int,int)", iRow, col);
-			listRow.append(axCell->dynamicCall("Value2()"));
-		}
-		qint64 ielapse2 = elap.elapsed();
-		qDebug() << "获取一行数据花费ielapse1:" << ielapse1 << " ielapse2:" << ielapse2;
 		return listRow;
 	}
 	catch (...)
@@ -173,42 +160,115 @@ QVariant ReadWriteExcel::ReadCelData(int row, int col)
 }
 
 
-bool ReadWriteExcel::WriteCurrentSheet(const QList<QList<QVariant> > rows)
+bool ReadWriteExcel::WriteCurrentSheet(const QList<QList<QVariant> > contexts)
 {
-    if(rows.size() <= 0)
+    if(contexts.size() <= 0)
         return false;
     if(nullptr == m_AxWorksheet || m_AxWorksheet->isNull())
         return false;
 
-    int iRowCount = rows.size();
-    int iColCount = rows.at(0).size();
+    int iRowCount = contexts.size();
+    int iColCount = contexts.at(0).size();
+	try
+	{
+		QElapsedTimer elap;
+		elap.start();
 
-    QString rangStr;
-    convertToColName(iColCount, rangStr);
-    rangStr += QString::number(iRowCount);
-    rangStr = "A1:" + rangStr;
-    qDebug()<<rangStr;
+		QString qstrRange = GetRangeString(1, 1, iRowCount, iColCount);
+		QAxObject *axRange = m_AxWorksheet->querySubObject("Range(const QString&)", qstrRange);
+		//    QAxObject *axRange = m_AxWorksheet->querySubObject("Range(QVariant, QVariant)","A1", rangStr);
+		if (nullptr == axRange || axRange->isNull())
+			return false;
 
-    QAxObject *axRange = m_AxWorksheet->querySubObject("Range(const QString&)", rangStr);
-//    QAxObject *axRange = m_AxWorksheet->querySubObject("Range(QVariant, QVariant)","A1", rangStr);
-    if(NULL == axRange || axRange->isNull())
-        return false;
+		QVariantList rows;
+		for (QVariantList row : contexts)
+			rows.append(QVariant(row));
+		QVariant var = QVariant(rows);
+		bool bRet = axRange->setProperty("Value", var);
+		delete axRange;
 
-    QVariant var = castListListVariant2Variant(rows);
-    bool bRet = axRange->setProperty("Value", var);
-    delete axRange;
+		m_AxWorkbook->dynamicCall("Save()"); //保存工作薄
 
-    return bRet;
+		qint64 qelaped = elap.elapsed();
+		qDebug() << "write excel time:" << qelaped;
+		return bRet;
+	}
+	catch (const std::exception& ex)
+	{
+		qDebug() <<QString::fromLocal8Bit("写入工作簿发生异常！")<< ex.what();
+		return false;
+	}
 }
 
-bool ReadWriteExcel::WriteRowData(int row, QList<QVariant>)
+bool ReadWriteExcel::WriteRowData(int row, QList<QVariant> rowData)
 {
-	return true;
+	int iColCount = rowData.size();
+	if (iColCount <= 0)
+		return false;
+	if (nullptr == m_AxWorksheet || m_AxWorksheet->isNull())
+		return false;
 
+	try
+	{
+		QElapsedTimer elap;
+		elap.start();
+
+		QString qstrRange = GetRangeString(row, 1, row, iColCount);
+		QAxObject *axRange = m_AxWorksheet->querySubObject("Range(const QString&)", qstrRange);
+		//    QAxObject *axRange = m_AxWorksheet->querySubObject("Range(QVariant, QVariant)","A1", rangStr);
+		if (nullptr == axRange || axRange->isNull())
+			return false;
+
+		QVariantList rows;
+		rows.append(QVariant(rowData));
+		QVariant var = QVariant(rows);
+		bool bRet = axRange->setProperty("Value", var);
+		delete axRange;
+
+		m_AxWorkbook->dynamicCall("Save()"); //保存工作薄
+
+		qint64 qelaped = elap.elapsed();
+		qDebug() << "write excel time:" << qelaped;
+		return bRet;
+	}
+	catch (const std::exception& ex)
+	{
+		qDebug() << QString::fromLocal8Bit("写入工作簿发生异常！") << ex.what();
+		return false;
+	}
 }
 
 bool ReadWriteExcel::WriteCellData(int row, int col)
 {
 
-	return true;
+    return true;
 }
+
+QString ReadWriteExcel::GetRangeString(int iStartRow, int iStartCol, int iEndRow, int iEndCol)
+{
+    QString qstrStart = convertToColName(iStartCol);
+    qstrStart += QString::number(iStartRow);
+
+    QString qstrEnd = convertToColName(iEndCol);
+    qstrEnd += QString::number(iEndRow);
+
+    QString qstrRange = qstrStart +':' + qstrEnd;
+    qDebug()<<"operate excel range "<< qstrRange;
+    return qstrRange;
+}
+
+QString ReadWriteExcel::convertToColName(int number)
+{
+    QString qstrName;
+	while (number > 0)
+	{
+		int mod = number % 26;
+		if (0 == mod)
+			mod = 26;
+		qstrName.push_front(QChar(mod + 0x40));	//A对应0x41
+		number = (number - mod) / 26;
+	}
+
+	return qstrName;
+}
+

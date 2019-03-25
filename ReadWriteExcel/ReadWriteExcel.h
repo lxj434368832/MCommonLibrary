@@ -32,7 +32,7 @@ public:
 	* param :
 	* return:
 	*************************************************************************/
-    bool WriteCurrentSheet(const QList<QList<QVariant>> rows);
+    bool WriteCurrentSheet(const QList<QList<QVariant>> contexts);
 
 	/*************************************************************************
 	* function:写一行数据到文件中
@@ -47,6 +47,17 @@ public:
 	* return:
 	*************************************************************************/
 	bool WriteCellData(int row, int col);
+
+private:
+
+    QString GetRangeString(int iStartRow, int iStartCol, int iEndRow, int iEndCol);
+
+    /*************************************************************************
+    * function:把列数转换为excel的字母列号
+    * param data:大于0的数
+    * return:字母列号，如1->A 26->Z 27 AA
+    *************************************************************************/
+    QString convertToColName(int number);
 
 private:
 	bool			m_bOpenSuccess;		//文件打开成功标志
