@@ -20,6 +20,8 @@ SUBDIRS += \
     MLog \
     MConfigManage \
     ReadWriteExcel
+    QPainterExample \
+    TestCustomGridLayout
 
 #CONFIG(debug, debug|release) {
 #    TARGET = Mqwtd
