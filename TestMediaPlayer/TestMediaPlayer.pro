@@ -14,7 +14,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 DESTDIR     = $$IDE_APP_PATH
 TARGET = TestMediaPlayer
-TEMPLATE = app
+TEMPLATE = lib
 
 
 SOURCES += main.cpp \

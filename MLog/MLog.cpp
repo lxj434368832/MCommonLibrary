@@ -35,8 +35,12 @@ MLog::~MLog()
 {
     m_bRun = false;
     m_wait.wakeOne();
-    terminate();
-    wait();
+	quit();
+    if(false ==wait(3000))
+    {
+        ::OutputDebugStringA( "退出日志线程超时3s！");
+        terminate();
+    }
     qInstallMessageHandler(m_oldHander);
     s_instance = nullptr;
 }
@@ -57,15 +61,15 @@ void MLog::AddLog(QString &qstrTxtMsg)
 
 void MLog::run()
 {
-    while(m_bRun)
+    while(m_bRun || false == m_listLog.isEmpty())	//就算停止了也得等所有的日志都写完了
     {
-        m_mutex.lock();
+        QMutexLocker lck(&m_mutex);
         if(m_listLog.isEmpty())
             m_wait.wait(&m_mutex);
 
+        if (m_listLog.isEmpty())    break;	//到这里不应该为空，如果为空，表示退出
         WriteLog(m_listLog.front());
         m_listLog.pop_front();
-        m_mutex.unlock();
     }
 }
 

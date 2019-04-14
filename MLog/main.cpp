@@ -18,7 +18,8 @@ int main(int argc, char *argv[])
     qWarning("This is a warning message.");
     qCritical("This is a critical message.");
 //    qFatal("This is a fatal message.");
-    a.exec();
+//    a.exec();
+    system("pause");
 
     return 0;
 }

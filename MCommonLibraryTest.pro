@@ -15,18 +15,10 @@ SUBDIRS += \
     MComboBox \
     MUtility \
     MGridLayout \
-	TestMFramelessWidget \
-	TestMediaPlayer \
+    TestMFramelessWidget \
+    TestMediaPlayer \
     MLog \
     MConfigManage \
-    ReadWriteExcel
+    ReadWriteExcel \
     QPainterExample \
     TestCustomGridLayout
-
-#CONFIG(debug, debug|release) {
-#    TARGET = Mqwtd
-#}
-#CONFIG(release, debug|release) {
-#    TARGET = Mqwt
-#}
-#TARGET = $$qtLibraryTarget(Mqwt)

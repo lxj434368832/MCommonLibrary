@@ -11,7 +11,7 @@ qtHaveModule(opengl): QT += opengl
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TEMPLATE = app
+TEMPLATE = lib
 DESTDIR     = $$IDE_APP_PATH
 TARGET = MediaPlayerQT
 
