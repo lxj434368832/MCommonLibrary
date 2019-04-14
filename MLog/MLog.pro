@@ -6,10 +6,10 @@
 include(../configuration.pri)
 QT       += core
 
-TEMPLATE = lib
-CONFIG += staticlib
 DESTDIR  = $$IDE_APP_PATH
 TARGET = $$qtLibraryTarget(MLog)
+TEMPLATE = lib
+CONFIG += staticlib
 
 #CONFIG += console
 

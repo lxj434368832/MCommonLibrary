@@ -12,7 +12,8 @@ MConfigManage::MConfigManage(QString strFilePath, QObject *parent) :
 
 MConfigManage::~MConfigManage()
 {
-
+	delete configSettings;
+	delete iniSettings;
 }
 
 /*-------------------------------------------
