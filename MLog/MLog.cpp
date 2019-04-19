@@ -11,7 +11,7 @@
 
  MLog* MLog::s_instance = nullptr;
 
-MLog::MLog()
+MLog::MLog() : QThread()
 {
     QString logDirectory  =QCoreApplication::applicationDirPath() + "/Log/";
     QDir dir(logDirectory);

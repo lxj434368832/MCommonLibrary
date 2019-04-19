@@ -19,7 +19,7 @@ int main(int argc, char *argv[])
     qCritical("This is a critical message.");
 //    qFatal("This is a fatal message.");
 //    a.exec();
-    system("pause");
+//    system("pause");
 
     return 0;
 }

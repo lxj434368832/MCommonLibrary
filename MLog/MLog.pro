@@ -8,8 +8,8 @@ QT       += core
 
 DESTDIR  = $$IDE_APP_PATH
 TARGET = $$qtLibraryTarget(MLog)
-TEMPLATE = app
-#CONFIG += staticlib
+TEMPLATE = lib
+CONFIG += staticlib
 
 CONFIG += console
 

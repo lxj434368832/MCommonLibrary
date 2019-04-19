@@ -20,5 +20,4 @@ SUBDIRS += \
     MLog \
     MConfigManage \
     ReadWriteExcel \
-    QPainterExample \
-    TestCustomGridLayout
+    QPainterExample
