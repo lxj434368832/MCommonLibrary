@@ -11,7 +11,12 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>图片浏览</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">#ImageShowWidget{
+	background-color: rgb(202, 202, 202);
+}</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <property name="spacing">
@@ -49,7 +54,7 @@
        </spacer>
       </item>
       <item>
-       <widget class="QPushButton" name="pushButton">
+       <widget class="QPushButton" name="btnModeOne">
         <property name="minimumSize">
          <size>
           <width>0</width>
@@ -71,10 +76,13 @@
         <property name="text">
          <string>1×1</string>
         </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="pushButton_2">
+       <widget class="QPushButton" name="btnModeTwo">
         <property name="minimumSize">
          <size>
           <width>0</width>
@@ -96,10 +104,13 @@
         <property name="text">
          <string>2×2</string>
         </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="pushButton_3">
+       <widget class="QPushButton" name="btnModeThree">
         <property name="minimumSize">
          <size>
           <width>0</width>
@@ -121,10 +132,13 @@
         <property name="text">
          <string>3×3</string>
         </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="pushButton_4">
+       <widget class="QPushButton" name="btnModeFour">
         <property name="minimumSize">
          <size>
           <width>0</width>
@@ -146,10 +160,13 @@
         <property name="text">
          <string>4×4</string>
         </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="pushButton_5">
+       <widget class="QPushButton" name="btnModeFive">
         <property name="minimumSize">
          <size>
           <width>0</width>
@@ -171,10 +188,13 @@
         <property name="text">
          <string>5×5</string>
         </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="pushButton_6">
+       <widget class="QPushButton" name="btnModeSix">
         <property name="minimumSize">
          <size>
           <width>0</width>
@@ -196,10 +216,13 @@
         <property name="text">
          <string>6×6</string>
         </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="pushButton_7">
+       <widget class="QPushButton" name="btnModeSeven">
         <property name="minimumSize">
          <size>
           <width>0</width>
@@ -220,6 +243,9 @@
         </property>
         <property name="text">
          <string>7×7</string>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
         </property>
        </widget>
       </item>
@@ -288,19 +314,20 @@
     </widget>
    </item>
    <item>
-    <widget class="QWidget" name="wCenterWidget" native="true">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
+    <widget class="QScrollArea" name="scrollArea">
+     <property name="widgetResizable">
+      <bool>true</bool>
      </property>
-     <property name="minimumSize">
-      <size>
-       <width>0</width>
-       <height>30</height>
-      </size>
-     </property>
+     <widget class="QWidget" name="ImageShowWidget">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>1120</width>
+        <height>615</height>
+       </rect>
+      </property>
+     </widget>
     </widget>
    </item>
   </layout>

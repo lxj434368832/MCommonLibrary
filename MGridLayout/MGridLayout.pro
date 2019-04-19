@@ -9,12 +9,21 @@ QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
+DESTDIR  = $$IDE_APP_PATH
 TARGET = MGridLayout
-TEMPLATE = lib
-CONFIG+=staticlib
+TEMPLATE = app
+#CONFIG+=staticlib
 
 
 SOURCES += main.cpp\
-        MGridLayout.cpp
+        MGridLayout.cpp \
+    FormImageViewer.cpp \
+    FormSingleImage.cpp
 
-HEADERS  += MGridLayout.h
+HEADERS  += MGridLayout.h \
+    FormImageViewer.h \
+    FormSingleImage.h
+
+FORMS += \
+    FormImageViewer.ui \
+    FormSingleImage.ui

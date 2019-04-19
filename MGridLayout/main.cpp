@@ -1,11 +1,11 @@
-#include "MGridLayout.h"
+#include "FormImageViewer.h"
 #include <QApplication>
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    MGridLayout w;
-//    w.show();
+    FormImageViewer w;
+    w.show();
 
     return a.exec();
 }

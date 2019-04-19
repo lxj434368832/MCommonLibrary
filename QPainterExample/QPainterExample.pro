@@ -10,10 +10,10 @@ QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-#CONFIG += staticlib
 DESTDIR  = $$IDE_APP_PATH
 TARGET = QPainterExample
 TEMPLATE = lib
+#CONFIG += staticlib
 
 
 SOURCES += main.cpp\
