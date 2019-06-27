@@ -232,6 +232,7 @@ void PlotBloodOxygenWave::DrawHistoryData(quint64 ulStartTime, QVector<unsigned 
 
     data->interval = QwtInterval(interval.maxValue() - data->interval.width(), interval.maxValue());
     m_pPlot->setAxisScale(QwtPlot::xBottom, data->interval.minValue(), data->interval.maxValue());
+	data->pPOCurve->SetCurrentPoint(-1);
     //ÖØ»æ
     m_pPlot->replot();
 }

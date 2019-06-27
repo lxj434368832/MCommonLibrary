@@ -41,7 +41,7 @@ bool MCycleCurveData::UpdateCurveData(qint64 elapsed)
 {
 	unsigned char ucValue = 0;
 
-	//if (m_lCumulativeTime - elapsed >= m_uSamplingRate)
+	//if (m_ulCumulativeTime - elapsed >= m_uSamplingRate)
 	//	return false;
 
     do

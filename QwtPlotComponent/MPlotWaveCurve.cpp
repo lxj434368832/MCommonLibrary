@@ -42,7 +42,6 @@ void MPlotWaveCurve::drawCurve(QPainter * painter, int style,
 		}
 		else
 		{
-			//qDebug() << QString::fromLocal8Bit("²»»æÖÆÍ¼ÐÎ");
 			drawLines(painter, xMap, yMap, canvasRect, from, to);
 		}
 		break;

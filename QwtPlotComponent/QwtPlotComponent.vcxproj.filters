@@ -72,6 +72,9 @@
     <ClCompile Include="MCurveData.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="MPlotWaveCurve.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GeneratedFiles\ui_MainWindow.h">
@@ -93,6 +96,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="MCurveData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MPlotWaveCurve.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
