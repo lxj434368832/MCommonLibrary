@@ -5,8 +5,8 @@
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
-    QTextCodec::setCodecForLocale(QTextCodec::codecForName("GBK"));
     MLog log;
+    QTextCodec::setCodecForLocale(QTextCodec::codecForName("GBK"));
 
 //    QTextCodec::codecForName("GBK")->toUnicode("中文");
     // 打印信息

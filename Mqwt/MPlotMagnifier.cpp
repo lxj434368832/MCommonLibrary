@@ -50,7 +50,6 @@ void MPlotMagnifier::resetMagnifierStatus()
 
 void MPlotMagnifier::rescale(double factor)
 {
-
     QwtPlot *plot = QwtPlotMagnifier::plot();
     const QwtScaleDiv &xScale = plot->axisScaleDiv(QwtPlot::xBottom);
     const QwtScaleDiv &yScale = plot->axisScaleDiv(QwtPlot::yLeft);

@@ -13,27 +13,24 @@
 
 MLog::MLog() : QThread()
 {
-    QString logDirectory  =QCoreApplication::applicationDirPath() + "/Log/";
-    QDir dir(logDirectory);
-    if(!dir.exists())
-        dir.mkdir(logDirectory);
-
-    QString qstrTime = QDateTime::currentDateTime().toString("yyyyMMddHHmmss");
-    m_qstrLogPath = logDirectory + (QCoreApplication::applicationName() + qstrTime+".log");
-
     s_instance = this;
+    CheckFileName();
     m_oldHander = qInstallMessageHandler(MLog::MessageOutput);
 
     // 改变缺省消息处理程序的输出
     qSetMessagePattern("%{time [yyyy-MM-dd hh:mm:ss zzz]}|[%{function}:%{line}]<%{if-debug}Debug%{endif}%{if-info}Info%{endif}"
                        "%{if-warning}Warn%{endif}%{if-critical}Critical%{endif}%{if-fatal}Fatal%{endif}> %{message}");
    m_bRun = true;
+   m_iTimerId = startTimer(3600000, Qt::VeryCoarseTimer);        //每隔1小时检测文件名
+
     start();
 }
 
 MLog::~MLog()
 {
     m_bRun = false;
+    killTimer(m_iTimerId);
+
     m_wait.wakeOne();
 	quit();
     if(false ==wait(3000))
@@ -48,7 +45,12 @@ MLog::~MLog()
 void MLog::MessageOutput(QtMsgType type, const QMessageLogContext & context, const QString & msg)
 {
     QString qstrTxtMsg = qFormatLogMessage( type, context, msg);
-   s_instance->AddLog(qstrTxtMsg);
+    s_instance->AddLog(qstrTxtMsg);
+}
+
+void MLog::timerEvent(QTimerEvent *event)
+{
+    CheckFileName();
 }
 
 void MLog::AddLog(QString &qstrTxtMsg)
@@ -70,6 +72,25 @@ void MLog::run()
         if (m_listLog.isEmpty())    break;	//到这里不应该为空，如果为空，表示退出
         WriteLog(m_listLog.front());
         m_listLog.pop_front();
+    }
+}
+
+void MLog::CheckFileName()
+{
+    QDateTime dt =  QDateTime::currentDateTime();
+
+    if(dt.date().dayOfYear() != m_iDay)
+    {
+        QString logDirectory  =QCoreApplication::applicationDirPath() + "/Log/";
+        QDir dir(logDirectory);
+        if(!dir.exists())
+            dir.mkdir(logDirectory);
+
+        QString qstrTime = dt.toString("yyyyMMddHHmmss");
+        m_mutex.lock();
+        m_qstrLogPath = logDirectory + (QCoreApplication::applicationName() + qstrTime+".log");
+        m_mutex.unlock();
+        m_iDay = dt.date().dayOfYear();
     }
 }
 

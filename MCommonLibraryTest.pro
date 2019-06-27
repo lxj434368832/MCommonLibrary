@@ -5,7 +5,7 @@ SUBDIRS += \
 #    MExcel \
     QFtp \
 #    MCSVParser \
-#    Mqwt \
+    Mqwt \
     MFramelessWidget \
     MTabWidget \
     MFramelessWindow\
@@ -20,4 +20,5 @@ SUBDIRS += \
     MLog \
     MConfigManage \
     ReadWriteExcel \
-    QPainterExample
+    QPainterExample \
+    QwtPlotComponent

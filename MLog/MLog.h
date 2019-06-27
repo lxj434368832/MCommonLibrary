@@ -22,16 +22,21 @@ class MLog : public QThread
 public:
     MLog();
     ~MLog() override;
-    void InitLog();
-    static void MessageOutput(QtMsgType, const QMessageLogContext&,const QString&);
+
+protected:
+    void timerEvent(QTimerEvent *event) override;
 
 private:
+    static void MessageOutput(QtMsgType, const QMessageLogContext&,const QString&);
     virtual void run() override;
+
+    void CheckFileName();
     void AddLog(QString &qstrTxtMsg);
     void WriteLog(QString &qstrTxtMsg);
 
 private:
     static MLog* s_instance;
+
     QString m_qstrLogPath;
     QtMessageHandler m_oldHander;
 
@@ -39,6 +44,9 @@ private:
     QStringList         m_listLog;
     QMutex                m_mutex;
     QWaitCondition  m_wait;
+
+    int                         m_iTimerId;     //检测文件名的定时器
+    int                         m_iDay;           //将文件按天分段
 };
 
 #endif // MLOG_H

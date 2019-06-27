@@ -6,7 +6,7 @@ MConfigManage::MConfigManage(QString strFilePath, QObject *parent) :
     configSettings = new QSettings(strFilePath, QSettings::IniFormat);
     configSettings->setIniCodec(QTextCodec::codecForName("GBK"));
 
-    iniSettings = new QSettings(QSettings::IniFormat, QSettings::UserScope, QLatin1String("CommonLibrary"), QLatin1String("Config"));
+    iniSettings = new QSettings(QSettings::IniFormat, QSettings::UserScope, QLatin1String("AmbitionCom"), QLatin1String("MainClient"));
     iniSettings->setIniCodec(QTextCodec::codecForName("GBK"));
 }
 
