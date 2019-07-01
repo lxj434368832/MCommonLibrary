@@ -27,10 +27,11 @@ public:
     *************************************************************************/
     void SetParam(unsigned uSamplingRate , double dXAxisWidth, unsigned uPlotIntervalTime);
 
-    void BuildPlot();
+    virtual void BuildPlot();
 
-    void Start();
-    void Stop();
+    virtual void Start();
+    virtual void Stop();
+	void Reset();
 
     //添加波形数据
     void AddWaveData(QList<unsigned char> list);
@@ -39,6 +40,7 @@ public:
     void DrawHistoryData(quint64 ulStartTime, QVector<unsigned char> list);
 
     void InitPlot();
+
     //添加网格
     void AddPlotGrid();
 
@@ -50,9 +52,11 @@ public:
 
     // 添加滚轮放大/缩小
     void AddMagnifier();
+    void SetMagnifierEnabled(bool on);
 
     //添加左右平移
     void AddPanner();
+    void SetPannerEnabled(bool on);
 
     //添加缩放
     void AddZoomer();
@@ -63,21 +67,14 @@ public:
 	//更新画布
 	void UpdateCurve();
 
-signals:
-    //通知QwtPlot进行重绘
-    void signalReplot();
-
 protected:
     virtual void timerEvent(QTimerEvent *event);
 
-private slots:
-    void slotCanvasMoved(int dx, int dy);
-
 private:
     QwtPlot              *m_pPlot;
-	unsigned			m_uDrawCounter;			//绘制计数
+	unsigned			m_uDrawCounter;				//绘制计数
 	unsigned			m_uDataCheckCounter;		//添加波形数据计数
-    unsigned        m_uDataCheckInterval;
+    unsigned			m_uDataCheckInterval;
 
 	class PrivateData;
     PrivateData			 *data;

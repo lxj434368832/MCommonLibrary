@@ -75,6 +75,15 @@
     <ClCompile Include="MPlotWaveCurve.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="qwtPlotManage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_qwtPlotManage.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_qwtPlotManage.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GeneratedFiles\ui_MainWindow.h">
@@ -113,6 +122,9 @@
       <Filter>Header Files</Filter>
     </CustomBuild>
     <CustomBuild Include="PlotPulseOxygen.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="qwtPlotManage.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
   </ItemGroup>

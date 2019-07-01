@@ -12,10 +12,10 @@ bool MCycleCurveData::UpdateCurveData(qint64 elapsed)
     do
     {
        QMutexLocker lck(&mutex);
-        if(pendingValues.empty()) break;
+        if(m_listPendingValue.empty()) break;
 
-		ucValue = pendingValues.front();
-        pendingValues.pop_front();
+		ucValue = m_listPendingValue.front();
+        m_listPendingValue.pop_front();
     }while(false);
 
 	int iCount = m_vctValue.size();

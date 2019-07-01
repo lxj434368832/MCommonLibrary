@@ -24,6 +24,7 @@ class PlotBloodOxygenWave::PrivateData
 {
 public:
 	MPlotMagnifier		*pMagnifier = nullptr;
+    QwtPanner                 *pPanner = nullptr;
 	MPlotWaveCurve		*pPOCurve = nullptr;
 	MCycleCurveData		*pWaveData = nullptr;
 
@@ -93,7 +94,6 @@ void PlotBloodOxygenWave::SetParam(unsigned uSamplingRate, double dXAxisWidth, u
     {
         ::ChangeTimerQueueTimer(NULL, data->hTimer, uIntervalTime, uIntervalTime);
     }
-    data->elapsed.restart();
 
     if(data->DrawTimerId)   //如果开启了绘制定时器，则重置
     {
@@ -135,7 +135,7 @@ void PlotBloodOxygenWave::Start()
 
 void PlotBloodOxygenWave::Stop()
 {
-    if (EDS_STOP != data->eStatus)
+    if (EDS_START == data->eStatus)
 	{
         data->eStatus = EDS_STOP;
 		if (data->hTimer)
@@ -144,8 +144,14 @@ void PlotBloodOxygenWave::Stop()
 
 		killTimer(data->DrawTimerId);
 		data->DrawTimerId = 0;
-		data->pWaveData->Reset();
 	}
+}
+
+void PlotBloodOxygenWave::Reset()
+{
+	data->pWaveData->Reset();
+	data->interval = data->pWaveData->GetXAxisInterval();
+	m_pPlot->setAxisScale(QwtPlot::xBottom, data->interval.minValue(), data->interval.maxValue());
 }
 
 void PlotBloodOxygenWave::AddWaveData(QList<unsigned char> list)
@@ -228,7 +234,7 @@ void PlotBloodOxygenWave::DrawHistoryData(quint64 ulStartTime, QVector<unsigned 
 	data->eStatus = EDS_HISTORY;
     data->pWaveData->AddHistoryData(ulStartTime, list);
     //刷新坐标轴
-    QwtInterval interval =  data->pWaveData->GetXAxisInterval();
+    QwtInterval interval = data->pWaveData->GetXAxisInterval();
 
     data->interval = QwtInterval(interval.maxValue() - data->interval.width(), interval.maxValue());
     m_pPlot->setAxisScale(QwtPlot::xBottom, data->interval.minValue(), data->interval.maxValue());
@@ -242,7 +248,7 @@ void PlotBloodOxygenWave::InitPlot()
     //设置标题
 //    m_pPlot->setTitle("My Project");
     //设置画布或背景
-//    m_pPlot->setCanvas( new MCanvas() );
+    m_pPlot->setCanvas( new MCanvas() );
     m_pPlot->setCanvasBackground(Qt::white);
     //设置坐标轴的名称
 //    m_pPlot->setAxisTitle(QwtPlot::xBottom, QStringLiteral("X轴"));
@@ -297,11 +303,20 @@ void PlotBloodOxygenWave::AddMagnifier()
     data->pMagnifier->setAxisEnabled(QwtPlot::yLeft, false);
 }
 
+void PlotBloodOxygenWave::SetMagnifierEnabled(bool on)
+{
+    data->pMagnifier->setEnabled(on);
+}
+
 void PlotBloodOxygenWave::AddPanner()
 {
-    QwtPlotPanner *qwtPanner = new QwtPlotPanner(m_pPlot->canvas());       //使用鼠标左键平移
-    qwtPanner->setOrientations(Qt::Horizontal);
-    connect(qwtPanner, SIGNAL(panned(int,int)), this, SLOT(slotCanvasMoved(int,int)));
+    data->pPanner = new QwtPlotPanner(m_pPlot->canvas());       //使用鼠标左键平移
+    data->pPanner->setOrientations(Qt::Horizontal);
+}
+
+void PlotBloodOxygenWave::SetPannerEnabled(bool on)
+{
+    data->pPanner->setEnabled(on);
 }
 
 void PlotBloodOxygenWave::AddZoomer()
@@ -344,41 +359,24 @@ void CALLBACK TimerCallback(PVOID lpParameter, BOOLEAN TimerOrWaitFired)
 
 void PlotBloodOxygenWave::timerEvent(QTimerEvent *event)
 {
-	if (event->timerId() == data->DrawTimerId && 
-		(0 == m_uDrawCounter++ % data->uPlotIntervalCount))
-	{
-		m_pPlot->replot();
+    if (event->timerId() == data->DrawTimerId &&
+            (0 == m_uDrawCounter++ % data->uPlotIntervalCount))
+    {
+        //QwtPlot重绘
+        m_pPlot->replot();
+        /*
+            const bool doClip = !m_pPlot->canvas()->testAttribute( Qt::WA_PaintOnScreen );
+            if ( doClip )
+            {
+                const QwtScaleMap xMap = m_pPlot->canvasMap( data->pPOCurve->xAxis() );
+                const QwtScaleMap yMap = m_pPlot->canvasMap( data->pPOCurve->yAxis() );
 
-		//QwtPlot重绘
-	 //   if(0 == m_uDrawCounter++ % data->uPlotIntervalCount)
-		//{	
-		//	//刷新坐标轴
-		//	data->interval = data->pWaveData->GetXAxisInterval();
-		//	m_pPlot->setAxisScale(QwtPlot::xBottom, data->interval.minValue(), data->interval.maxValue());
-			//m_pPlot->updateAxes();
-	//        m_pPlot->replot();
-			//emit signalReplot();
-			//qDebug() << QString("current interval minValue:%1 max:%2 width:%3").
-			//	arg(data->interval.minValue()).arg(data->interval.maxValue()).arg(data->interval.width());
-			/*
-			const bool doClip = !m_pPlot->canvas()->testAttribute( Qt::WA_PaintOnScreen );
-			if ( doClip )
-			{
-				const QwtScaleMap xMap = m_pPlot->canvasMap( data->pPOCurve->xAxis() );
-				const QwtScaleMap yMap = m_pPlot->canvasMap( data->pPOCurve->yAxis() );
+                QRectF br = qwtBoundingRect( *data->pWaveData, 0, data->pWaveData->size() - 1 );
 
-				QRectF br = qwtBoundingRect( *data->pWaveData, 0, data->pWaveData->size() - 1 );
+                const QRect clipRect = QwtScaleMap::transform( xMap, yMap, br ).toRect();
+                data->pDirectPainter->setClipRegion( clipRect );
+            }
 
-				const QRect clipRect = QwtScaleMap::transform( xMap, yMap, br ).toRect();
-				data->pDirectPainter->setClipRegion( clipRect );
-			}*/
-
-			//data->pDirectPainter->drawSeries( data->pPOCurve,  0, data->pWaveData->size() - 1 );
-		//}
-	}
-}
-
-void PlotBloodOxygenWave::slotCanvasMoved(int dx, int dy)
-{
-//    qDebug()<<"current dx:"<<dx<<" dy:"<<dy;
+        //data->pDirectPainter->drawSeries( data->pPOCurve,  0, data->pWaveData->size() - 1 );*/
+    }
 }

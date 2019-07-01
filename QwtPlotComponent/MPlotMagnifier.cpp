@@ -40,7 +40,7 @@ void MPlotMagnifier::rescale(double factor)
             dyScaleLowerBound <= m_dyScaleLowerBound &&
             dyScaleUpperBound >= m_dyScaleUpperBound)
     {
-        qDebug()<<"has zoom in mininus";
+        //qDebug()<<"has zoom in mininus";
         return;
     }
 

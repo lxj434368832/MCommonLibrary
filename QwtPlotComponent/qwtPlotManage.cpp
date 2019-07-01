@@ -126,10 +126,10 @@ void qwtPlotManage::AddWaveData(QList<unsigned char> list)
     data->pWaveData->AddPendingValues(list);
 }
 
-void qwtPlotManage::DrawHistoryData(QVector<unsigned char> list)
+void qwtPlotManage::DrawHistoryData(quint64 ulStartTime, QVector<unsigned char> list)
 {
 	data->eStatus = EDS_HISTORY;
-    data->pWaveData->AddHistoryData(list);
+    data->pWaveData->AddHistoryData(ulStartTime, list);
     //Ë¢ÐÂ×ø±êÖá
     QwtInterval interval =  data->pWaveData->GetXAxisInterval();
 

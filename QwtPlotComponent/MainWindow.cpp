@@ -17,8 +17,9 @@ MainWindow::MainWindow(QWidget *parent) :
     //设置参数
     on_btnConfirmModify_clicked();
     //构建绘制
-	m_pPlotMng->BuildPlot();        
-	
+	m_pPlotMng->BuildPlot();   
+	m_pPlotMng->AddPanner();
+	m_pPlotMng->AddMagnifier();
 }
 
 MainWindow::~MainWindow()
@@ -41,6 +42,9 @@ void MainWindow::on_btnStart_clicked()
     if("start" == ui->btnStart->text()  )
     {
         ui->btnStart->setText("stop");
+		m_pPlotMng->Reset();
+		m_pPlotMng->SetMagnifierEnabled(false);
+		m_pPlotMng->SetPannerEnabled(false);
         m_pPlotMng->Start();
         m_thSampling->start();
     }
@@ -49,6 +53,9 @@ void MainWindow::on_btnStart_clicked()
         ui->btnStart->setText("start");
         m_pPlotMng->Stop();
         m_thSampling->stop();
+
+		m_pPlotMng->SetMagnifierEnabled(true);
+		m_pPlotMng->SetPannerEnabled(true);
     }
 }
 
@@ -93,9 +100,12 @@ void MainWindow::on_btnConfirmModify_clicked()
 
 void MainWindow::on_btnDrawHistory_clicked()
 {
+	if ("stop" == ui->btnStart->text())
+		on_btnStart_clicked();
+
     unsigned uSamplingRate = ui->leSamplingRate->text().toUInt();
     qint64    uDrawLength = ui->leDrawLength->text().toUInt();
-    uDrawLength *= 3600 * uSamplingRate ;
+    uDrawLength *= 3600 * uSamplingRate ;	//5H
     QVector<unsigned char> vctHistory;
     vctHistory.reserve(uDrawLength);
     for(qint64 i = 0; i < uDrawLength; i++)
@@ -106,5 +116,5 @@ void MainWindow::on_btnDrawHistory_clicked()
     QElapsedTimer   time;
     time.start();
     m_pPlotMng->DrawHistoryData(0, vctHistory);
-    qDebug()<<QStringLiteral("绘制用时:%1s").arg(QString::number(time.elapsed()));
+    qDebug()<<QStringLiteral("绘制用时:%1ms").arg(QString::number(time.elapsed()));
 }

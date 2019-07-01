@@ -140,7 +140,7 @@ void PlotPulseOxygen::DrawHistoryData(quint64 ulStartTime, QVector<unsigned char
     QwtInterval interval =  data->pSPO2Data->GetXAxisInterval();
 
 //    data->interval = QwtInterval(interval.maxValue() - data->interval.width(), interval.maxValue());
-    data->interval = QwtInterval(interval.minValue(), interval.maxValue());
+    data->interval = interval;
     m_pPlot->setAxisScale(QwtPlot::xBottom, data->interval.minValue(), data->interval.maxValue());
     //ÖØ»æ
     m_pPlot->replot();

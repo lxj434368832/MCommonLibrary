@@ -33,14 +33,14 @@ QwtInterval MCurveData::GetXAxisInterval()
 unsigned MCurveData::AddPendingValues(QList<unsigned char> list)
 {
     mutex.lock();
-    if(0 == pendingValues.size())
+    if(0 == m_listPendingValue.size())
     {
         for(int i = 0; i < m_uSamplingRate; i++)
-            pendingValues.append(0);
+            m_listPendingValue.append(0);
     }
-    pendingValues.append(list);
+    m_listPendingValue.append(list);
     mutex.unlock();
-	return pendingValues.size();
+	return m_listPendingValue.size();
 }
 
 bool MCurveData::UpdateCurveData(qint64 elapsed)
@@ -57,14 +57,14 @@ bool MCurveData::UpdateCurveData(qint64 elapsed)
 	do
 	{
 		QMutexLocker lck(&mutex);
-		if (pendingValues.empty())
+		if (m_listPendingValue.empty())
 		{
 			//qDebug() << QStringLiteral("未取到波形数据！");
 			break;
 		}
 
-		point.setY(pendingValues.front());
-		pendingValues.pop_front();
+		point.setY(m_listPendingValue.front());
+		m_listPendingValue.pop_front();
 	} while (false);
 
 	int iCount = m_vctValue.size();
@@ -135,7 +135,7 @@ void MCurveData::Reset()
 	m_vctValue.reserve(m_uMaxPointCount);
 	m_vctValue.append(QPointF(0, 0));
 
-	pendingValues.clear();
+	m_listPendingValue.clear();
 
 	m_boundingRect = QRectF(1.0, 1.0, -2.0, -2.0); // invalid;
 }

@@ -4,21 +4,17 @@
 #
 #-------------------------------------------------
 
-include(../../configuration.pri)
-include($$QT_3RDPARTYPATH/Qwt/Qwt.pri)
+include(../configuration.pri)
+include(qwt.pri)
 
 QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
+TARGET = $$qtLibraryTarget(QwtPlotComponent)
 DESTDIR  = $$PWD/lib
-TEMPLATE = lib
-CONFIG += staticlib
-CONFIG(debug, debug|release) {
-    TARGET = QwtPlotComponentd
-} else {
-    TARGET = QwtPlotComponent
-}
+TEMPLATE = app
+#CONFIG += staticlib
 
 SOURCES += main.cpp \
     MainWindow.cpp \

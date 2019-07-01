@@ -36,7 +36,7 @@ public:
     void AddWaveData(QList<unsigned char> list);
 
     //绘制历史数据
-    void DrawHistoryData(QVector<unsigned char> list);
+    void DrawHistoryData(quint64 ulStartTime, QVector<unsigned char> list);
 
     void InitPlot();
     //添加网格

@@ -33,7 +33,7 @@ protected:
     QRectF           m_boundingRect;
 
     QMutex                          mutex; // protecting pendingValues
-    QList<unsigned char>	pendingValues;
+    QList<unsigned char>	m_listPendingValue;
 
     double          m_dXAxisWidth;         //x轴的宽度
     unsigned		m_uSamplingRate;       //采样率，每秒生成的数据个数
