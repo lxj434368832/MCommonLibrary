@@ -10,10 +10,10 @@ QPainterExample::QPainterExample(QWidget *parent) :
     ui(new Ui::QPainterExample)
 {
     ui->setupUi(this);
-    FormLotteryNumber *formNum = new  FormLotteryNumber;
-    ui->verticalLayout->addWidget(formNum);
-    formNum = new  FormLotteryNumber;
-    ui->verticalLayout->addWidget(formNum);
+//    FormLotteryNumber *formNum = new  FormLotteryNumber;
+//    ui->verticalLayout->addWidget(formNum);
+//    formNum = new  FormLotteryNumber;
+//    ui->verticalLayout->addWidget(formNum);
 }
 
 QPainterExample::~QPainterExample()
@@ -23,7 +23,7 @@ QPainterExample::~QPainterExample()
 
 void QPainterExample::paintEvent(QPaintEvent *event)
 {
-    return QWidget::paintEvent(event);
+//    return QWidget::paintEvent(event);
     QPen pen;
     //1¡¢»­×Ö
     QPainter painter(this);
@@ -63,12 +63,12 @@ void QPainterExample::paintEvent(QPaintEvent *event)
     };
     painter.drawPolyline(points1, 3);
 
-/*
     //6¡¢»­¾ØÐÎ
     painter.setPen(Qt::red);
+    painter.setBrush(QBrush(Qt::red));
     QRectF rectangle2(200.0, 20.0, 80.0, 60.0);
     painter.drawRect(rectangle2);
-
+/*
     //7¡¢»­Ô²½Ç¾ØÐÎ
     QRectF rectangle3(200.0, 120.0, 80.0, 60.0);
     painter.drawRoundedRect(rectangle3, 20.0, 15.0);
