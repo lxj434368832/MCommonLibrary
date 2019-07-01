@@ -61,6 +61,9 @@ public:
     //添加缩放
     void AddZoomer();
 
+	//添加拾取器
+	void AddPicker();
+
     //添加波形画布
     void AddWaveCurve();
 

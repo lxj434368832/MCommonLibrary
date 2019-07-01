@@ -35,10 +35,10 @@ void MPlotWaveCurve::drawCurve(QPainter * painter, int style,
 			from = 0;
 			to = dataSize() - 1;
 		}
-        if (m_iCurrentPoint > from && m_iCurrentPoint < to - 6)
+		if (m_iCurrentPoint > from && m_iCurrentPoint < to - 6)
 		{
-            drawLines(painter, xMap, yMap, canvasRect, from, m_iCurrentPoint);
-            drawLines(painter, xMap, yMap, canvasRect, m_iCurrentPoint + 5, to);
+			drawLines(painter, xMap, yMap, canvasRect, from, m_iCurrentPoint);
+			drawLines(painter, xMap, yMap, canvasRect, m_iCurrentPoint + 5, to);
 		}
 		else
 		{

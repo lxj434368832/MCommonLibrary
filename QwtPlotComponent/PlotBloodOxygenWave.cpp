@@ -16,6 +16,7 @@
 #include <qwt_plot_curve.h>
 #include <qwt_plot_directpainter.h>
 #include <qwt_symbol.h>
+#include <qwt_picker_machine.h>
 #include <windows.h>
 
 void CALLBACK TimerCallback(PVOID lpParameter, BOOLEAN TimerOrWaitFired);
@@ -113,6 +114,7 @@ void PlotBloodOxygenWave::BuildPlot()
     //AddPlotGrid();
 //    AddLegend();
     //AddPanner();
+	AddPicker();
     AddWaveCurve();
     data->eStatus = EDS_STOP;
 }
@@ -326,6 +328,17 @@ void PlotBloodOxygenWave::AddZoomer()
     zoomer->setTrackerPen( QColor( Qt::black ) );
     zoomer->setMousePattern(QwtEventPattern::MouseSelect2,Qt::RightButton, Qt::ControlModifier );
     zoomer->setMousePattern(QwtEventPattern::MouseSelect3,Qt::RightButton );
+}
+
+void PlotBloodOxygenWave::AddPicker()
+{
+	QwtPlotPicker *picker = new QwtPlotPicker(QwtPlot::xBottom, QwtPlot::yLeft,
+		QwtPlotPicker::VLineRubberBand, QwtPicker::AlwaysOn,
+		m_pPlot->canvas());
+	picker->setTrackerPen(QPen(Qt::green));
+	//只有定义了它 才能设置对应的样式 比如想设置RectRubberBand必须先setStateMachine( new QwtPickerRectPointMachine() );
+	picker->setStateMachine(new QwtPickerDragPointMachine());
+	picker->setRubberBandPen(QColor(Qt::green));               //拾取器点击后样式颜色 
 }
 
 void PlotBloodOxygenWave::AddWaveCurve()
