@@ -18,8 +18,8 @@ public:
 
 	//添加请求数据，返回请求中的数据个数
     unsigned AddPendingValues(QList<unsigned char> list);
-    bool UpdateCurveData(qint64 elapsed);
-    void Reset();
+    virtual bool UpdateCurveData(qint64 elapsed);
+    virtual void Reset();
 
     void AddHistoryData(quint64 ulStartTime, QVector<unsigned char> vctHstry);
 
@@ -27,12 +27,12 @@ public:
     QPointF sample( size_t i ) const override;
     QRectF boundingRect() const override;
 
-private:
+protected:
     QVector<QPointF> m_vctValue;
     unsigned		 m_uMaxPointCount;
     QRectF           m_boundingRect;
 
-    QMutex					mutex; // protecting pendingValues
+    QMutex                          mutex; // protecting pendingValues
     QList<unsigned char>	pendingValues;
 
     double          m_dXAxisWidth;         //x轴的宽度

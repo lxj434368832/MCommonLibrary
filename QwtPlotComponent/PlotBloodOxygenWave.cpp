@@ -242,7 +242,7 @@ void PlotBloodOxygenWave::InitPlot()
     //设置标题
 //    m_pPlot->setTitle("My Project");
     //设置画布或背景
-    //    m_pPlot->setCanvas( new MCanvas() );
+//    m_pPlot->setCanvas( new MCanvas() );
     m_pPlot->setCanvasBackground(Qt::white);
     //设置坐标轴的名称
 //    m_pPlot->setAxisTitle(QwtPlot::xBottom, QStringLiteral("X轴"));
@@ -318,7 +318,7 @@ void PlotBloodOxygenWave::AddWaveCurve()
     data->pPOCurve = new MPlotWaveCurve("DescribeWave");    //设置曲线名称
     data->pPOCurve->setStyle(QwtPlotCurve::Lines);		  //直线形式
     //data->pPOCurve->setCurveAttribute(QwtPlotCurve::Fitted, true);    //让曲线更光滑
-    data->pPOCurve->setPen(QPen(Qt::red));    //设置画笔
+    data->pPOCurve->setPen(QPen(Qt::red, 2));    //设置画笔
     data->pPOCurve->setRenderHint( QwtPlotItem::RenderAntialiased, true );
     //data->pPOCurve->setPaintAttribute( QwtPlotCurve::ClipPolygons, false );
     data->pPOCurve->setData(data->pWaveData);
