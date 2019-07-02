@@ -62,8 +62,6 @@ PlotBloodOxygenWave::PlotBloodOxygenWave(QwtPlot *plot) :
 	data->pDirectPainter = new QwtPlotDirectPainter;
 	data->interval.setMaxValue(5000);
 	data->elapsed.start();
-
-    connect(this, SIGNAL(signalReplot()), m_pPlot, SLOT(replot()));
 }
 
 PlotBloodOxygenWave::~PlotBloodOxygenWave()
