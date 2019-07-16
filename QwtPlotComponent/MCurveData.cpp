@@ -10,9 +10,14 @@ MCurveData::~MCurveData()
 {
 }
 
-unsigned MCurveData::GetTimeInterval()
+unsigned MCurveData::GetDrawTime()
 {
     return m_uIntervalTime;
+}
+
+unsigned MCurveData::GetSamplingRate()
+{
+	return m_uSamplingRate;
 }
 
 QwtInterval MCurveData::GetXAxisInterval()
@@ -102,7 +107,7 @@ bool MCurveData::UpdateCurveData(qint64 elapsed)
 	//累加时间
 	m_ulCumulativeTime += m_uIntervalTime;
 	if (0 == m_uCumulativeCount++ % m_uSamplingRate)
-		m_ulCumulativeTime += m_uIntervvalRemainder;
+		m_ulCumulativeTime += m_uIntervalRemain;
 
     return true;
 }
@@ -121,7 +126,7 @@ void MCurveData::AddHistoryData(quint64 ulStartTime, QVector<unsigned char> vctH
         //累加时间
        m_ulCumulativeTime += m_uIntervalTime;
         if(0 == m_uCumulativeCount++ % m_uSamplingRate)
-            m_ulCumulativeTime += m_uIntervvalRemainder;
+            m_ulCumulativeTime += m_uIntervalRemain;
     }
 }
 
@@ -146,7 +151,7 @@ void MCurveData::SetParam(unsigned uSamplingRate, double dXAxisWidth)
     {
         m_uSamplingRate = uSamplingRate;
         m_uIntervalTime  = qMax(int(1000 / m_uSamplingRate), 10);
-        m_uIntervvalRemainder = 1000 % m_uSamplingRate;
+        m_uIntervalRemain = 1000 % m_uSamplingRate;
     }
 
     if ( dXAxisWidth > 0.0 && dXAxisWidth != m_dXAxisWidth )

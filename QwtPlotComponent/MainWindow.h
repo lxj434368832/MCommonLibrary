@@ -12,6 +12,7 @@ class MainWindow;
 
 class PlotBloodOxygenWave;
 class MSamplingThread;
+class PlotPulseOxygen;
 
 class MainWindow : public QMainWindow
 {
@@ -27,10 +28,14 @@ private slots:
 
 	void on_btnDrawHistory_clicked();//脉氧数据通知
 
+    void on_btnSecondDrawHistory_clicked();
+
 private:
     Ui::MainWindow *ui;
-    PlotBloodOxygenWave					*m_pPlotMng;
-    std::shared_ptr<MSamplingThread>	m_thSampling;
+	PlotBloodOxygenWave							*m_pPlotMng;
+    MSamplingThread							    *m_pSamplingTh;
+
+    PlotPulseOxygen                             *m_pPlotMngTwo;
 };
 
 #endif // MAINWINDOW_H

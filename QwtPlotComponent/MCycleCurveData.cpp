@@ -25,7 +25,7 @@ bool MCycleCurveData::UpdateCurveData(qint64 elapsed)
 		//¿€º” ±º‰
 		m_ulCumulativeTime += m_uIntervalTime;
 		if (0 == m_uCumulativeCount++ % m_uSamplingRate)
-			m_ulCumulativeTime += m_uIntervvalRemainder;
+			m_ulCumulativeTime += m_uIntervalRemain;
 		m_uCurrentPoint = iCount;
 	}
 	else

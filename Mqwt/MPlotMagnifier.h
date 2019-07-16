@@ -16,12 +16,6 @@ public:
     MPlotMagnifier(QWidget *widget);
 
     /************************************************
-     * function:    此函数用于禁用x轴或Y轴方向的判断，默认是都启用
-     * iAsix:          1:代表X轴， 2:代表Y轴
-    ************************************************/
-    void disableAxisJudge(int iAsix);
-
-    /************************************************
      * function:    此函数用于设置x轴的范围
      * dMin :        表示范围的最小值
      * dMax：      表示范围的最大值
@@ -46,10 +40,8 @@ protected:
     virtual void rescale( double factor );
 
 private:
-    int m_iCount;
+    int m_iInitFlag;
 
-    bool    m_bEnableXAxis;
-    bool    m_bEnableYAxis;
     double m_dXAxisMin;
     double m_dXAxisMax;
     double m_dYAxisMin;

@@ -1,24 +1,14 @@
 #include "MSamplingThread.h"
-#include "PlotBloodOxygenWave.h"
-#include <vector>
+#include "PlotCurveBase.h"
 
-MSamplingThread::MSamplingThread(PlotBloodOxygenWave *plotMng ):
-    QwtSamplingThread( plotMng ),
+MSamplingThread::MSamplingThread(PlotCurveBase *plotMng ):
+    QwtSamplingThread(plotMng),
     m_pPlotMng(plotMng)
 {
 	m_uSamplingRate = 20;
-
-	//m_listWaveData{0,22,107,214,255,246,221,207,200,188,
-	//	161,132,117,115,112,103,89,73,60,49,
-	//	39,31,26,21,18,14,10,8,6,4,3,1,0};
-	std::vector<int> vct{ 0, 22, 107, 214, 255, 246, 221, 207, 200, 188,
-		161, 132, 117, 115, 112, 103, 89, 73, 60, 49,
-		39, 31, 26, 21, 18, 14, 10, 8, 6, 4, 3, 1, 0 };
-
-	int iCount = vct.size();
-	for (int i = 0; i < iCount; i++)
-		m_listWaveData.append(vct[i]);
-
+	m_listWaveData = {0,22,107,214,255,246,221,207,200,188,
+		161,132,117,115,112,103,89,73,60,49,
+		39,31,26,21,18,14,10,8,6,4,3,1,0};
 }
 
 void MSamplingThread::SetSamplingRate(unsigned uSamplingRate)

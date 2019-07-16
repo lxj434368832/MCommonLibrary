@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>825</width>
-    <height>377</height>
+    <height>537</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -15,13 +15,23 @@
   </property>
   <widget class="QWidget" name="centralWidget">
    <property name="styleSheet">
-    <string notr="true">*{
+    <string notr="true">QLabel, QLineEdit, QPushButton{
 	font: 12pt &quot;Microsoft YaHei UI&quot;;
 }</string>
    </property>
-   <layout class="QVBoxLayout" name="verticalLayout">
+   <layout class="QVBoxLayout" name="verticalLayout" stretch="1,1,0,0">
     <item>
      <widget class="QwtPlot" name="qwtPlot">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QwtPlot" name="qwtPlotTwo">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
         <horstretch>0</horstretch>
@@ -85,7 +95,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="lePlotIntervalCount">
+       <widget class="QLineEdit" name="lePlotIntervalTime">
         <property name="maximumSize">
          <size>
           <width>50</width>
@@ -196,7 +206,7 @@
           <string>每秒采样次数</string>
          </property>
          <property name="text">
-          <string>绘制长度[小时]:</string>
+          <string>区域一绘制长度[小时]:</string>
          </property>
          <property name="buddy">
           <cstring>leSamplingRate</cstring>
@@ -212,14 +222,60 @@
           </size>
          </property>
          <property name="text">
-          <string>5</string>
+          <string>0.1</string>
          </property>
         </widget>
        </item>
        <item>
         <widget class="QPushButton" name="btnDrawHistory">
          <property name="text">
-          <string>绘制历史</string>
+          <string>开始绘制</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="horizontalSpacer_3">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_6">
+         <property name="toolTip">
+          <string>每秒采样次数</string>
+         </property>
+         <property name="text">
+          <string>区域二绘制长度[小时]:</string>
+         </property>
+         <property name="buddy">
+          <cstring>leSamplingRate</cstring>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="leSecondDrawLength">
+         <property name="maximumSize">
+          <size>
+           <width>50</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>0.1</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="btnSecondDrawHistory">
+         <property name="text">
+          <string>开始绘制</string>
          </property>
         </widget>
        </item>

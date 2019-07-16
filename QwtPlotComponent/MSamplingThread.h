@@ -9,12 +9,12 @@
 
 #include <qwt_sampling_thread.h>
 
-class PlotBloodOxygenWave;
+class PlotCurveBase;
 
 class MSamplingThread: public QwtSamplingThread
 {
 public:
-    MSamplingThread(PlotBloodOxygenWave *plotMng);
+    MSamplingThread(PlotCurveBase *plotMng);
 
     void SetSamplingRate(unsigned uSamplingRate);
 
@@ -22,8 +22,8 @@ protected:
     virtual void sample( double elapsed );
 
 private:
-    PlotBloodOxygenWave      *m_pPlotMng;
-    unsigned            m_uSamplingRate;
+	PlotCurveBase     *m_pPlotMng;
+    unsigned				m_uSamplingRate;
 
-	QList<unsigned char>   m_listWaveData;
+	QList<unsigned char>    m_listWaveData;
 };

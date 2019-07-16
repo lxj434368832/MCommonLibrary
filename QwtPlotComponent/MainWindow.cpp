@@ -2,7 +2,9 @@
 #include "ui_MainWindow.h"
 #include "PlotBloodOxygenWave.h"
 #include "MSamplingThread.h"
+#include "PlotPulseOxygen.h"
 #include <QDebug>
+#include <QDateTime>
 
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -11,8 +13,10 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 	m_pPlotMng = new PlotBloodOxygenWave(ui->qwtPlot);
-	m_thSampling.reset(new MSamplingThread(m_pPlotMng));
-	m_thSampling->setInterval(1000);
+    m_pPlotMngTwo = new PlotPulseOxygen(ui->qwtPlotTwo);
+
+	m_pSamplingTh = new MSamplingThread(m_pPlotMng);
+	m_pSamplingTh->setInterval(1000);
 	
     //设置参数
     on_btnConfirmModify_clicked();
@@ -20,12 +24,17 @@ MainWindow::MainWindow(QWidget *parent) :
 	m_pPlotMng->BuildPlot();   
 	m_pPlotMng->AddPanner();
 	m_pPlotMng->AddMagnifier();
+	ui->qwtPlot->enableAxis(QwtPlot::xBottom, true);
+
+    m_pPlotMngTwo->BuildPlot();
+
+    connect(m_pPlotMngTwo, SIGNAL(signalMarkerPosition(double)), m_pPlotMng, SLOT(slotMarkerPosition(double)));
 }
 
 MainWindow::~MainWindow()
 {
-    m_thSampling->stop();
-    if(false == m_thSampling->wait(2000))
+    m_pSamplingTh->stop();
+    if(false == m_pSamplingTh->wait(2000))
     {
         qDebug()<<"停止采样线程超时，将会强制终止！";
 //        m_thSampling->terminate();
@@ -33,6 +42,11 @@ MainWindow::~MainWindow()
 	//delete m_thSampling;
 
     m_pPlotMng->Stop();
+
+	delete m_pPlotMng;
+	m_pPlotMng = nullptr;
+	delete m_pPlotMngTwo;
+	m_pPlotMngTwo = nullptr;
 
     delete ui;
 }
@@ -43,19 +57,22 @@ void MainWindow::on_btnStart_clicked()
     {
         ui->btnStart->setText("stop");
 		m_pPlotMng->Reset();
+
 		m_pPlotMng->SetMagnifierEnabled(false);
 		m_pPlotMng->SetPannerEnabled(false);
+		m_pPlotMng->SetMarkerEnabled(false);
         m_pPlotMng->Start();
-        m_thSampling->start();
+        m_pSamplingTh->start();
     }
     else
     {
         ui->btnStart->setText("start");
         m_pPlotMng->Stop();
-        m_thSampling->stop();
+        m_pSamplingTh->stop();
 
 		m_pPlotMng->SetMagnifierEnabled(true);
 		m_pPlotMng->SetPannerEnabled(true);
+		m_pPlotMng->SetMarkerEnabled(true);
     }
 }
 
@@ -94,8 +111,9 @@ void MainWindow::on_btnConfirmModify_clicked()
     qstrInterval += QString::number( uValue).append("ms");
     ui->leIntervalTime->setText(qstrInterval);
 
-	m_thSampling->SetSamplingRate(uSamplingRate);
-    m_pPlotMng->SetParam(uSamplingRate, ui->leXAxisWidth->text().toDouble(),  ui->lePlotIntervalCount->text().toUInt());
+	m_pSamplingTh->SetSamplingRate(uSamplingRate);
+    m_pPlotMng->SetParam(uSamplingRate, ui->leXAxisWidth->text().toDouble(),  ui->lePlotIntervalTime->text().toUInt());
+    m_pPlotMngTwo->SetParam(1, ui->leXAxisWidth->text().toDouble(), 2000);
 }
 
 void MainWindow::on_btnDrawHistory_clicked()
@@ -104,8 +122,7 @@ void MainWindow::on_btnDrawHistory_clicked()
 		on_btnStart_clicked();
 
     unsigned uSamplingRate = ui->leSamplingRate->text().toUInt();
-    qint64    uDrawLength = ui->leDrawLength->text().toUInt();
-    uDrawLength *= 3600 * uSamplingRate ;	//5H
+    qint64    uDrawLength = ui->leDrawLength->text().toDouble() * uSamplingRate * 3600;
     QVector<unsigned char> vctHistory;
     vctHistory.reserve(uDrawLength);
     for(qint64 i = 0; i < uDrawLength; i++)
@@ -115,6 +132,29 @@ void MainWindow::on_btnDrawHistory_clicked()
 
     QElapsedTimer   time;
     time.start();
-    m_pPlotMng->DrawHistoryData(0, vctHistory);
+    m_pPlotMng->DrawHistoryData(QDateTime::currentMSecsSinceEpoch(), vctHistory);
+    qDebug()<<QStringLiteral("绘制用时:%1ms").arg(QString::number(time.elapsed()));
+}
+
+void MainWindow::on_btnSecondDrawHistory_clicked()
+{
+    qint64    uDrawLength = ui->leSecondDrawLength->text().toDouble() * 3600;
+    QVector<unsigned char> vctSPOHistory;
+    vctSPOHistory.reserve(uDrawLength);
+    QVector<unsigned char> vctPulseHistory;
+    vctPulseHistory.reserve(uDrawLength);
+
+    unsigned char uValue = 0;
+    for(qint64 i = 0; i < uDrawLength; i++)
+    {
+       uValue = 70 + rand() % 10;
+        vctSPOHistory.append(uValue);
+        uValue = 60 + rand() % 10;
+        vctPulseHistory.append(uValue);
+    }
+
+    QElapsedTimer   time;
+    time.start();
+    m_pPlotMngTwo->DrawHistoryData(QDateTime::currentMSecsSinceEpoch(), vctSPOHistory, vctPulseHistory);
     qDebug()<<QStringLiteral("绘制用时:%1ms").arg(QString::number(time.elapsed()));
 }

@@ -1,6 +1,6 @@
 /*
- * function:    è‡ªå®šä¹‰å¹³ç§»å™¨ï¼Œç”¨äºå®ç°å¹³ç§»ä¸èƒ½ç§»å‡ºè¾¹ç•Œ
- * author:      æ˜å·§æ–‡
+ * function:    ×Ô¶¨ÒåÆ½ÒÆÆ÷£¬ÓÃÓÚÊµÏÖÆ½ÒÆ²»ÄÜÒÆ³ö±ß½ç
+ * author:      Ã÷ÇÉÎÄ
  * corporation:
  * datetime:    2017-03-23
 */
@@ -26,7 +26,8 @@ private:
     {
         double dLowerBound;
         double dUpperBound;
-        void checkValue(double &dMin, double &dMax, unsigned int unFactor) const;
+		void checkValue(double &dMin, double &dMax, unsigned int unFactor) const;
+		void checkBorder(double &dMin, double &dMax, unsigned int unFactor) const;
     };
     unsigned int    m_unDivFactor;
     SRange  m_aAxisRange[QwtPlot::axisCnt];

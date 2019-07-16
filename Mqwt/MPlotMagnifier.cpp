@@ -6,21 +6,7 @@
 MPlotMagnifier::MPlotMagnifier(QWidget *widget) :
     QwtPlotMagnifier(widget)
 {
-    m_iCount = 0;
-    m_bEnableXAxis = true;
-    m_bEnableYAxis = true;
-}
-
-void MPlotMagnifier::disableAxisJudge(int iAsix)
-{
-    if(1 == iAsix)
-    {
-        m_bEnableXAxis = false;
-    }
-    else if( 2 == iAsix)
-    {
-        m_bEnableYAxis = false;
-    }
+    m_iInitFlag = 0;
 }
 
 void MPlotMagnifier::setXAxisRange(double dMin, double dMax)
@@ -29,7 +15,7 @@ void MPlotMagnifier::setXAxisRange(double dMin, double dMax)
     {
         m_dXAxisMin = dMin;
         m_dXAxisMax = dMax;
-        m_iCount ++;
+        m_iInitFlag ++;
     }
 }
 
@@ -39,13 +25,13 @@ void MPlotMagnifier::setYAxisRange(double dMin, double dMax)
     {
         m_dYAxisMin = dMin;
         m_dYAxisMax = dMax;
-        m_iCount ++;
+        m_iInitFlag ++;
     }
 }
 
 void MPlotMagnifier::resetMagnifierStatus()
 {
-    m_iCount = 0;
+    m_iInitFlag = 0;
 }
 
 void MPlotMagnifier::rescale(double factor)
@@ -60,13 +46,13 @@ void MPlotMagnifier::rescale(double factor)
 
 
     bool bRescale = true;
-    if(0 == m_iCount )
+    if(0 == m_iInitFlag )
     {
         m_dXAxisMin = dxScaleLowerBound;
         m_dXAxisMax = dxScaleUpperBound;
         m_dYAxisMin = dyScaleLowerBound;
         m_dYAxisMax = dyScaleUpperBound;
-        m_iCount ++;
+        m_iInitFlag ++;
     }
     else if(factor > 1.0)           //代表缩小
     {
@@ -87,17 +73,17 @@ void MPlotMagnifier::rescale(double factor)
             bYAsixSatisfy = true;
         }
 
-//        if(bXAsixSatisfy && bYAsixSatisfy)          //两个坐标轴同时缩小到范围内，则停止缩小
-//            bRescale = false;
+        if(bXAsixSatisfy && bYAsixSatisfy)          //两个坐标轴同时缩小到范围内，则停止缩小
+            bRescale = false;
     }
 
-    if(false == bRescale)
+    if( bRescale)
+        QwtPlotMagnifier::rescale(factor);
+    else
     {
 //        qDebug()<< "has zoom minimus value" ;
 //        if(m_bEnableXAsix) qDebug()<<"init X Asix range:"<<m_dXAsixMin<< " -- "<< m_dXAsixMax;
 //        if(m_bEnableYAsix) qDebug()<<"init Y Asix range:"<<m_dYAsixMin<< " -- "<< m_dYAsixMax;
     }
-    else
-        QwtPlotMagnifier::rescale(factor);
 
 }

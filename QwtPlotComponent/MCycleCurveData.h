@@ -9,7 +9,7 @@ public:
     MCycleCurveData();
     void Reset() override;
 
-    bool UpdateCurveData(qint64 elapsed);
+    bool UpdateCurveData(qint64 elapsed) override;
     inline unsigned GetCurrentPoint(){ return m_uCurrentPoint; }
 
 private:

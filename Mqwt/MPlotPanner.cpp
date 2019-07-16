@@ -14,6 +14,7 @@ void MPlotPanner::SRange::checkValue(double &dMin, double &dMax, unsigned int un
             dMax = dLowerBound + dMargin;
             dMin = dMax - dRange;
         }
+
         if(dMin > dUpperBound - dMargin)
         {
             dMin = dUpperBound - dMargin;
