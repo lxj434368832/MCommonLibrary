@@ -10,7 +10,7 @@
 #include "qwt_plot_panner.h"
 #include "qwt_plot.h"
 
-class QWT_EXPORT MPlotPanner : public QwtPlotPanner
+class MPlotPanner : public QwtPlotPanner
 {
 public:
     MPlotPanner(QWidget *widget);

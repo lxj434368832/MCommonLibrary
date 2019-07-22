@@ -23,10 +23,10 @@ SOURCES += main.cpp \
     MSamplingThread.cpp \
     PlotBloodOxygenWave.cpp \
     PlotPulseOxygen.cpp \
-    qwtPlotManage.cpp \
     MCycleCurveData.cpp \
-    MCycleCurveData.cpp \
-    MPlotWaveCurve.cpp
+    MCustomAssembly.cpp \
+    MPlotPanner.cpp \
+    PlotCurveBase.cpp
 
 HEADERS  += \
     MainWindow.h \
@@ -37,10 +37,9 @@ HEADERS  += \
     PlotBloodOxygenWave.h \
     PlotPulseOxygen.h \
     QwtPlotDefine.h \
-    qwtPlotManage.h \
     MCycleCurveData.h \
-    MCycleCurveData.h \
-    MPlotWaveCurve.h
+    MPlotPanner.h \
+    PlotCurveBase.h
 
 FORMS    += \
     MainWindow.ui

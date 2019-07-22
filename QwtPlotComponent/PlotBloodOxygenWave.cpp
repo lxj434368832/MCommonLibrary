@@ -17,12 +17,10 @@ PlotBloodOxygenWave::~PlotBloodOxygenWave()
 
 void PlotBloodOxygenWave::BuildPlot()
 {
-	InitPlot();
-	AddMarker();
+    InitPlot();
 	AddCurve();
 	data->eStatus = EDS_STOP;
 
-	data->pMarker->setLabel(QString());
 	data->pPlot->enableAxis(QwtPlot::xBottom, false);
 	data->pPlot->enableAxis(QwtPlot::yLeft, false);
 }
@@ -56,7 +54,7 @@ void PlotBloodOxygenWave::slotMarkerPosition(double xPos)
 		return;
 	}
 	
-	data->pMarker->setXValue(xPos);
+    if(data->pMarker) data->pMarker->setXValue(xPos);
 	data->pPlot->setAxisScale(QwtPlot::xBottom, dMin, dMax);
 
 	data->pPlot->replot();

@@ -1,4 +1,4 @@
-#include "PlotBloodOxygenWave2.h"
+#include "PlotBloodOxygenWave1.h"
 #include "MCustomAssembly.h"
 #include "MCycleCurveData.h"
 #include "MPlotMagnifier.h"
@@ -20,7 +20,7 @@
 
 void CALLBACK TimerCallback(PVOID lpParameter, BOOLEAN TimerOrWaitFired);
 
-class PlotBloodOxygenWave2::PrivateData
+class PlotBloodOxygenWave1::PrivateData
 {
 public:
 	QwtPlot             *pPlot = nullptr;
@@ -54,7 +54,7 @@ public:
 	}
 };
 
-PlotBloodOxygenWave2::PlotBloodOxygenWave2(QwtPlot *plot) :
+PlotBloodOxygenWave1::PlotBloodOxygenWave1(QwtPlot *plot) :
     QObject(plot)
 {
 	data = new PrivateData;
@@ -65,13 +65,13 @@ PlotBloodOxygenWave2::PlotBloodOxygenWave2(QwtPlot *plot) :
 	data->elapsed.start();
 }
 
-PlotBloodOxygenWave2::~PlotBloodOxygenWave2()
+PlotBloodOxygenWave1::~PlotBloodOxygenWave1()
 {
 	delete data;
 	data = nullptr;
 }
 
-void PlotBloodOxygenWave2::SetParam(unsigned uSamplingRate, double dXAxisWidth, unsigned uPlotIntervalTime)
+void PlotBloodOxygenWave1::SetParam(unsigned uSamplingRate, double dXAxisWidth, unsigned uPlotIntervalTime)
 {
 	data->pCurveData->SetParam(uSamplingRate, dXAxisWidth);
 	dXAxisWidth *= 1000;
@@ -105,7 +105,7 @@ void PlotBloodOxygenWave2::SetParam(unsigned uSamplingRate, double dXAxisWidth, 
 	}
 }
 
-void PlotBloodOxygenWave2::BuildPlot()
+void PlotBloodOxygenWave1::BuildPlot()
 {
     InitPlot();
     //AddPlotGrid();
@@ -116,7 +116,7 @@ void PlotBloodOxygenWave2::BuildPlot()
     data->eStatus = EDS_STOP;
 }
 
-void PlotBloodOxygenWave2::Start()
+void PlotBloodOxygenWave1::Start()
 {
     if (EDS_START != data->eStatus)
 	{
@@ -132,7 +132,7 @@ void PlotBloodOxygenWave2::Start()
 	}
 }
 
-void PlotBloodOxygenWave2::Stop()
+void PlotBloodOxygenWave1::Stop()
 {
     if (EDS_START == data->eStatus)
 	{
@@ -146,14 +146,14 @@ void PlotBloodOxygenWave2::Stop()
 	}
 }
 
-void PlotBloodOxygenWave2::Reset()
+void PlotBloodOxygenWave1::Reset()
 {
 	data->pCurveData->Reset();
 	data->interval = data->pCurveData->GetXAxisInterval();
 	data->pPlot->setAxisScale(QwtPlot::xBottom, data->interval.minValue(), data->interval.maxValue());
 }
 
-void PlotBloodOxygenWave2::AddWaveData(QList<unsigned char> list)
+void PlotBloodOxygenWave1::AddWaveData(QList<unsigned char> list)
 {
 	if (EDS_START != data->eStatus) return;
 	unsigned iSize = data->pCurveData->AddPendingValues(list);
@@ -229,7 +229,7 @@ void PlotBloodOxygenWave2::AddWaveData(QList<unsigned char> list)
     }
 }
 
-void PlotBloodOxygenWave2::DrawHistoryData(quint64 ulStartTime, QVector<unsigned char> list)
+void PlotBloodOxygenWave1::DrawHistoryData(quint64 ulStartTime, QVector<unsigned char> list)
 {
 	data->eStatus = EDS_HISTORY;
     data->pCurveData->AddHistoryData(ulStartTime, list);
@@ -247,7 +247,7 @@ void PlotBloodOxygenWave2::DrawHistoryData(quint64 ulStartTime, QVector<unsigned
 		data->pMagnifier->setXAxisRange(interval.minValue(), interval.maxValue());
 }
 
-void PlotBloodOxygenWave2::InitPlot()
+void PlotBloodOxygenWave1::InitPlot()
 {
     //设置标题
 //    m_pPlot->setTitle("My Project");
@@ -270,7 +270,7 @@ void PlotBloodOxygenWave2::InitPlot()
 	data->pPlot->enableAxis(QwtPlot::yLeft, false);
 }
 
-void PlotBloodOxygenWave2::AddPlotGrid()
+void PlotBloodOxygenWave1::AddPlotGrid()
 {
     // 设置网格
     QwtPlotGrid *grid = new QwtPlotGrid;
@@ -283,7 +283,7 @@ void PlotBloodOxygenWave2::AddPlotGrid()
     grid->attach(data->pPlot);
 }
 
-void PlotBloodOxygenWave2::AddPlotMarker()
+void PlotBloodOxygenWave1::AddPlotMarker()
 {
     QwtPlotMarker *mX = new QwtPlotMarker();
     mX->setLabel(QString::fromLatin1("x = PI/2"));
@@ -296,34 +296,34 @@ void PlotBloodOxygenWave2::AddPlotMarker()
     mX->attach(data->pPlot);
 }
 
-void PlotBloodOxygenWave2::AddLegend()
+void PlotBloodOxygenWave1::AddLegend()
 {
 	data->pPlot->insertLegend(new QwtLegend(), QwtPlot::RightLegend);
 }
 
-void PlotBloodOxygenWave2::AddMagnifier()
+void PlotBloodOxygenWave1::AddMagnifier()
 {
     data->pMagnifier = new MPlotMagnifier(data->pPlot->canvas());
     data->pMagnifier->setAxisEnabled(QwtPlot::yLeft, false);
 }
 
-void PlotBloodOxygenWave2::SetMagnifierEnabled(bool on)
+void PlotBloodOxygenWave1::SetMagnifierEnabled(bool on)
 {
     data->pMagnifier->setEnabled(on);
 }
 
-void PlotBloodOxygenWave2::AddPanner()
+void PlotBloodOxygenWave1::AddPanner()
 {
     data->pPanner = new QwtPlotPanner(data->pPlot->canvas());       //使用鼠标左键平移
     data->pPanner->setOrientations(Qt::Horizontal);
 }
 
-void PlotBloodOxygenWave2::SetPannerEnabled(bool on)
+void PlotBloodOxygenWave1::SetPannerEnabled(bool on)
 {
     data->pPanner->setEnabled(on);
 }
 
-void PlotBloodOxygenWave2::AddZoomer()
+void PlotBloodOxygenWave1::AddZoomer()
 {
     QwtPlotZoomer* zoomer = new QwtPlotZoomer(data->pPlot->canvas() );
     zoomer->setRubberBandPen( QColor( Qt::black ) );
@@ -332,7 +332,7 @@ void PlotBloodOxygenWave2::AddZoomer()
     zoomer->setMousePattern(QwtEventPattern::MouseSelect3,Qt::RightButton );
 }
 
-void PlotBloodOxygenWave2::AddPicker()
+void PlotBloodOxygenWave1::AddPicker()
 {
 	data->pPicker = new QwtPlotPicker(QwtPlot::xBottom, QwtPlot::yLeft,
 		QwtPlotPicker::VLineRubberBand, QwtPicker::AlwaysOn,
@@ -343,7 +343,7 @@ void PlotBloodOxygenWave2::AddPicker()
 	data->pPicker->setRubberBandPen(QColor(Qt::green));               //拾取器点击后样式颜色 
 }
 
-void PlotBloodOxygenWave2::AddWaveCurve()
+void PlotBloodOxygenWave1::AddWaveCurve()
 {
     data->pWaveCurve = new MPlotWaveCurve("DescribeWave");    //设置曲线名称
     data->pWaveCurve->setStyle(QwtPlotCurve::Lines);		  //直线形式
@@ -356,7 +356,7 @@ void PlotBloodOxygenWave2::AddWaveCurve()
     data->pWaveCurve->attach(data->pPlot);
 }
 
-void PlotBloodOxygenWave2::UpdateCurve()
+void PlotBloodOxygenWave1::UpdateCurve()
 {
     //加载数据
     if(false == data->pCurveData->UpdateCurveData(data->elapsed.elapsed())) return;
@@ -366,7 +366,7 @@ void PlotBloodOxygenWave2::UpdateCurve()
 	dynamic_cast<MPlotWaveCurve*>(data->pWaveCurve)->SetCurrentPoint(data->pCurveData->GetCurrentPoint());
 }
 
-void PlotBloodOxygenWave2::slotMarkerPosition(double xPos)
+void PlotBloodOxygenWave1::slotMarkerPosition(double xPos)
 {
 	if (EDS_START == data->eStatus) return;
 	QwtInterval interval = data->pPlot->axisInterval(QwtPlot::xBottom);	//获取x轴实际显示的范围
@@ -387,11 +387,11 @@ void PlotBloodOxygenWave2::slotMarkerPosition(double xPos)
 
 static void CALLBACK TimerCallback(PVOID lpParameter, BOOLEAN TimerOrWaitFired)
 {
-	PlotBloodOxygenWave2* pThis = (PlotBloodOxygenWave2*)lpParameter;
+	PlotBloodOxygenWave1* pThis = (PlotBloodOxygenWave1*)lpParameter;
 	pThis->UpdateCurve();
 }
 
-void PlotBloodOxygenWave2::timerEvent(QTimerEvent *event)
+void PlotBloodOxygenWave1::timerEvent(QTimerEvent *event)
 {
     if (event->timerId() == data->iDrawTimerId &&
             (0 == data->uPlotCounter++ % data->uPlotIntervalCount))

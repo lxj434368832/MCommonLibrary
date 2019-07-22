@@ -24,6 +24,7 @@ MainWindow::MainWindow(QWidget *parent) :
 	m_pPlotMng->BuildPlot();   
 	m_pPlotMng->AddPanner();
 	m_pPlotMng->AddMagnifier();
+    m_pPlotMng->AddMarker();
 	ui->qwtPlot->enableAxis(QwtPlot::xBottom, true);
 
     m_pPlotMngTwo->BuildPlot();
@@ -157,4 +158,14 @@ void MainWindow::on_btnSecondDrawHistory_clicked()
     time.start();
     m_pPlotMngTwo->DrawHistoryData(QDateTime::currentMSecsSinceEpoch(), vctSPOHistory, vctPulseHistory);
     qDebug()<<QStringLiteral("»æÖÆÓÃÊ±:%1ms").arg(QString::number(time.elapsed()));
+}
+
+void MainWindow::on_btnAddMarker_clicked()
+{
+    static int Id = 10;
+    QwtInterval interval = ui->qwtPlotTwo->axisInterval(QwtPlot::xBottom);
+    qint64 ulTime  = rand() % (qint64)interval.width();
+    std::string strText = std::to_string(ulTime);
+    ulTime += interval.minValue();
+    m_pPlotMngTwo->UpdateEventMarker(Id++, ulTime,  strText);
 }

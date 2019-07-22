@@ -279,6 +279,13 @@
          </property>
         </widget>
        </item>
+       <item>
+        <widget class="QPushButton" name="btnAddMarker">
+         <property name="text">
+          <string>添加标记</string>
+         </property>
+        </widget>
+       </item>
       </layout>
      </widget>
     </item>

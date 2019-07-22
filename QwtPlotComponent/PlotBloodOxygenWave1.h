@@ -11,12 +11,12 @@
 
 class QwtPlot;
 
-class PlotBloodOxygenWave2 : public QObject
+class PlotBloodOxygenWave1 : public QObject
 {
     Q_OBJECT
 public:
-    PlotBloodOxygenWave2(QwtPlot *plot);
-    ~PlotBloodOxygenWave2();
+    PlotBloodOxygenWave1(QwtPlot *plot);
+    ~PlotBloodOxygenWave1();
 
     /*************************************************************************
     * function: 设置初始化参数

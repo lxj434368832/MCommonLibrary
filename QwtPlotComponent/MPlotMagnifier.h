@@ -10,7 +10,7 @@
 #include "qwt_plot_magnifier.h"
 
 
-class QWT_EXPORT MPlotMagnifier : public QwtPlotMagnifier
+class MPlotMagnifier : public QwtPlotMagnifier
 {
 public:
     MPlotMagnifier(QWidget *widget);

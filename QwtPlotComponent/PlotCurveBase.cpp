@@ -300,10 +300,8 @@ void PlotCurveBase::AddMarker()
 	data->pMarker->setLabelOrientation(Qt::Horizontal);
 	data->pMarker->setLineStyle(QwtPlotMarker::VLine);
 	data->pMarker->setLinePen(QPen(QColor("#658bfe"), 2, Qt::SolidLine));
-	data->pMarker->setSpacing(6);
-	QwtInterval xAxisInterval = data->vctCurveData[0]->GetXAxisInterval();
-	SetMarkerValue((xAxisInterval.minValue() + xAxisInterval.maxValue()) / 2.0, 60);
-
+    data->pMarker->setSpacing(6);
+	data->pMarker->setXValue((data->interval.minValue() + data->interval.maxValue()) / 2);
 	data->pMarker->attach(data->pPlot);
 }
 

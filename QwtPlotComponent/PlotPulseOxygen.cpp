@@ -1,8 +1,14 @@
 #include "PlotPulseOxygen.h"
 #include "QwtPlotDefine.h"
 #include <QMouseEvent>
+#include <qwt_symbol.h>
 
-
+struct SEventMarker
+{
+	int Id = -1;
+	quint64 ulTime = 0;
+	std::string strText;
+};
 
 PlotPulseOxygen::PlotPulseOxygen(QwtPlot *plot) : 
 	PlotCurveBase(plot)
@@ -26,6 +32,9 @@ void PlotPulseOxygen::BuildPlot()
 	AddMarker();
 	AddCurve();
 	data->eStatus = EDS_STOP;
+
+    QwtInterval xAxisInterval = data->vctCurveData[0]->GetXAxisInterval();
+    SetMarkerValue((xAxisInterval.minValue() + xAxisInterval.maxValue()) / 2.0, 60);
 
 	data->pPlot->setAxisScale(QwtPlot::yLeft, 0, 120);
 	data->pPlot->canvas()->installEventFilter(this);
@@ -102,4 +111,56 @@ bool PlotPulseOxygen::eventFilter(QObject *watched, QEvent *event)
 	}
 	else
 		return QObject::eventFilter(watched, event);
+}
+
+void PlotPulseOxygen::UpdateEventMarker(int Id, quint64 ulTime, std::string strText)
+{
+	QwtPlotMarker *pMarker = nullptr;
+	auto iter = m_mapEventMarker.find(Id);
+	if (iter == m_mapEventMarker.end())		//不存在则新建Marker
+	{
+		pMarker = new QwtPlotMarker();
+		pMarker->setItemAttribute(QwtPlotItem::AutoScale);
+		pMarker->setRenderHint(QwtPlotItem::RenderAntialiased, true);
+		QwtSymbol *smb = new QwtSymbol;
+		QPixmap px(QString("D:\\Myprogram\\WPOClient\\MainClient\\Resource\\MonitorCenter\\MarkerIcon.png"));
+		smb->setPixmap(px);
+		smb->setSize(px.size());
+		smb->setPinPoint(QPointF(px.width() / 2, px.height()));
+		pMarker->setSymbol(smb);
+		pMarker->setSpacing(16);
+
+		const QwtScaleMap yMap = data->pPlot->canvasMap(QwtPlot::yLeft);
+		double dy = yMap.invTransform(px.height());
+		pMarker->setValue(ulTime, 0);
+		QwtText txt;
+		txt.setText(QString::fromLocal8Bit(strText.c_str()));
+		txt.setFont(QFont("Microsoft YaHei UI", 12, QFont::Bold));
+		txt.setColor(QColor("#658bfe"));
+		pMarker->setLabel(txt);
+		pMarker->setLabelAlignment(Qt::AlignTop);
+		pMarker->attach(data->pPlot);
+	}
+	else
+	{
+		pMarker = iter.value();
+		pMarker->setXValue(ulTime);
+		pMarker->label().setText(QString::fromLocal8Bit(strText.c_str()));
+	}
+
+	data->pPlot->replot();
+}
+
+void PlotPulseOxygen::RemoveEventMarker(int Id)
+{
+	QwtPlotMarker *pMarker = nullptr;
+	auto iter = m_mapEventMarker.find(Id);
+	if (iter != m_mapEventMarker.end())
+    {
+        m_mapEventMarker.erase(iter);
+        pMarker = iter.value();
+        pMarker->detach();
+        delete pMarker;
+	}
+	data->pPlot->replot();
 }

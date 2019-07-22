@@ -30,6 +30,8 @@ private slots:
 
     void on_btnSecondDrawHistory_clicked();
 
+    void on_btnAddMarker_clicked();
+
 private:
     Ui::MainWindow *ui;
 	PlotBloodOxygenWave							*m_pPlotMng;

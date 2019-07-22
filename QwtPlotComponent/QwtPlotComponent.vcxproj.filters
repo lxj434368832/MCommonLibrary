@@ -72,26 +72,8 @@
     <ClCompile Include="GeneratedFiles\Release\moc_PlotCurveBase.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
-    <ClCompile Include="PlotBloodOxygenWave2.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_PlotBloodOxygenWave2.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_PlotBloodOxygenWave2.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
     <ClCompile Include="PlotBloodOxygenWave.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="PlotPulseOxygen1.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_PlotPulseOxygen1.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_PlotPulseOxygen1.cpp">
-      <Filter>Generated Files\Release</Filter>
     </ClCompile>
     <ClCompile Include="PlotPulseOxygen.cpp">
       <Filter>Source Files</Filter>
@@ -140,12 +122,6 @@
       <Filter>Form Files</Filter>
     </CustomBuild>
     <CustomBuild Include="PlotCurveBase.h">
-      <Filter>Header Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="PlotBloodOxygenWave2.h">
-      <Filter>Header Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="PlotPulseOxygen1.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
     <CustomBuild Include="PlotPulseOxygen.h">
