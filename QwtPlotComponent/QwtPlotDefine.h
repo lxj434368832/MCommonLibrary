@@ -59,7 +59,7 @@ public:
 		if (pMarker && nullptr == pMarker->plot())
 		{
 			delete pMarker;
-			pMarker == nullptr;
+            pMarker = nullptr;
 		}
 	}
 };
