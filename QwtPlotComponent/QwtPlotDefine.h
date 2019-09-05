@@ -55,5 +55,11 @@ public:
 			delete pDirectPainter;
 			pDirectPainter = nullptr;
 		}
+
+		if (pMarker && nullptr == pMarker->plot())
+		{
+			delete pMarker;
+			pMarker == nullptr;
+		}
 	}
 };

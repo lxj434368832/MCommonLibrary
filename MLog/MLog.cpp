@@ -18,7 +18,7 @@ MLog::MLog() : QThread()
     m_oldHander = qInstallMessageHandler(MLog::MessageOutput);
 
     // 改变缺省消息处理程序的输出
-    qSetMessagePattern("%{time [yyyy-MM-dd hh:mm:ss zzz]}|[%{function}:%{line}]<%{if-debug}Debug%{endif}%{if-info}Info%{endif}"
+    qSetMessagePattern("%{time [yyyy-MM-dd hh:mm:ss zzz]}[%{function}:%{line}]<%{if-debug}Debug%{endif}%{if-info}Info%{endif}"
                        "%{if-warning}Warn%{endif}%{if-critical}Critical%{endif}%{if-fatal}Fatal%{endif}> %{message}");
    m_bRun = true;
    m_iTimerId = startTimer(3600000, Qt::VeryCoarseTimer);        //每隔1小时检测文件名

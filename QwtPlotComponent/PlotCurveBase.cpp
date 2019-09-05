@@ -294,6 +294,7 @@ void PlotCurveBase::AddZoomer()
 
 void PlotCurveBase::AddMarker()
 {
+	if (nullptr != data->pMarker) return;
 	data->pMarker = new MPlotMarker;
 	data->pMarker->setRenderHint(QwtPlotItem::RenderAntialiased);
 	data->pMarker->setLabelAlignment(Qt::AlignRight | Qt::AlignTop);
