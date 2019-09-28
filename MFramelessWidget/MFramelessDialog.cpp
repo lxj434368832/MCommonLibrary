@@ -5,9 +5,10 @@ MFramelessDialog::MFramelessDialog(QWidget *parent) :
     QDialog(parent)
 {
     d_ptr=new MFramelessPrivate(this) ;
+   setWindowFlags(Qt::FramelessWindowHint | Qt::Dialog);
+
     connect(d_ptr,SIGNAL(signal_position_changed(int,int)),this,SIGNAL(signal_position_changed(int,int)));
     connect(d_ptr,SIGNAL(signal_size_changed(int,int)), this, SIGNAL(signal_size_changed(int,int)));
-
 }
 
 MFramelessDialog::~MFramelessDialog()

@@ -232,10 +232,10 @@ void MFramelessPrivate::handleMove(QPoint pt)
     { //Îü¸½ÓÚÆÁÄ»×ó²à
         currentPos.setX(desktop->x());
     }
-    else if (currentPos.x() + widget->width() > desktop->width())
-    { //Îü¸½ÓÚÆÁÄ»ÓÒ²à
-        currentPos.setX(desktop->width() - widget->width());
-    }
+//    else if (currentPos.x() + widget->width() > desktop->width())
+//    { //Îü¸½ÓÚÆÁÄ»ÓÒ²à
+//        currentPos.setX(desktop->width() - widget->width());
+//    }
     if(currentPos.y() < desktop->y())
     { //Îü¸½ÓÚÆÁÄ»¶¥²¿
         currentPos.setY(desktop->y());
