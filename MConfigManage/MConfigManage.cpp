@@ -13,8 +13,8 @@ MConfigManage::MConfigManage(QString strFilePath, QObject *parent) :
 
 MConfigManage::~MConfigManage()
 {
-	delete configSettings;
-	delete iniSettings;
+    delete configSettings;
+    delete iniSettings;
 }
 
 /*-------------------------------------------
@@ -41,11 +41,11 @@ void MConfigManage::setValue(const QString & prefix,const QString & key, const Q
     configSettings->endGroup();*/
 
 #if defined(_WIN32)
-::WritePrivateProfileStringA(prefix.toLocal8Bit().data(), key.toLocal8Bit().data(), value.toString().toLocal8Bit().data(),
-                             configSettings->fileName().toLocal8Bit().data());
+    ::WritePrivateProfileStringA(prefix.toLocal8Bit().data(), key.toLocal8Bit().data(), value.toString().toLocal8Bit().data(),
+                                 configSettings->fileName().toLocal8Bit().data());
 #else
     configSettings->setValue(prefix+"/"+key, value );
-#endif // #if defined(_WIN32)
+#endif
 }
 
 /*-------------------------------------------
@@ -73,7 +73,12 @@ void MConfigManage::setUserDefault(const QString & prefix,const QString &key, co
 ---------------------------------------------*/
 void MConfigManage::setUserValue(const QString & prefix,const QString & key, const QVariant & value)
 {
-    iniSettings->setValue(prefix+"/"+key, value);
+#if defined(_WIN32)
+    ::WritePrivateProfileStringA(prefix.toLocal8Bit().data(), key.toLocal8Bit().data(), value.toString().toLocal8Bit().data(),
+                                 iniSettings->fileName().toLocal8Bit().data());
+#else
+    iniSettings->setValue(prefix+"/"+key, value );
+#endif
 }
 
 /*-------------------------------------------
@@ -81,5 +86,15 @@ void MConfigManage::setUserValue(const QString & prefix,const QString & key, con
 ---------------------------------------------*/
 QVariant MConfigManage::userValue(const QString & prefix,const QString &key, const QVariant &defaultValue)
 {
-    return iniSettings->value( prefix+"/"+key,defaultValue);
+    QVariant qVar;
+#if defined(_WIN32)
+    char strValue[MAX_PATH];
+    ::GetPrivateProfileStringA(prefix.toLocal8Bit().data(), key.toLocal8Bit().data(), defaultValue.toString().toLocal8Bit().data()
+                               ,strValue, MAX_PATH, iniSettings->fileName().toLocal8Bit().data());
+    qVar = QVariant::fromValue( QString::fromLocal8Bit(strValue));
+#else
+    qVar = iniSettings->value(prefix+"/"+key, defaultValue);
+#endif
+
+    return qVar;
 }

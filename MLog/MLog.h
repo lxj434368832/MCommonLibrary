@@ -1,5 +1,4 @@
-#ifndef MLOG_H
-#define MLOG_H
+#pragma once
 
 /****************************************************************
  * function: 日志文件
@@ -49,4 +48,3 @@ private:
     int                         m_iDay;           //将文件按天分段
 };
 
-#endif // MLOG_H

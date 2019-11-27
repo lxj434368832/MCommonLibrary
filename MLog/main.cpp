@@ -20,6 +20,5 @@ int main(int argc, char *argv[])
 //    qFatal("This is a fatal message.");
 //    a.exec();
 //    system("pause");
-
     return 0;
 }

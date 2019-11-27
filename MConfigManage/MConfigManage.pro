@@ -32,9 +32,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
-    MConfigManage.h \
-    MSettings.h
+    MConfigManage.h
 
 SOURCES += \
-    MConfigManage.cpp \
-    MSettings.cpp
+    MConfigManage.cpp
