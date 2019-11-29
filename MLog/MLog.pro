@@ -33,11 +33,11 @@ DEFINES += QT_MESSAGELOGCONTEXT #¿ªÆôreleaseÏÂµÄlogcontext
 SOURCES += \
     main.cpp \
     MLog.cpp \
-    SingleLog.cpp
+    QtLog.cpp
 
 HEADERS += \
     MLog.h \
-    SingleLog.h
+    QtLog.h
 
 
 CONFIG += mobility

@@ -30,7 +30,7 @@ private:
     virtual void run() override;
 
     void CheckFileName();
-    void AddLog(QString &qstrTxtMsg);
+    void AddLog(const QString &qstrTxtMsg);
     void WriteLog(QString &qstrTxtMsg);
 
 private:
@@ -47,4 +47,3 @@ private:
     int                         m_iTimerId;     //检测文件名的定时器
     int                         m_iDay;           //将文件按天分段
 };
-

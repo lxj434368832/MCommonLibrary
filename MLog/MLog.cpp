@@ -20,6 +20,7 @@ MLog::MLog() : QThread()
     // 改变缺省消息处理程序的输出
     qSetMessagePattern("%{time [yyyy-MM-dd hh:mm:ss zzz]}[%{function}:%{line}]<%{if-debug}Debug%{endif}%{if-info}Info%{endif}"
                        "%{if-warning}Warn%{endif}%{if-critical}Critical%{endif}%{if-fatal}Fatal%{endif}> %{message}");
+
    m_bRun = true;
    m_iTimerId = startTimer(3600000, Qt::VeryCoarseTimer);        //每隔1小时检测文件名
 
@@ -38,14 +39,44 @@ MLog::~MLog()
         ::OutputDebugStringA( "退出日志线程超时3s！");
         terminate();
     }
+
     qInstallMessageHandler(m_oldHander);
     s_instance = nullptr;
 }
 
-void MLog::MessageOutput(QtMsgType type, const QMessageLogContext & context, const QString & msg)
+void MLog::MessageOutput(QtMsgType type, const QMessageLogContext & context, const QString &msg)
 {
-    QString qstrTxtMsg = qFormatLogMessage( type, context, msg);
-    s_instance->AddLog(qstrTxtMsg);
+    if( msg.startsWith('[') )
+        s_instance->AddLog(msg);
+    else
+        s_instance->AddLog(qFormatLogMessage( type, context, msg));
+
+    //    QString qstrTxtMsg = formatMsg;
+    /*//设置log输出格式
+    qstrTxtMsg += QString("[%1][%2:%3]")
+            .arg(QTime::currentTime().toString("hh:mm:ss.zzz"))
+            .arg(context.function)
+            .arg(context.line);
+
+    switch (type)
+    {
+    case QtDebugMsg:
+        qstrTxtMsg += QString("|<Debug> %1").arg(msg);
+        break;
+    case QtWarningMsg:
+        qstrTxtMsg += QString("<Warning> %1").arg(msg);
+        break;
+    case QtCriticalMsg:
+        qstrTxtMsg += QString("<Critical> %1").arg(msg);
+        break;
+    case QtFatalMsg:
+        qstrTxtMsg += QString("<Fatal> %1").arg(msg);
+        abort();
+        break;
+    default:
+        qstrTxtMsg += QString("<UnKnown> %1").arg(msg);
+        break;
+    }*/
 }
 
 void MLog::timerEvent(QTimerEvent *event)
@@ -53,7 +84,7 @@ void MLog::timerEvent(QTimerEvent *event)
     CheckFileName();
 }
 
-void MLog::AddLog(QString &qstrTxtMsg)
+void MLog::AddLog(const QString &qstrTxtMsg)
 {
     m_mutex.lock();
     m_listLog.push_back(qstrTxtMsg);
@@ -96,42 +127,18 @@ void MLog::CheckFileName()
 
 void MLog::WriteLog(QString &qstrTxtMsg)
 {
-    //    QString qstrTxtMsg = formatMsg;
-        /*//设置log输出格式
-        qstrTxtMsg += QString("[%1][%2:%3]")
-                .arg(QTime::currentTime().toString("hh:mm:ss.zzz"))
-                .arg(context.function)
-                .arg(context.line);
-
-        switch (type)
-        {
-        case QtDebugMsg:
-            qstrTxtMsg += QString("|<Debug> %1").arg(msg);
-            break;
-        case QtWarningMsg:
-            qstrTxtMsg += QString("<Warning> %1").arg(msg);
-            break;
-        case QtCriticalMsg:
-            qstrTxtMsg += QString("<Critical> %1").arg(msg);
-            break;
-        case QtFatalMsg:
-            qstrTxtMsg += QString("<Fatal> %1").arg(msg);
-            abort();
-            break;
-        default:
-            qstrTxtMsg += QString("<UnKnown> %1").arg(msg);
-            break;
-        }*/
-
-
+    /*qstrTxtMsg.remove('\"');
+    qstrTxtMsg.replace("\\n", "\r\n");  //修正\n符为换行符
+    qstrTxtMsg.replace("\\t", "\t");  //修正\t
+    qstrTxtMsg.replace("\\", "\"");  //修正\"*/
+    qstrTxtMsg.append("\n");          //添加结尾换行
+    std::string strTxt = qstrTxtMsg.toLocal8Bit().data() ;
         //输出到标准输出
-        fprintf(stdout, "%s\n", qstrTxtMsg.toLocal8Bit().data());
+        fprintf(stdout, "%s", strTxt.data());
     #ifdef WIN32
-        ::OutputDebugStringA(qstrTxtMsg.toLocal8Bit().data());
-        ::OutputDebugStringA("\n");
+        ::OutputDebugStringA(strTxt.data());
     #endif
 
-        qstrTxtMsg += QString("\r\n");
         //加锁
 //       m_mutex.lock();
 
