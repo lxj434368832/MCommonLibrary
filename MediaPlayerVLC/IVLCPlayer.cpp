@@ -27,11 +27,11 @@ IVLCPlayer::~IVLCPlayer()
     s_mutexReferenceCount.lock();
     if(--s_unReferenceCount <= 0)
     {
-        qDebug()<<"call Global release!";
         if (m_vlcInst != NULL)
         {
             libvlc_release(m_vlcInst);
             m_vlcInst = NULL;
+            qDebug()<<"Global released!";
         }
     }
     s_mutexReferenceCount.unlock();

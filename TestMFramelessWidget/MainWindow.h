@@ -20,6 +20,9 @@ public:
 public slots:
     void slot_actionShowCameraWidget_checked(bool bcheck);
 
+private slots:
+    void on_btnOpenDialog_clicked();
+
 private:
     Ui::MainWindow *ui;
     cameras_widget *m_cam_widget = NULL;

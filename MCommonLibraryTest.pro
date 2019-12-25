@@ -21,4 +21,5 @@ SUBDIRS += \
     MConfigManage \
     ReadWriteExcel \
     QPainterExample \
-    QwtPlotComponent
+    QwtPlotComponent \
+    TextToSpeech

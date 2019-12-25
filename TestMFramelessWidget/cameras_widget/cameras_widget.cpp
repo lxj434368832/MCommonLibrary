@@ -127,15 +127,7 @@ void cameras_widget::add_cameras(int count)
 void cameras_widget::on_btn_close_clicked()
 {
     emit signal_open_camera_list(false);
-    if(this->isMaximized())
-    {
-        this->showNormal();
-    }
-    else
-    {
-        showMaximized();
-    }
-	//hide();
+    close();
 }
 
 void cameras_widget::slot_adjust_widget_size()

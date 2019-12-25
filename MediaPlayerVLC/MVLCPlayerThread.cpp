@@ -25,9 +25,14 @@ MVLCPlayerThread::MVLCPlayerThread(QObject *parent)
 MVLCPlayerThread::~MVLCPlayerThread()
 {
     qDebug() << "begin delete MVLCPlayerThread!";
-	m_threadWork.quit();
-	m_threadWork.wait(500);
-	m_threadWork.terminate();
+    int iState = libvlc_media_player_get_state(m_mediaPlayer);
+    if(iState && iState < ept_stopped)
+        emit signal_stop();
+
+    qDebug()<<"begin quit vlc player thread.";
+    m_threadWork.quit();
+    m_threadWork.wait();
+    qDebug()<<"vlc player thread quit success.";
 
 	// 释放VLC资源
 	if (m_mediaPlayer != NULL)
@@ -143,7 +148,8 @@ bool MVLCPlayerThread::SetSize(int width ,int height)
 
 void MVLCPlayerThread::slot_set_media(std::string url)
 {
-	slot_stop();
+    int iState = libvlc_media_player_get_state(m_mediaPlayer);
+     if(iState && iState < ept_stopped) slot_stop();
 
     qDebug() << "vlc url:" << url.c_str();
     libvlc_media_t *m_vlcMedia = libvlc_media_new_location(m_vlcInst, url.c_str());
@@ -161,13 +167,14 @@ void MVLCPlayerThread::slot_play()
 {
 	if (-1 == libvlc_media_player_play(m_mediaPlayer))
 	{
-		qDebug() << "play failed!";
+        qWarning() << "play failed!";
 	}
 }
 
 void MVLCPlayerThread::slot_pause()
 {
 	libvlc_media_player_pause(m_mediaPlayer);
+    qDebug() << "vlc play!";
 }
 
 void MVLCPlayerThread::slot_stop()
@@ -176,6 +183,7 @@ void MVLCPlayerThread::slot_stop()
 	{
 		libvlc_media_player_stop(m_mediaPlayer);
     }
+    qDebug() << "vlc stop!";
 }
 
 void MVLCPlayerThread::slot_jump(qint64 position)

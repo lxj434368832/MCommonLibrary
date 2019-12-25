@@ -39,6 +39,11 @@ void MFramelessPrivate::setResizeFlag(bool bResize)
     m_bResize = bResize;
 }
 
+void MFramelessPrivate::setMaxShowFlag(bool bMaxShow)
+{
+    m_bMaxShow = bMaxShow;
+}
+
 void MFramelessPrivate::paintEvent(QPaintEvent *event)
 {
     Q_UNUSED(event);
@@ -51,7 +56,7 @@ void MFramelessPrivate::paintEvent(QPaintEvent *event)
 
 bool MFramelessPrivate::event(QEvent *event)
 {
-    if (event->type() == QEvent::HoverMove)
+    if (QEvent::HoverMove == event->type() )
     {
         QHoverEvent* pHoverEvent = static_cast<QHoverEvent *>(event);
         setMouseStatus(pHoverEvent->pos());
@@ -124,6 +129,21 @@ void MFramelessPrivate::mouseReleaseEvent(QMouseEvent *event)
 
     m_eMouseStatus = Default;
     setMouseCursor(m_eMouseStatus);
+}
+
+void MFramelessPrivate::mouseDoubleClickEvent(QMouseEvent *event)
+{
+    event;
+    if(false == m_bMaxShow) return;
+
+    if (widget->isMaximized())
+     {
+         widget->showNormal();
+     }
+     else
+     {
+         widget->showMaximized();
+     }
 }
 
 void MFramelessPrivate::setMouseStatus(QPoint mouseCursorPos)
@@ -228,10 +248,10 @@ void MFramelessPrivate::handleMove(QPoint pt)
 {
     QPoint currentPos = pt - m_posDrag;
     QDesktopWidget *desktop = qApp->desktop();
-    if(currentPos.x() < desktop->x())
-    { //Îü¸½ÓÚÆÁÄ»×ó²à
-        currentPos.setX(desktop->x());
-    }
+//    if(currentPos.x() < desktop->x())
+//    { //Îü¸½ÓÚÆÁÄ»×ó²à
+//        currentPos.setX(desktop->x());
+//    }
 //    else if (currentPos.x() + widget->width() > desktop->width())
 //    { //Îü¸½ÓÚÆÁÄ»ÓÒ²à
 //        currentPos.setX(desktop->width() - widget->width());
@@ -241,7 +261,7 @@ void MFramelessPrivate::handleMove(QPoint pt)
         currentPos.setY(desktop->y());
     }
 //    else if(currentPos.y() + widget->height() > desktop->height())
-//    {
+//    { //Îü¸½ÓÚÆÁÄ»µ×²¿
 //        currentPos.setY(desktop->height() - widget->height());
 //    }
 

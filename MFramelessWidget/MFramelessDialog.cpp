@@ -38,7 +38,12 @@ void MFramelessDialog::setMoveFlag(bool bMove)
 
 void MFramelessDialog::setResizeFlag(bool bResize)
 {
-        if(d_ptr) d_ptr->setResizeFlag(bResize);
+    if(d_ptr) d_ptr->setResizeFlag(bResize);
+}
+
+void MFramelessDialog::setMaxShowFlag(bool bMaxShow)
+{
+    if(d_ptr) d_ptr->setMaxShowFlag(bMaxShow);
 }
 
 bool MFramelessDialog::event(QEvent *event)
@@ -60,4 +65,9 @@ void MFramelessDialog::mouseMoveEvent(QMouseEvent *event)
 void MFramelessDialog::mouseReleaseEvent(QMouseEvent *event)
 {
     if(d_ptr)  d_ptr->mouseReleaseEvent(event);
+}
+
+void MFramelessDialog::mouseDoubleClickEvent(QMouseEvent *event)
+{
+        if(d_ptr)  d_ptr->mouseDoubleClickEvent(event);
 }

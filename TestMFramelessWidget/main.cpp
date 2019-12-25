@@ -7,9 +7,10 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    cameras_widget w;
-    w.show();
-    w.add_user(12, 12, "yuannei1");
+//    cameras_widget w;
+
+//    w.add_user(12, 12, "yuannei1");
+
 //    QObject::connect(&w, &cameras_widget::signal_position_changed, [=](int px, int py){
 //        qDebug()<<"current point:("<<px<<","<<py<<").";
 //    });
@@ -23,12 +24,10 @@ int main(int argc, char *argv[])
 //    });
 
 //    w.add_user(13, 13, "yuannei2");
-//    MainWindow main;
+    MainWindow w;
 //    main.slot_actionShowCameraWidget_checked(true);
 //    tk_signals_widget w;
 //    w.add_widget(1,"±¨¸æ", &main);
-//    w.show();
-//    w.CreateDockWindows();
-//    main.show();
+    w.show();
     return a.exec();
 }

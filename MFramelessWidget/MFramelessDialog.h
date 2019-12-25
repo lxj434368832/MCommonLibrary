@@ -24,6 +24,7 @@ public:
     void setMinSize(int iMinWidth, int iMinHeight);
     void setMoveFlag(bool bMove = true);
     void setResizeFlag(bool bResize = true);
+    void setMaxShowFlag(bool bMaxShow = true);       //Ä¬ÈÏ¿ªÆô
 
 signals:
     void signal_position_changed(int px, int py);
@@ -36,6 +37,7 @@ protected:
     void mousePressEvent(QMouseEvent *event) override;
     void mouseMoveEvent(QMouseEvent *event) override;
     void mouseReleaseEvent(QMouseEvent *event) override;
+    void mouseDoubleClickEvent(QMouseEvent *event) override;
 
 private:
     friend class MFramelessPrivate;

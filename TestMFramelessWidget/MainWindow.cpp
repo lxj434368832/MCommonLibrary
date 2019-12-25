@@ -1,6 +1,7 @@
 #include "MainWindow.h"
 #include "ui_MainWindow.h"
 #include "cameras_widget/cameras_widget.h"
+#include "DialogTestMaximum.h"
 
 #include <QDockWidget>
 #include <QListWidget>
@@ -64,4 +65,10 @@ void MainWindow::slot_actionShowCameraWidget_checked(bool bcheck)
     }
     else
         m_cam_widget->on_camera_list_switch(false);
+}
+
+void MainWindow::on_btnOpenDialog_clicked()
+{
+    DialogTestMaximum dlg;
+    dlg.exec();
 }

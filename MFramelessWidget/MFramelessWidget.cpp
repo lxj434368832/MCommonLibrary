@@ -40,6 +40,11 @@ void MFramelessWidget::setResizeFlag(bool bResize)
     if(d_ptr) d_ptr->setResizeFlag(bResize);
 }
 
+void MFramelessWidget::setMaxShowFlag(bool bMaxShow)
+{
+    if(d_ptr) d_ptr->setMaxShowFlag(bMaxShow);
+}
+
 bool MFramelessWidget::event(QEvent *event)
 {
     if(d_ptr) d_ptr->event(event);
@@ -59,6 +64,11 @@ void MFramelessWidget::mouseMoveEvent(QMouseEvent *event)
 void MFramelessWidget::mouseReleaseEvent(QMouseEvent *event)
 {
     if(d_ptr)  d_ptr->mouseReleaseEvent(event);
+}
+
+void MFramelessWidget::mouseDoubleClickEvent(QMouseEvent *event)
+{
+        if(d_ptr)  d_ptr->mouseDoubleClickEvent(event);
 }
 
 void MFramelessWidget::paintEvent(QPaintEvent *event)

@@ -8,7 +8,6 @@
  ***************************************************************/
 #include <QObject>
 #include "IVLCPlayer.h"
-#include <QMutex>
 
 struct libvlc_media_t;
 struct libvlc_media_player_t;

@@ -13,8 +13,8 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = $$qtLibraryTarget(QwtPlotComponent)
 DESTDIR  = $$PWD/lib
-TEMPLATE = app
-#CONFIG += staticlib
+TEMPLATE = lib
+CONFIG += staticlib
 
 SOURCES += main.cpp \
     MainWindow.cpp \

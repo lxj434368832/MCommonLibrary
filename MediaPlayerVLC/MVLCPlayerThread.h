@@ -8,7 +8,6 @@
  * datetime: 2016-07-18
  ***************************************************************/
 #include <QObject>
-#include <QMutex>
 #include <QThread>
 #include "IVLCPlayer.h"
 

@@ -29,12 +29,14 @@ public:
     void setMinSize(int iMinWidth, int iMinHeight);
     void setMoveFlag(bool bMove);
     void setResizeFlag(bool bResize);
+    void setMaxShowFlag(bool bMaxShow);       //默认开启
 
     void paintEvent(QPaintEvent *event);        //防止设置样式表后无效
     bool event(QEvent *event);
     void mousePressEvent(QMouseEvent *event);
     void mouseMoveEvent(QMouseEvent *event);
     void mouseReleaseEvent(QMouseEvent *event);
+    void mouseDoubleClickEvent(QMouseEvent *event);
 
 signals:
     void signal_position_changed(int px, int py);
@@ -60,7 +62,7 @@ private:
 
     bool        m_bMove = true;           //用于控制是否移动的开关
     bool        m_bResize = true;        //用于控制是否缩放的开关
-
+    bool        m_bMaxShow = true;       //用于控制鼠标双击最大化最小化的切换
 
     bool                   m_bDrag = false;           //基类维护的用户标识是否拖动
     QPoint               m_posDrag ;

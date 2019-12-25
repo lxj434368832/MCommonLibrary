@@ -12,7 +12,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 DESTDIR     = $$IDE_APP_PATH
 TARGET = TestQDockWidget
-TEMPLATE = lib
+TEMPLATE = app
 
 SOURCES += \
         main.cpp \
@@ -20,7 +20,8 @@ SOURCES += \
     dock_widget/dock_widget.cpp \
     cameras_widget/cameras_widget.cpp \
     cameras_widget/little_cam_wgt.cpp \
-    tk_signals_widget.cpp
+    tk_signals_widget.cpp \
+    DialogTestMaximum.cpp
 
 HEADERS += \
         MainWindow.h \
@@ -28,7 +29,9 @@ HEADERS += \
     cameras_widget/cameras_widget.h \
     cameras_widget/cameras_widget_global.h \
     cameras_widget/little_cam_wgt.h \
-    tk_signals_widget.h
+    tk_signals_widget.h \
+    DialogTestMaximum.h
 
 FORMS += \
-        MainWindow.ui
+        MainWindow.ui \
+    DialogTestMaximum.ui

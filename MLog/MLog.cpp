@@ -96,13 +96,20 @@ void MLog::run()
 {
     while(m_bRun || false == m_listLog.isEmpty())	//就算停止了也得等所有的日志都写完了
     {
-        QMutexLocker lck(&m_mutex);
-        if(m_listLog.isEmpty())
-            m_wait.wait(&m_mutex);
+        QString qstrLog;
+        {
+            QMutexLocker lck(&m_mutex);
+            if(m_listLog.isEmpty())
+                m_wait.wait(&m_mutex);
 
-        if (m_listLog.isEmpty())    break;	//到这里不应该为空，如果为空，表示退出
-        WriteLog(m_listLog.front());
-        m_listLog.pop_front();
+            while(false == m_listLog.isEmpty())	//采用如果有日志就一次性写入文件
+            {
+                qstrLog.append(m_listLog.front());
+                m_listLog.pop_front();
+            }
+        }
+
+        WriteLog(qstrLog);
     }
 }
 
@@ -139,9 +146,6 @@ void MLog::WriteLog(QString &qstrTxtMsg)
         ::OutputDebugStringA(strTxt.data());
     #endif
 
-        //加锁
-//       m_mutex.lock();
-
         //输出到文件(写，追加模式)
         QFile file(m_qstrLogPath);
         if(file.open(QIODevice::WriteOnly | QIODevice::Append))
@@ -155,6 +159,4 @@ void MLog::WriteLog(QString &qstrTxtMsg)
         }
         file.flush();
         file.close();
-        // 解锁
-//        m_mutex.unlock();
 }

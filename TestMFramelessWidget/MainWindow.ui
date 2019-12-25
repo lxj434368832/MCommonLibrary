@@ -33,6 +33,19 @@
      <string>以下为停靠窗口</string>
     </property>
    </widget>
+   <widget class="QPushButton" name="btnOpenDialog">
+    <property name="geometry">
+     <rect>
+      <x>70</x>
+      <y>50</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>打开对话框</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
