@@ -11,11 +11,11 @@ int main(int argc, char *argv[])
 
 //    w.add_user(12, 12, "yuannei1");
 
-//    QObject::connect(&w, &cameras_widget::signal_position_changed, [=](int px, int py){
+//    QObject::connect(&w, &cameras_widget::signalPositionChanged, [=](int px, int py){
 //        qDebug()<<"current point:("<<px<<","<<py<<").";
 //    });
 
-//    QObject::connect(&w, &cameras_widget::signal_size_changed, [=](int width, int height){
+//    QObject::connect(&w, &cameras_widget::signalSizeChanged, [=](int width, int height){
 //        qDebug()<<"current size:("<<width<<","<<height<<").";
 //    });
 

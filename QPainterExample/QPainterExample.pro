@@ -12,8 +12,8 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 DESTDIR  = $$IDE_APP_PATH
 TARGET = QPainterExample
-TEMPLATE = app
-#CONFIG += staticlib
+TEMPLATE = lib
+CONFIG += staticlib
 
 
 SOURCES += main.cpp\

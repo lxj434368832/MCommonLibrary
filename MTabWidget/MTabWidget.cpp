@@ -8,7 +8,7 @@ MTabWidget::MTabWidget(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    MCustomTabStyle *style = new MCustomTabStyle(150, 60);
+    MCustomTabBarStyle *style = new MCustomTabBarStyle(150, 60);
     style->setColor(0x646464, 0x323232, 0x101010);
     ui->tabWidget->tabBar()->setStyle(style);
 }

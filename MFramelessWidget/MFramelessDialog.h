@@ -27,10 +27,9 @@ public:
     void setMaxShowFlag(bool bMaxShow = true);       //默认开启
 
 signals:
-    void signal_position_changed(int px, int py);
-
+    void signalPositionChanged(int px, int py);
     //窗体大小改变的消息通知，如果外部调用resize(),此时不会引发此信号
-    void signal_size_changed(int width, int height);
+    void signalSizeChanged(int width, int height);
 
 protected:
     bool event(QEvent *event) override;

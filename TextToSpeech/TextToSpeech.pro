@@ -12,9 +12,9 @@ QT += axcontainer
 
 DESTDIR     = $$IDE_APP_PATH
 TARGET = $$qtLibraryTarget(TextToSpeech)
-TEMPLATE = app
-#CONFIG += staticlib
-CONFIG += console
+TEMPLATE = lib
+CONFIG += staticlib
+#CONFIG += console
 
 SOURCES += TextToSpeech.cpp \
     QWinTTS.cpp

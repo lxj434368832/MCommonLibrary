@@ -22,13 +22,13 @@ public:
     void setBorderWidth(int iBorderWidth = 6);
     void setTitleHeight(int iTitleHeight = 36);
     void setMinSize(int iMinWidth, int iMinHeight);
-    void setMoveFlag(bool bMove = true);            //默认开启
-    void setResizeFlag(bool bResize = true);       //默认开启
-    void setMaxShowFlag(bool bMaxShow = true);       //默认开启
+    void setMoveFlag(bool bMove = true);                        //默认开启
+    void setResizeFlag(bool bResize = true);                 //鼠标改变窗体大小标识
+    void setMaxShowFlag(bool bMaxShow = true);       //双击最大化显示标识
 
 signals:
-    void signal_position_changed(int px, int py);
-    void signal_size_changed(int width, int height);
+    void signalPositionChanged(int px, int py);
+    void signalSizeChanged(int width, int height);
 
 protected:
     bool event(QEvent *event) override;

@@ -103,7 +103,7 @@ void MFramelessPrivate::mouseReleaseEvent(QMouseEvent *event)
         {
         case Move:
             handleMove(event->globalPos()); //鼠标放开后若超出屏幕区域自动吸附于屏幕顶部/左侧/右侧
-            emit signal_position_changed(widget->x(), widget->y());
+            emit signalPositionChanged(widget->x(), widget->y());
             break;
 
         case North:
@@ -111,14 +111,14 @@ void MFramelessPrivate::mouseReleaseEvent(QMouseEvent *event)
         case NorthWest:
         case NorthEast:
         case SouthWest:
-            emit signal_size_changed(widget->width(), widget->height());
-            emit signal_position_changed(widget->x(), widget->y());
+            emit signalSizeChanged(widget->width(), widget->height());
+            emit signalPositionChanged(widget->x(), widget->y());
             break;
 
         case East:
         case SouthEast:
         case South:
-            emit signal_size_changed(widget->width(), widget->height());
+            emit signalSizeChanged(widget->width(), widget->height());
             break;
 
         default:
@@ -136,6 +136,11 @@ void MFramelessPrivate::mouseDoubleClickEvent(QMouseEvent *event)
     event;
     if(false == m_bMaxShow) return;
 
+    QRect moveRect = widget->rect();
+     moveRect.setHeight(m_iTitleHeight);
+     if(false == moveRect.contains(event->pos())) return;
+
+     //只有双击的是标题栏才进行最大化的操作
     if (widget->isMaximized())
      {
          widget->showNormal();

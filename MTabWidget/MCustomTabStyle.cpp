@@ -1,6 +1,6 @@
 #include "MCustomTabStyle.h"
 
-MCustomTabStyle::MCustomTabStyle(int TabWidth, int TabHeight, QStyle *style)
+MCustomTabBarStyle::MCustomTabBarStyle(int TabWidth, int TabHeight, QStyle *style)
     :QProxyStyle(style)
 {
     if(TabWidth)    m_iTabWidth = TabWidth;
@@ -11,14 +11,14 @@ MCustomTabStyle::MCustomTabStyle(int TabWidth, int TabHeight, QStyle *style)
     m_selected = 0xffffff;
 }
 
-void MCustomTabStyle::setColor(QColor normal, QColor horver, QColor selected)
+void MCustomTabBarStyle::setColor(QColor normal, QColor horver, QColor selected)
 {
     m_normal = normal;
     m_hover = horver;
     m_selected = selected;
 }
 
-QSize MCustomTabStyle::sizeFromContents(QStyle::ContentsType type, const QStyleOption *option, const QSize &size, const QWidget *widget) const
+QSize MCustomTabBarStyle::sizeFromContents(QStyle::ContentsType type, const QStyleOption *option, const QSize &size, const QWidget *widget) const
 {
     QSize sz = QProxyStyle::sizeFromContents(type, option, size, widget);
     if (type == QStyle::CT_TabBarTab)
@@ -31,7 +31,7 @@ QSize MCustomTabStyle::sizeFromContents(QStyle::ContentsType type, const QStyleO
     return sz;
 }
 
-void MCustomTabStyle::drawControl(QStyle::ControlElement element, const QStyleOption *option, QPainter *painter, const QWidget *widget) const
+void MCustomTabBarStyle::drawControl(QStyle::ControlElement element, const QStyleOption *option, QPainter *painter, const QWidget *widget) const
 {
     if (element == CE_TabBarTabLabel)
     {

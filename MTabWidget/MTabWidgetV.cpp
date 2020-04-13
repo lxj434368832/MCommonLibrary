@@ -8,7 +8,7 @@ MTabWidgetV::MTabWidgetV(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    MCustomTabStyle *style = new MCustomTabStyle(120, 39);
+    MCustomTabBarStyle *style = new MCustomTabBarStyle(120, 39);
     style->setColor(0x646464, 0x323232, 0x1d1d1d);
     ui->tabWidget->tabBar()->setStyle(style);
     ui->tabWidget->setTabIcon(0, QIcon(":/Resource/appoint_flag.png"));

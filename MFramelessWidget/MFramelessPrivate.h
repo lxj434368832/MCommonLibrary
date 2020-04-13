@@ -39,8 +39,8 @@ public:
     void mouseDoubleClickEvent(QMouseEvent *event);
 
 signals:
-    void signal_position_changed(int px, int py);
-    void signal_size_changed(int width, int height);
+    void signalPositionChanged(int px, int py);
+    void signalSizeChanged(int width, int height);
 
 private:
     void setMouseStatus(QPoint mouseCursorPos);

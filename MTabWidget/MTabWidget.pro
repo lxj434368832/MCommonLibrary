@@ -13,23 +13,26 @@ DESTDIR  = $$IDE_APP_PATH
 
 #TARGET = MTabWidget
 TARGET = $$qtLibraryTarget(MTabWidget)
-TEMPLATE = lib
-CONFIG += staticlib
+TEMPLATE = app
+#CONFIG += staticlib
 
 SOURCES += main.cpp \
     MTabWidget.cpp \
     MTabWidgetV.cpp \
     MCustomTabStyle.cpp \
-    MTabWidgetLR.cpp
+    MTabWidgetLR.cpp \
+    FormTestTabWidget.cpp
 
 HEADERS  += \
     MTabWidget.h \
     MTabWidgetV.h \
     MCustomTabStyle.h \
-    MTabWidgetLR.h
+    MTabWidgetLR.h \
+    FormTestTabWidget.h
 
 FORMS += \
     MTabWidget.ui \
     MTabWidgetV.ui \
-    MTabWidgetLR.ui
+    MTabWidgetLR.ui \
+    FormTestTabWidget.ui
 

@@ -7,10 +7,10 @@
 #include <QRect>
 #include <QSize>
 
-class MCustomTabStyle : public QProxyStyle
+class MCustomTabBarStyle : public QProxyStyle
 {
 public:
-    MCustomTabStyle(int TabWidth = 0, int TabHeight = 0, QStyle *style=0);
+    MCustomTabBarStyle(int TabWidth = 0, int TabHeight = 0, QStyle *style=0);
     void setColor(QColor normal, QColor horver, QColor selected);
 
     QSize sizeFromContents(ContentsType type, const QStyleOption *option,

@@ -1,6 +1,7 @@
 #include "MTabWidget.h"
 #include "MTabWidgetV.h"
 #include "MTabWidgetLR.h"
+#include "FormTestTabWidget.h"
 #include <QApplication>
 #include <QVBoxLayout>
 #include <QDebug>
@@ -9,8 +10,8 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    MTabWidgetLR widget;
-    QObject::connect(&widget, &MTabWidgetLR::currentChanged, [=](int idx){
+    FormTestTabWidget widget;
+    /*QObject::connect(&widget, &MTabWidgetV::currentChanged, [=](int idx){
         qDebug()<<"current index changed:"<<idx;
     });
     int idx = widget.addTab(new QWidget(), QString::fromLocal8Bit("放肌肤抵抗力"));
@@ -19,7 +20,7 @@ int main(int argc, char *argv[])
     qDebug()<<"widget index:"<<idx;
     idx = widget.addTab(new QLabel(QString::fromLocal8Bit("收到了尽大方大方快")), QString::fromLocal8Bit("收代收代付到了尽快"));
     qDebug()<<"widget index:"<<idx;
-    widget.setCurrentIndex(2);
+    widget.setCurrentIndex(2);*/
     widget.show();
 
     return a.exec();
