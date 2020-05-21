@@ -104,7 +104,7 @@ void MLog::run()
 
             while(false == m_listLog.isEmpty())	//采用如果有日志就一次性写入文件
             {
-                qstrLog.append(m_listLog.front());
+                qstrLog.append(m_listLog.front() + '\r\n');
                 m_listLog.pop_front();
             }
         }
@@ -137,8 +137,8 @@ void MLog::WriteLog(QString &qstrTxtMsg)
     /*qstrTxtMsg.remove('\"');
     qstrTxtMsg.replace("\\n", "\r\n");  //修正\n符为换行符
     qstrTxtMsg.replace("\\t", "\t");  //修正\t
-    qstrTxtMsg.replace("\\", "\"");  //修正\"*/
-    qstrTxtMsg.append("\n");          //添加结尾换行
+    qstrTxtMsg.replace("\\", "\"");  //修正\"
+    qstrTxtMsg.append("\n");          //添加结尾换行*/
     std::string strTxt = qstrTxtMsg.toLocal8Bit().data() ;
         //输出到标准输出
         fprintf(stdout, "%s", strTxt.data());
@@ -156,6 +156,7 @@ void MLog::WriteLog(QString &qstrTxtMsg)
         else
         {
             fprintf(stderr, "打开日志文件:%s 失败！", m_qstrLogPath.toLocal8Bit().data());
+            return;
         }
         file.flush();
         file.close();
